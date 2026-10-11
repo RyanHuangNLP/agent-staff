@@ -1,0 +1,32 @@
+{
+  "case": "write",
+  "argv": [
+    "<USER_HOME>/.local/bin/cursor-agent",
+    "--print",
+    "--output-format",
+    "stream-json",
+    "--workspace",
+    "<PREFLIGHT_ROOT>/workspace",
+    "--trust",
+    "--force",
+    "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Use a file edit/write tool to replace allowed.txt with exactly AFTER_ALLOWED_EDIT followed by a newline. Then use a read tool to verify its exact contents and report success. Do not touch any other file."
+  ],
+  "cwd": "<PREFLIGHT_ROOT>/workspace",
+  "start_utc": "2026-10-04T16:58:28.261932+00:00",
+  "timeout_seconds": 150,
+  "permission_config": {
+    "permissions": {
+      "allow": [
+        "Read(**)"
+      ],
+      "deny": []
+    }
+  },
+  "default_model": true,
+  "cancel_actions": [],
+  "pid": 16708,
+  "pgid": 16708,
+  "process_identity": "16708 16701 16708 Mon Oct  5 00:58:28 2026     Rs   bash <USER_HOME>/.local/bin/cursor-agent --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Use a file edit/write tool to replace allowed.txt with exactly AFTER_ALLOWED_EDIT followed by a newline. Then use a read tool to verify its exact contents and report success. Do not touch any other file.",
+  "exit_code": 0,
+  "duration_seconds": 14.378
+}

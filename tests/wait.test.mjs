@@ -1,0 +1,167 @@
+/**
+ * The job-wait contract: machine-readable exit codes on `status <id>` and the
+ * blocking `wait` subcommand.
+ *
+ * Codes: 0 = done, 2 = running (for wait: its own timeout expired while the
+ * job kept running — call it again), 3 = error/crashed, 4 = canceled, 1 =
+ * generic companion error (unknown id). The point of the contract is that a
+ * caller can loop on "exit code 2" with zero output parsing.
+ */
+import { test, describe } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawn } from 'node:child_process';
+import { sandbox, run, jobIdOf, jobLog, waitForJob, COMPANION, FAKE_AGY } from './helpers.mjs';
+
+describe('status <id> exit codes', () => {
+  test('running → 2, done → 0', async () => {
+    const sb = sandbox('waitc-status');
+    const started = run(sb, ['research', '--prompt', 'a topic'], { FAKE_AGY_SLEEP_MS: '3000' });
+    const id = jobIdOf(started.stdout);
+
+    const running = run(sb, ['status', id]);
+    assert.equal(running.code, 2, `expected running exit code 2\n${running.stdout}${running.stderr}`);
+
+    await waitForJob(sb, id);
+    const done = run(sb, ['status', id]);
+    assert.equal(done.code, 0, done.stderr);
+    assert.match(done.stdout, /"status": "done"/);
+  });
+
+  test('error → 3, unknown id → 1, list form stays 0', async () => {
+    const sb = sandbox('waitc-status-err');
+    // an ERROR with a response would be delivered (done_with_warnings); a real
+    // failure has no response
+    const started = run(sb, ['research', '--prompt', 'a topic'], { FAKE_AGY_STATUS: 'ERROR', FAKE_AGY_RESPONSE: '' });
+    const id = jobIdOf(started.stdout);
+    await waitForJob(sb, id);
+
+    assert.equal(run(sb, ['status', id]).code, 3);
+    assert.equal(run(sb, ['status', 'no-such-job']).code, 1);
+    assert.equal(run(sb, ['status']).code, 0);
+  });
+});
+
+describe('wait', () => {
+  test('blocks until done, prints the result, exits 0', async () => {
+    const sb = sandbox('wait-done');
+    const started = run(sb, ['research', '--prompt', 'a topic']);
+    const id = jobIdOf(started.stdout);
+
+    const r = run(sb, ['wait', id]);
+    assert.equal(r.code, 0, r.stderr);
+    assert.match(r.stdout, new RegExp(`# Job ${id} \\(research, done\\)`));
+    assert.match(r.stdout, /fake answer/);
+  });
+
+  test('the delivered result is the body only; telemetry stays in the job log', async () => {
+    const sb = sandbox('wait-telemetry');
+    const started = run(sb, ['research', '--prompt', 'a topic']);
+    const id = jobIdOf(started.stdout);
+
+    const r = run(sb, ['wait', id]);
+    assert.equal(r.code, 0, r.stderr);
+    assert.match(r.stdout, /fake answer/);
+    assert.doesNotMatch(r.stdout, /\[agy-staff\]/);
+    assert.doesNotMatch(r.stdout, /follow up with --continue/);
+
+    const log = jobLog(sb, id);
+    assert.match(log, /\[agy-staff\] mode=research profile=unrestricted model=\S+ /);
+    assert.match(log, /^conversation: conv-1 \(follow up with --continue\)$/m);
+  });
+
+  test('wait without an id keeps the job selected at start', async (t) => {
+    const sb = sandbox('wait-pin');
+    const release = path.join(sb.root, 'release-a');
+    const first = jobIdOf(run(sb, ['research', '--prompt', 'job A'], {
+      FAKE_AGY_RELEASE_FILE: release, FAKE_AGY_RESPONSE: 'ANSWER_A',
+    }).stdout);
+    const waiter = spawn(process.execPath, [COMPANION, 'wait', '--timeout', '12s'], {
+      cwd: sb.repo,
+      env: { ...process.env, HOME: sb.home, USERPROFILE: sb.home, AGY_BIN: FAKE_AGY, FAKE_AGY_ARGV_FILE: sb.argvFile },
+    });
+    let stdout = '', stderr = '', closed = null;
+    waiter.stdout.on('data', (chunk) => { stdout += chunk; });
+    waiter.stderr.on('data', (chunk) => { stderr += chunk; });
+    waiter.on('close', (code) => { closed = code; });
+    t.after(() => { try { fs.writeFileSync(release, 'go'); } catch {} if (closed === null) waiter.kill('SIGKILL'); });
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    const second = jobIdOf(run(sb, ['research', '--prompt', 'job B'], {
+      FAKE_AGY_RESPONSE: 'ANSWER_B', FAKE_AGY_SLEEP_MS: '0',
+    }).stdout);
+    assert.equal(run(sb, ['wait', second]).code, 0);
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    assert.equal(closed, null, `wait switched jobs:\n${stdout}${stderr}`);
+    fs.writeFileSync(release, 'go');
+    const deadline = Date.now() + 8000;
+    while (closed === null && Date.now() < deadline) await new Promise((resolve) => setTimeout(resolve, 50));
+    assert.equal(closed, 0, stdout + stderr);
+    assert.match(stdout, new RegExp(`# Job ${first} \\(research, done\\)`));
+    assert.match(stdout, /ANSWER_A/);
+    assert.equal(stdout.includes(second), false);
+    assert.equal(stdout.includes('ANSWER_B'), false);
+  });
+
+  test('own timeout while the job runs → exit 2, then a second wait succeeds', async () => {
+    const sb = sandbox('wait-timeout');
+    const started = run(sb, ['research', '--prompt', 'a topic'], { FAKE_AGY_SLEEP_MS: '5000' });
+    const id = jobIdOf(started.stdout);
+
+    const first = run(sb, ['wait', id, '--timeout', '1s']);
+    assert.equal(first.code, 2, `${first.stdout}${first.stderr}`);
+    assert.equal(JSON.parse(first.stdout).status, 'running');
+    assert.doesNotMatch(first.stdout, /fake answer/, 'a timed-out wait must not print a result');
+
+    const second = run(sb, ['wait', id]);
+    assert.equal(second.code, 0, second.stderr);
+    assert.match(second.stdout, /fake answer/);
+  });
+
+  test('wait stays silent past the former 15s heartbeat and still delivers progress/result', () => {
+    const sb = sandbox('wait-silent');
+    const started = run(sb, ['staffer', '--prompt', 'a quiet task'], { FAKE_AGY_SLEEP_MS: '21000' });
+    const id = jobIdOf(started.stdout);
+
+    const first = run(sb, ['wait', id, '--timeout', '16s']);
+    assert.equal(first.code, 2, first.stdout + first.stderr);
+    assert.equal(first.stderr, '', 'soft waiting must not emit liveness heartbeats');
+    assert.equal(JSON.parse(first.stdout).status, 'running', 'stdout contains only the expiry snapshot');
+
+    const final = run(sb, ['wait', id]);
+    assert.equal(final.code, 0, final.stdout + final.stderr);
+    assert.equal(final.stderr, '');
+    assert.match(final.stdout, /fake answer/);
+  });
+
+  test('failed job → exit 3 with the stored error', async () => {
+    const sb = sandbox('wait-error');
+    const started = run(sb, ['research', '--prompt', 'a topic'], { FAKE_AGY_STATUS: 'ERROR', FAKE_AGY_RESPONSE: '' });
+    const id = jobIdOf(started.stdout);
+
+    const r = run(sb, ['wait', id]);
+    assert.equal(r.code, 3, `${r.stdout}${r.stderr}`);
+    assert.match(r.stdout, /Job failed:/);
+  });
+
+  test('canceled job → exit 4', async () => {
+    const sb = sandbox('wait-cancel');
+    const started = run(sb, ['research', '--prompt', 'a topic'], { FAKE_AGY_SLEEP_MS: '8000' });
+    const id = jobIdOf(started.stdout);
+    run(sb, ['cancel', id]);
+
+    const r = run(sb, ['wait', id]);
+    assert.equal(r.code, 4, `${r.stdout}${r.stderr}`);
+  });
+
+  test('no id defaults to the most recent job; unknown id → 1', async () => {
+    const sb = sandbox('wait-default');
+    assert.equal(run(sb, ['wait', 'no-such-job']).code, 1);
+
+    const started = run(sb, ['research', '--prompt', 'a topic']);
+    const id = jobIdOf(started.stdout);
+    const r = run(sb, ['wait']);
+    assert.equal(r.code, 0, r.stderr);
+    assert.match(r.stdout, new RegExp(`# Job ${id} `));
+  });
+});

@@ -1,0 +1,101 @@
+{
+  "kind": "fixture-provenance-manifest",
+  "phase": "post-update-final",
+  "original_evidence_root": "/private/tmp/agent-staff-preflight.fODiUI/updated/agy",
+  "recorded_cli_version": "1.2.16",
+  "recorded_model": "gemini-3.8-flash-low",
+  "update_confirmed_latest": true,
+  "auto_update_disabled": true,
+  "redactions": [
+    "Native session IDs consistently replaced with UUID-shaped fixture IDs.",
+    "Recorded test cwd paths replaced with /TEST_WORKSPACE/... placeholders.",
+    "Random test nonce consistently replaced with a fixture nonce.",
+    "Native event order, field placement, statuses, errors, counters and timing preserved.",
+    "No native cancellation event synthesized; companion terminal state is a separate observed sidecar."
+  ],
+  "files": [
+    {
+      "file": "success.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "agy-continuation-real-lcWFeF/cancel-continue/.agy-staff/staffer-muu2qcsr-2bb422ea.captured-events.jsonl",
+      "source_sha256": "61d7c417674e07bd46b41d85da73f9b92ec6233b2dab15d2df125e97b7acf7ec",
+      "fixture_sha256": "f665459585945cd823cf84919e216103bd9e18eed7db5ac25bc9462d499aa729",
+      "source_bytes": 2336,
+      "fixture_bytes": 2263
+    },
+    {
+      "file": "cancel.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "agy-continuation-real-lcWFeF/cancel-continue/.agy-staff/jobs/staffer-muu2qnz6-01f236f4.events.jsonl",
+      "source_sha256": "00da4b22c781bbe488469d86b98072f99f8bc1cddd8fb8889a7308dd486bd0e1",
+      "fixture_sha256": "f53190db1456437613d5c657b899aabff30156d2ad8676879a9b755fb9707ae7",
+      "source_bytes": 2611,
+      "fixture_bytes": 2538
+    },
+    {
+      "file": "resume.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "agy-continuation-real-lcWFeF/cancel-continue/.agy-staff/staffer-muu2qvtu-6af96459.captured-events.jsonl",
+      "source_sha256": "c25c98533483d1f960966c91285a9f096aa9fa440b87cfb7be15a048a3caa7fc",
+      "fixture_sha256": "1fff72066ca67522e6c6ede8630fb90531fd2f2a7aa1764b1afa89f8553f4909",
+      "source_bytes": 3447,
+      "fixture_bytes": 3374
+    },
+    {
+      "file": "structured.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "extras/structured/events.jsonl",
+      "source_sha256": "4adb951754a99c6a0867bd5e98e96d33682d522ae4682d386c9a7210156ad326",
+      "fixture_sha256": "8e49dc6bf9dd084a0963e7b31a1220d8a6821d4cf6de2f6bf0f788cbf6f54e82",
+      "source_bytes": 3990,
+      "fixture_bytes": 3935
+    },
+    {
+      "file": "nonce.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "extras/nonce/events.jsonl",
+      "source_sha256": "e34e36b181432e15eb773426061aaf5326e3ced0f0f6cfe86c8463e9211d3ca0",
+      "fixture_sha256": "8c5e9ea5eddb1d269f4515086ebd9e57c14aa5206d5b3465dd6759f57b92f8f2",
+      "source_bytes": 2947,
+      "fixture_bytes": 2874
+    },
+    {
+      "file": "cancel.companion-status.json",
+      "kind": "sanitized-observed-companion-status-sidecar",
+      "source_evidence_relative_path": "agy-continuation-real-lcWFeF/cancel-continue/.agy-staff/jobs/staffer-muu2qnz6-01f236f4.result.md.status.json",
+      "source_sha256": "d74c4e48cf3cc536e44d94365b2302b4c1e6109cbe1ecb56faaa567013a67016",
+      "fixture_sha256": "d74c4e48cf3cc536e44d94365b2302b4c1e6109cbe1ecb56faaa567013a67016",
+      "source_bytes": 83,
+      "fixture_bytes": 83
+    },
+    {
+      "file": "run-metadata.json",
+      "kind": "derived-test-metadata-not-native-events",
+      "source_summaries": [
+        "agy-continuation-real-lcWFeF/summary.json",
+        "extras/summary.json",
+        "final-process-check.json",
+        "execution-manifest.json"
+      ],
+      "source_summary_digests": [
+        {
+          "path": "agy-continuation-real-lcWFeF/summary.json",
+          "sha256": "ce014d2eab2b55d3f3f2edeae150a3ee040c5a08606932e57e702c51fa289f37"
+        },
+        {
+          "path": "extras/summary.json",
+          "sha256": "47560fd0c01766fcf15585bf6313fcb97f307dedfbbc67c6ba76f8b6c7902e27"
+        },
+        {
+          "path": "final-process-check.json",
+          "sha256": "d3a1b86c33bfcabf74ef0f5478a59ca5daa5f6a19ecd6fe6a1d4a4966b92a0f6"
+        },
+        {
+          "path": "execution-manifest.json",
+          "sha256": "30244bc1ef614c1274e6911da3d22c7caa3c7e2c306a910ce3cb7f878ff04ca3"
+        }
+      ],
+      "fixture_sha256": "c21b037314750d3f13b800414c3dc4a332cb664f6cd473d32b1dd8d087297055"
+    }
+  ]
+}

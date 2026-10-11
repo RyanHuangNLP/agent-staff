@@ -1,0 +1,87 @@
+{
+  "kind": "offline-handoff-verification-not-product-tests",
+  "checkedAtUtc": "2026-10-04T17:21:23.184183+00:00",
+  "checks": [
+    {
+      "argv": [
+        "node",
+        "validation/agy/check-fixtures.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"outcome\": \"passed\",\n  \"offline\": true,\n  \"fixture_count\": 7,\n  \"upstream_commit\": \"9a30e0774de09e0815c4fc5caf456472f8fc3509\",\n  \"observed_cli_version\": \"1.2.16\",\n  \"original_digests_checked\": false\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "validation/agy/check-fixtures.mjs",
+        "--fixtures",
+        "validation/fixtures/agy/history/pre-update-v1.2.16"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"outcome\": \"passed\",\n  \"offline\": true,\n  \"fixture_count\": 7,\n  \"upstream_commit\": \"9a30e0774de09e0815c4fc5caf456472f8fc3509\",\n  \"observed_cli_version\": \"1.2.16\",\n  \"original_digests_checked\": false\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "validation/grok/assert-fixtures.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "Grok real-fixture assertions passed (7 cases, no model calls).\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "validation/grok/assert-fixtures.mjs",
+        "validation/fixtures/grok/history/1.0.25"
+      ],
+      "exitCode": 0,
+      "stdout": "Grok real-fixture assertions passed (7 cases, no model calls).\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "validation/fixtures/cursor/assert_fixtures.py",
+        "--fixtures",
+        "validation/fixtures/cursor/current"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"passed\": true,\n  \"checks\": [\n    \"success terminal result\",\n    \"exact session resume recalled nonce without tools or nonce in prompt\",\n    \"read and actual shell cwd positive controls\",\n    \"explicit native write/shell deny with positive read, under force\",\n    \"allowed write independently verified\",\n    \"complete identity-tree cancellation passed, including natural-deadline observation\",\n    \"cancelled session resumed without tool restart\",\n    \"tool call IDs decoded as opaque strings without trimming\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "validation/fixtures/cursor/assert_fixtures.py",
+        "--fixtures",
+        "validation/fixtures/cursor/history/2026.09.02-c22c1a3"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"passed\": true,\n  \"checks\": [\n    \"success terminal result\",\n    \"exact session resume recalled nonce without tools or nonce in prompt\",\n    \"read and actual shell cwd positive controls\",\n    \"explicit native write/shell deny with positive read, under force\",\n    \"allowed write independently verified\",\n    \"historical CLI-group-only cancellation failed; exact cleanup verified after natural deadline\",\n    \"complete identity-tree cancellation passed, including natural-deadline observation\",\n    \"cancelled session resumed without tool restart\",\n    \"tool call IDs decoded as opaque strings without trimming\"\n  ]\n}\n",
+      "stderr": ""
+    }
+  ],
+  "syntaxFiles": [
+    "validation/agy/check-fixtures.mjs",
+    "validation/agy/reproduce.sh",
+    "validation/agy/run-real-extras.mjs",
+    "validation/agy/upstream/companion/agy-companion.mjs",
+    "validation/agy/upstream/companion/observation.mjs",
+    "validation/agy/upstream/companion/state-lock.mjs",
+    "validation/agy/upstream/companion/stream-worker.mjs",
+    "validation/agy/upstream/tests/real-continuation.integration.mjs",
+    "validation/cursor/preflight.py",
+    "validation/cursor/sanitize_fixtures.py",
+    "validation/cursor/summarize.py",
+    "validation/fixtures/cursor/assert_fixtures.py",
+    "validation/grok/assert-fixtures.mjs",
+    "validation/grok/probe.mjs"
+  ],
+  "localLinksVerified": 18,
+  "rawSourceHashesVerified": 90,
+  "liveCallsPerformedByThisCheck": 0,
+  "status": "passed"
+}

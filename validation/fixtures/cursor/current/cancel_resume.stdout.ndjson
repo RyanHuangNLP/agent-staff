@@ -1,0 +1,9 @@
+{"type": "system", "subtype": "init", "apiKeySource": "login", "cwd": "<PREFLIGHT_ROOT>/workspace", "session_id": "SESSION_2", "model": "Grok 4.6 Extra High Fast", "permissionMode": "default"}
+{"type": "user", "message": {"role": "user", "content": [{"type": "text", "text": "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. The previous turn was intentionally cancelled by the integration-test supervisor. Do not restart any command or use any tools. Answer exactly CANCEL_RECOVERY_OK."}]}, "session_id": "SESSION_2"}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_2", "timestamp_ms": 1791133818914}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_2", "timestamp_ms": 1791133818917}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_2", "timestamp_ms": 1791133818917}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_2", "timestamp_ms": 1791133818917}
+{"type": "thinking", "subtype": "completed", "session_id": "SESSION_2", "timestamp_ms": 1791133818917}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "CANCEL_RECOVERY_OK"}]}, "session_id": "SESSION_2"}
+{"type": "result", "subtype": "success", "duration_ms": 3034, "duration_api_ms": 3034, "is_error": false, "result": "CANCEL_RECOVERY_OK", "session_id": "SESSION_2", "request_id": "f9ab1082-073e-448e-a967-50cf98a8ae43", "usage": {"inputTokens": 373, "outputTokens": 47, "cacheReadTokens": 11008, "cacheWriteTokens": 0}}

@@ -1,0 +1,41 @@
+{
+  "case": "resume",
+  "exit_code": 0,
+  "duration_seconds": 9.66,
+  "event_count": 13,
+  "event_types": [
+    "system:init",
+    "user:",
+    "thinking:delta",
+    "thinking:completed",
+    "assistant:",
+    "result:success"
+  ],
+  "session_ids": [
+    "SESSION_1"
+  ],
+  "invalid_json_lines": 0,
+  "result_events": [
+    {
+      "type": "result",
+      "subtype": "success",
+      "duration_ms": 4794,
+      "duration_api_ms": 4794,
+      "is_error": false,
+      "result": "<MEMORY_NONCE>",
+      "session_id": "SESSION_1",
+      "request_id": "becce2ee-c6b1-40ef-8094-373368231fe6",
+      "usage": {
+        "inputTokens": 315,
+        "outputTokens": 163,
+        "cacheReadTokens": 10880,
+        "cacheWriteTokens": 0
+      }
+    }
+  ],
+  "stderr_bytes": 0,
+  "timed_out": false,
+  "cancellation_triggered": false,
+  "tool_calls": [],
+  "nonce_recalled": true
+}

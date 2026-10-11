@@ -1,0 +1,32 @@
+{
+  "case": "baseline",
+  "argv": [
+    "<USER_HOME>/.local/bin/cursor-agent",
+    "--print",
+    "--output-format",
+    "stream-json",
+    "--workspace",
+    "<PREFLIGHT_ROOT>/workspace",
+    "--trust",
+    "--force",
+    "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Read read-control.txt with a file tool and run pwd with the shell tool to report your actual working directory. Remember this exact memory token for the next turn: <MEMORY_NONCE>. Do not write it into any file or command. Reply with the read-control value, actual cwd, and the token."
+  ],
+  "cwd": "<PREFLIGHT_ROOT>/workspace",
+  "start_utc": "2026-10-04T16:56:39.894787+00:00",
+  "timeout_seconds": 150,
+  "permission_config": {
+    "permissions": {
+      "allow": [
+        "Read(**)"
+      ],
+      "deny": []
+    }
+  },
+  "default_model": true,
+  "cancel_actions": [],
+  "pid": 15369,
+  "pgid": 15369,
+  "process_identity": "15369 15362 15369 Mon Oct  5 00:56:39 2026     Rs   bash <USER_HOME>/.local/bin/cursor-agent --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Read read-control.txt with a file tool and run pwd with the shell tool to report your actual working directory. Remember this exact memory token for the next turn: <MEMORY_NONCE>. Do not write it into any file or command. Reply with the read-control value, actual cwd, and the token.",
+  "exit_code": 0,
+  "duration_seconds": 23.386
+}

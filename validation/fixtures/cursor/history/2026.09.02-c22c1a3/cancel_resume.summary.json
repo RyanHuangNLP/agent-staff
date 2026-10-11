@@ -1,0 +1,41 @@
+{
+  "case": "cancel_resume",
+  "exit_code": 0,
+  "duration_seconds": 8.712,
+  "event_count": 9,
+  "event_types": [
+    "system:init",
+    "user:",
+    "thinking:delta",
+    "thinking:completed",
+    "assistant:",
+    "result:success"
+  ],
+  "session_ids": [
+    "SESSION_2"
+  ],
+  "invalid_json_lines": 0,
+  "result_events": [
+    {
+      "type": "result",
+      "subtype": "success",
+      "duration_ms": 3298,
+      "duration_api_ms": 3298,
+      "is_error": false,
+      "result": "CANCEL_RECOVERY_OK",
+      "session_id": "SESSION_2",
+      "request_id": "e90ab206-11e8-42f0-8626-b1edc4e11fe7",
+      "usage": {
+        "inputTokens": 344,
+        "outputTokens": 98,
+        "cacheReadTokens": 11392,
+        "cacheWriteTokens": 0
+      }
+    }
+  ],
+  "stderr_bytes": 0,
+  "timed_out": false,
+  "cancellation_triggered": false,
+  "tool_calls": [],
+  "cancel_resume_replied": true
+}

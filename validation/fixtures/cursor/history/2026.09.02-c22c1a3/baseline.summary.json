@@ -1,0 +1,211 @@
+{
+  "case": "baseline",
+  "exit_code": 0,
+  "duration_seconds": 23.386,
+  "event_count": 29,
+  "event_types": [
+    "system:init",
+    "user:",
+    "thinking:delta",
+    "thinking:completed",
+    "assistant:",
+    "tool_call:started",
+    "tool_call:completed",
+    "result:success"
+  ],
+  "session_ids": [
+    "SESSION_1"
+  ],
+  "invalid_json_lines": 0,
+  "result_events": [
+    {
+      "type": "result",
+      "subtype": "success",
+      "duration_ms": 8411,
+      "duration_api_ms": 8411,
+      "is_error": false,
+      "result": "我将读取工作区内的 `read-control.txt`，并用 shell 执行 `pwd` 确认实际工作目录。不会把记忆 token 写入任何文件或命令。**read-control：** `READ_CONTROL_49f28d`\n\n**实际 cwd：** `<PREFLIGHT_ROOT>/workspace`\n\n**token：** `<MEMORY_NONCE>`\n\n已记住该 token，下一轮会沿用；没有写入任何文件或命令。",
+      "session_id": "SESSION_1",
+      "request_id": "237d7046-c203-421e-babc-800eaa1f9368",
+      "usage": {
+        "inputTokens": 10955,
+        "outputTokens": 428,
+        "cacheReadTokens": 10560,
+        "cacheWriteTokens": 0
+      }
+    }
+  ],
+  "stderr_bytes": 0,
+  "timed_out": false,
+  "cancellation_triggered": false,
+  "tool_calls": [
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-0\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/read-control.txt"
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-0\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_0",
+        "startedAtMs": "1791133019023"
+      },
+      "model_call_id": "237d7046-c203-421e-babc-800eaa1f9368-0-cyoy",
+      "session_id": "SESSION_1",
+      "timestamp_ms": 1791133018965
+    },
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-1\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_1",
+      "tool_call": {
+        "shellToolCall": {
+          "args": {
+            "command": "pwd",
+            "workingDirectory": "",
+            "timeout": 30000,
+            "toolCallId": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-1\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_1",
+            "simpleCommands": [
+              "pwd"
+            ],
+            "hasInputRedirect": false,
+            "hasOutputRedirect": false,
+            "parsingResult": {
+              "parsingFailed": false,
+              "executableCommands": [
+                {
+                  "name": "pwd",
+                  "args": [],
+                  "fullText": "pwd"
+                }
+              ],
+              "hasRedirects": false,
+              "hasCommandSubstitution": false,
+              "redirects": []
+            },
+            "fileOutputThresholdBytes": "40000",
+            "isBackground": false,
+            "skipApproval": false,
+            "timeoutBehavior": "TIMEOUT_BEHAVIOR_BACKGROUND",
+            "hardTimeout": 86400000,
+            "description": "Print current working directory",
+            "closeStdin": true,
+            "conversationId": "SESSION_1",
+            "adminCommandDenylist": [],
+            "requestId": "237d7046-c203-421e-babc-800eaa1f9368"
+          },
+          "description": "Print current working directory"
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-1\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_1",
+        "startedAtMs": "1791133019029"
+      },
+      "model_call_id": "237d7046-c203-421e-babc-800eaa1f9368-0-cyoy",
+      "session_id": "SESSION_1",
+      "timestamp_ms": 1791133018967
+    },
+    {
+      "type": "tool_call",
+      "subtype": "completed",
+      "call_id": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-0\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/read-control.txt"
+          },
+          "result": {
+            "success": {
+              "content": "READ_CONTROL_49f28d\n",
+              "isEmpty": false,
+              "exceededLimit": false,
+              "totalLines": 2,
+              "fileSize": 20,
+              "path": "<PREFLIGHT_ROOT>/workspace/read-control.txt",
+              "readRange": {
+                "startLine": 1,
+                "endLine": 2
+              },
+              "relatedCursorRulePaths": [],
+              "relatedCursorRules": []
+            }
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-0\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_0",
+        "startedAtMs": "1791133019023",
+        "completedAtMs": "1791133019819"
+      },
+      "model_call_id": "237d7046-c203-421e-babc-800eaa1f9368-0-cyoy",
+      "session_id": "SESSION_1",
+      "timestamp_ms": 1791133019801
+    },
+    {
+      "type": "tool_call",
+      "subtype": "completed",
+      "call_id": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-1\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_1",
+      "tool_call": {
+        "shellToolCall": {
+          "args": {
+            "command": "pwd",
+            "workingDirectory": "",
+            "timeout": 30000,
+            "toolCallId": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-1\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_1",
+            "simpleCommands": [
+              "pwd"
+            ],
+            "hasInputRedirect": false,
+            "hasOutputRedirect": false,
+            "parsingResult": {
+              "parsingFailed": false,
+              "executableCommands": [
+                {
+                  "name": "pwd",
+                  "args": [],
+                  "fullText": "pwd"
+                }
+              ],
+              "hasRedirects": false,
+              "hasCommandSubstitution": false,
+              "redirects": []
+            },
+            "fileOutputThresholdBytes": "40000",
+            "isBackground": false,
+            "skipApproval": false,
+            "timeoutBehavior": "TIMEOUT_BEHAVIOR_BACKGROUND",
+            "hardTimeout": 86400000,
+            "description": "Print current working directory",
+            "closeStdin": true,
+            "conversationId": "SESSION_1",
+            "adminCommandDenylist": [],
+            "requestId": "237d7046-c203-421e-babc-800eaa1f9368"
+          },
+          "result": {
+            "success": {
+              "command": "pwd",
+              "workingDirectory": "",
+              "exitCode": 0,
+              "signal": "",
+              "stdout": "<PREFLIGHT_ROOT>/workspace\n",
+              "stderr": "",
+              "executionTime": 1105,
+              "interleavedOutput": "<PREFLIGHT_ROOT>/workspace\n",
+              "localExecutionTimeMs": 81
+            },
+            "isBackground": false
+          },
+          "description": "Print current working directory"
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-0e304e90-2014-45e9-8a4c-8a9ac5b4af97-1\nfc_p3uHtqo-2dTqGa-84627fd7-aws_uw2_1",
+        "startedAtMs": "1791133019029",
+        "completedAtMs": "1791133020135"
+      },
+      "model_call_id": "237d7046-c203-421e-babc-800eaa1f9368-0-cyoy",
+      "session_id": "SESSION_1",
+      "timestamp_ms": 1791133020069
+    }
+  ]
+}

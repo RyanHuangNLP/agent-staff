@@ -1,0 +1,26 @@
+{"type":"available_commands","tools":["run_terminal_command","read_file","search_replace","list_dir","grep","kill_command_or_subagent","todo_write","get_command_or_subagent_output","spawn_subagent","scheduler_create","scheduler_delete","scheduler_list","monitor","search_tool","use_tool","workflow","enter_plan_mode","exit_plan_mode","ask_user_question","send_feedback","image_gen","image_edit","image_to_video","reference_to_video","write"],"commands":["compact","always-approve","context","session-info","feedback","deep-research","workflow","goal","loop","leskovec-writing-polish","build-with-ai","code-review","create-skill","create-workflow","design","execute-plan","game-assets","bundled:imagine","implement","learn","long-running-background-tasks","pr-babysit","resume-claude","resume-codex","resume-cursor","review","skill-design-principles","statusline","threejs-frame-conventions","learn-traces"]}
+{"type":"available_commands","tools":["run_terminal_command","read_file","search_replace","list_dir","grep","kill_command_or_subagent","todo_write","get_command_or_subagent_output","spawn_subagent","scheduler_create","scheduler_delete","scheduler_list","monitor","search_tool","use_tool","workflow","enter_plan_mode","exit_plan_mode","ask_user_question","send_feedback","image_gen","image_edit","image_to_video","reference_to_video","write"],"commands":["compact","always-approve","context","session-info","feedback","deep-research","workflow","goal","loop","leskovec-writing-polish","build-with-ai","code-review","create-skill","create-workflow","design","execute-plan","game-assets","bundled:imagine","implement","learn","long-running-background-tasks","pr-babysit","resume-claude","resume-codex","resume-cursor","review","skill-design-principles","statusline","threejs-frame-conventions","learn-traces"]}
+{"type":"text","data":"cancel"}
+{"type":"text","data":"_"}
+{"type":"text","data":"memory"}
+{"type":"text","data":"_"}
+{"type":"text","data":"a"}
+{"type":"text","data":"764"}
+{"type":"text","data":"157"}
+{"type":"text","data":"078"}
+{"type":"text","data":"8"}
+{"type":"text","data":"d"}
+{"type":"text","data":"42"}
+{"type":"text","data":"d"}
+{"type":"text","data":"8"}
+{"type":"text","data":"ab"}
+{"type":"text","data":"209"}
+{"type":"text","data":"add"}
+{"type":"text","data":"4"}
+{"type":"text","data":"df"}
+{"type":"text","data":"1"}
+{"type":"text","data":"ac"}
+{"type":"text","data":"12"}
+{"type":"available_commands","tools":["run_terminal_command","read_file","search_replace","list_dir","grep","kill_command_or_subagent","todo_write","get_command_or_subagent_output","spawn_subagent","scheduler_create","scheduler_delete","scheduler_list","monitor","search_tool","use_tool","workflow","enter_plan_mode","exit_plan_mode","ask_user_question","send_feedback","image_gen","image_edit","image_to_video","reference_to_video","write"],"commands":["compact","always-approve","context","session-info","feedback","deep-research","workflow","goal","loop","leskovec-writing-polish","build-with-ai","code-review","create-skill","create-workflow","design","execute-plan","game-assets","bundled:imagine","implement","learn","long-running-background-tasks","pr-babysit","resume-claude","resume-codex","resume-cursor","review","skill-design-principles","statusline","threejs-frame-conventions","learn-traces"]}
+{"type":"usage","usage":{"input_tokens":14833,"output_tokens":86,"cache_read_input_tokens":1664,"cache_creation_input_tokens":0,"reasoning_tokens":65},"signature":"[opaque signature redacted]"}
+{"type":"end","stopReason":"end_turn","sessionId":"00000000-0000-4000-8000-000000000013","requestId":"00000000-0000-4000-8000-000000000014","usage":{"input_tokens":14833,"cache_read_input_tokens":1664,"cache_creation_input_tokens":0,"output_tokens":86,"reasoning_tokens":65,"total_tokens":16583},"num_turns":1,"total_cost_usd":0.01054476,"total_cost_usd_ticks":105447600,"modelUsage":{"grok-4.7-build":{"inputTokens":14833,"outputTokens":86,"cacheReadInputTokens":1664,"cacheCreationInputTokens":0,"modelCalls":1,"costUSD":0.01054476}}}

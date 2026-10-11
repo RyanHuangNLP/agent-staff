@@ -1,0 +1,97 @@
+{
+  "case": "cancel",
+  "argv": [
+    "<USER_HOME>/.local/bin/cursor-agent",
+    "--print",
+    "--output-format",
+    "stream-json",
+    "--workspace",
+    "<PREFLIGHT_ROOT>/workspace",
+    "--trust",
+    "--force",
+    "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Run the shell command python3 <PREFLIGHT_ROOT>/workspace/long_task.py in the foreground, wait for its normal completion, then read completed.txt and report it. Do not background the command, do not change the script, and do not write any marker files yourself. The supervisor may interrupt this test."
+  ],
+  "cwd": "<PREFLIGHT_ROOT>/workspace",
+  "start_utc": "2026-10-04T16:59:11.787047+00:00",
+  "timeout_seconds": 150,
+  "permission_config": {
+    "permissions": {
+      "allow": [
+        "Read(**)"
+      ],
+      "deny": []
+    }
+  },
+  "default_model": true,
+  "cancel_actions": [
+    {
+      "signal": "SIGINT",
+      "target": "owned_process_group",
+      "at_seconds": 16.375,
+      "cli_running_after_grace": false,
+      "tool_running_after_grace": true
+    },
+    {
+      "signal": "SIGTERM",
+      "target": "exact_owned_tool_pid_cleanup",
+      "pid": 17232
+    }
+  ],
+  "pid": 17089,
+  "pgid": 17089,
+  "process_identity": "17089 17082 17089 Mon Oct  5 00:59:11 2026     Rs   bash <USER_HOME>/.local/bin/cursor-agent --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Run the shell command python3 <PREFLIGHT_ROOT>/workspace/long_task.py in the foreground, wait for its normal completion, then read completed.txt and report it. Do not background the command, do not change the script, and do not write any marker files yourself. The supervisor may interrupt this test.",
+  "tool_pid": 17232,
+  "tool_process_before_cancel": "17232 17225 17225 Mon Oct  5 00:59:26 2026     S    /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python <PREFLIGHT_ROOT>/workspace/long_task.py",
+  "owned_processes_before_cancel": [
+    {
+      "pid": 17089,
+      "ppid": 17082,
+      "pgid": 17089,
+      "started": "Mon Oct 5 00:59:11 2026",
+      "stat": "Ss",
+      "command": "<USER_HOME>/.local/bin/cursor-agent --use-system-ca <USER_HOME>/.local/share/cursor-agent/versions/2026.09.02-c22c1a3/index.js --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Run the shell command python3 <PREFLIGHT_ROOT>/workspace/long_task.py in the foreground, wait for its normal completion, then read completed.txt and report it. Do not background the command, do not change the script, and do not write any marker files yourself. The supervisor may interrupt this test."
+    },
+    {
+      "pid": 17182,
+      "ppid": 17089,
+      "pgid": 17089,
+      "started": "Mon Oct 5 00:59:17 2026",
+      "stat": "S",
+      "command": "tar --strip-components=1 -xzf - -C <USER_HOME>/.local/share/cursor-agent/versions/.2026.10.01-e373342"
+    },
+    {
+      "pid": 17188,
+      "ppid": 17089,
+      "pgid": 17089,
+      "started": "Mon Oct 5 00:59:17 2026",
+      "stat": "S",
+      "command": "curl -fSL -s https://downloads.cursor.com/lab/2026.10.01-e373342/darwin/arm64/agent-cli-package.tar.gz"
+    },
+    {
+      "pid": 17225,
+      "ppid": 17089,
+      "pgid": 17225,
+      "started": "Mon Oct 5 00:59:26 2026",
+      "stat": "Ss",
+      "command": "/bin/zsh -c builtin export PATH=\"/usr/bin:/bin:/usr/sbin:/sbin${PATH:+:$PATH}\"; snap=$(command cat <&3); builtin unsetopt aliases 2>/dev/null; builtin unalias -m '*' 2>/dev/null || true; builtin eval \"$snap\" && { builtin unsetopt nounset 2>/dev/null || true; builtin eval \"${__CURSOR_SANDBOX_ENV_RESTORE:-}\" 2>/dev/null; builtin export PWD=\"$(builtin pwd)\"; builtin setopt aliases 2>/dev/null; builtin eval \"$1\" < /dev/null; }; COMMAND_EXIT_CODE=$?; dump_zsh_state >&4; builtin exit $COMMAND_EXIT_CODE -- python3 <PREFLIGHT_ROOT>/workspace/long_task.py"
+    },
+    {
+      "pid": 17232,
+      "ppid": 17225,
+      "pgid": 17225,
+      "started": "Mon Oct 5 00:59:26 2026",
+      "stat": "S",
+      "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python <PREFLIGHT_ROOT>/workspace/long_task.py"
+    }
+  ],
+  "heartbeat_before_cancel": "1",
+  "exit_code": 130,
+  "tool_process_after_group_cancel": "17232 17225 17225 Mon Oct  5 00:59:26 2026     S    /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python <PREFLIGHT_ROOT>/workspace/long_task.py",
+  "tool_process_after_cleanup": "",
+  "owned_processes_alive_after_group_cancel": [],
+  "owned_processes_alive_after_cleanup": [],
+  "completion_exists": false,
+  "heartbeat_after_cleanup": "10",
+  "heartbeat_stable_after_cleanup": true,
+  "duration_seconds": 27.914
+}

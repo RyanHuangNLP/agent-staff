@@ -1,0 +1,427 @@
+{
+  "backend": "grok",
+  "batch": "post-update",
+  "status": "passed",
+  "latestVerified": true,
+  "testedVersion": "grok 1.0.46 (2765805b9442) [stable]",
+  "versionAfter": "grok 1.0.46 (2765805b9442) [stable]",
+  "requestedModel": "native-default (grok models reported grok-4.7)",
+  "observedModel": "grok-4.7-build",
+  "realCalls": 7,
+  "checks": [
+    {
+      "name": "01-seed",
+      "version": "grok 1.0.46 (2765805b9442) [stable]",
+      "passed": true,
+      "checks": {
+        "nonceReturned": true,
+        "fixtureReturned": true,
+        "cleanExit": true,
+        "noSurvivors": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stopReason": null,
+      "elapsedMs": 10521,
+      "survivors": [],
+      "nativeEnd": {
+        "type": "end",
+        "stopReason": "end_turn",
+        "sessionId": "405f50f8-c9bc-467f-bf8a-0efec394b7fe",
+        "requestId": "e0b334fd-4438-40ab-9da5-43dcc787c562",
+        "usage": {
+          "input_tokens": 6453,
+          "cache_read_input_tokens": 25600,
+          "cache_creation_input_tokens": 0,
+          "output_tokens": 367,
+          "reasoning_tokens": 284,
+          "total_tokens": 32420
+        },
+        "num_turns": 2,
+        "total_cost_usd": 0.00948872,
+        "total_cost_usd_ticks": 94887200,
+        "modelUsage": {
+          "grok-4.7-build": {
+            "inputTokens": 6453,
+            "outputTokens": 367,
+            "cacheReadInputTokens": 25600,
+            "cacheCreationInputTokens": 0,
+            "modelCalls": 2,
+            "costUSD": 0.00948872
+          }
+        }
+      },
+      "source": {
+        "stdout": "updated/grok/01-seed/stdout.jsonl",
+        "sha256": "893e9abbe235199a58c4f8cce14a59aea3ae4a10461c96d17f5021cc88eaba0e"
+      }
+    },
+    {
+      "name": "02-resume",
+      "version": "grok 1.0.46 (2765805b9442) [stable]",
+      "passed": true,
+      "checks": {
+        "recalledNonce": true,
+        "nativeSessionMatches": true,
+        "cleanExit": true,
+        "noSurvivors": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stopReason": null,
+      "elapsedMs": 9276,
+      "survivors": [],
+      "nativeEnd": {
+        "type": "end",
+        "stopReason": "end_turn",
+        "sessionId": "405f50f8-c9bc-467f-bf8a-0efec394b7fe",
+        "requestId": "9f1068cc-9ba4-4c96-87e9-0f3d177980c9",
+        "usage": {
+          "input_tokens": 15165,
+          "cache_read_input_tokens": 1152,
+          "cache_creation_input_tokens": 0,
+          "output_tokens": 101,
+          "reasoning_tokens": 78,
+          "total_tokens": 16418
+        },
+        "num_turns": 1,
+        "total_cost_usd": 0.01071408,
+        "total_cost_usd_ticks": 107140800,
+        "modelUsage": {
+          "grok-4.7-build": {
+            "inputTokens": 15165,
+            "outputTokens": 101,
+            "cacheReadInputTokens": 1152,
+            "cacheCreationInputTokens": 0,
+            "modelCalls": 1,
+            "costUSD": 0.01071408
+          }
+        }
+      },
+      "source": {
+        "stdout": "updated/grok/02-resume/stdout.jsonl",
+        "sha256": "b5f745a8670e0155f346a16ea831aa29eada83e8d8f99e7571a29a5935f3b452"
+      }
+    },
+    {
+      "name": "03-deny",
+      "version": "grok 1.0.46 (2765805b9442) [stable]",
+      "passed": true,
+      "checks": {
+        "editAbsent": true,
+        "shellAbsent": true,
+        "positiveRead": true,
+        "attemptedTools": [
+          {
+            "id": "call-51264690-ba60-4848-bf49-5ca14febd087-0",
+            "name": "read_file",
+            "kind": "read"
+          },
+          {
+            "id": "call-5484971b-b832-4c10-8a08-7a62bafece04-1",
+            "name": "write",
+            "kind": "write"
+          },
+          {
+            "id": "call-5484971b-b832-4c10-8a08-7a62bafece04-2",
+            "name": "run_terminal_command",
+            "kind": "execute"
+          }
+        ],
+        "failedTools": [
+          {
+            "type": "tool_call_update",
+            "toolCallId": "call-5484971b-b832-4c10-8a08-7a62bafece04-1",
+            "status": "failed",
+            "content": [
+              {
+                "type": "content",
+                "content": {
+                  "type": "text",
+                  "text": "Tool `write` was not executed: Denied by permission policy: deny rule on edit"
+                }
+              }
+            ],
+            "rawOutput": null,
+            "locations": []
+          },
+          {
+            "type": "tool_call_update",
+            "toolCallId": "call-5484971b-b832-4c10-8a08-7a62bafece04-2",
+            "status": "failed",
+            "content": [
+              {
+                "type": "content",
+                "content": {
+                  "type": "text",
+                  "text": "Tool `run_terminal_command` was not executed: Denied by permission policy: deny rule on bash"
+                }
+              }
+            ],
+            "rawOutput": null,
+            "locations": []
+          }
+        ],
+        "cleanExit": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stopReason": null,
+      "elapsedMs": 19757,
+      "survivors": [],
+      "nativeEnd": {
+        "type": "end",
+        "stopReason": "end_turn",
+        "sessionId": "ad7770d3-ba04-445c-8356-ff81a4280feb",
+        "requestId": "bb413881-dd1a-4c7d-bb86-65e3f139647d",
+        "usage": {
+          "input_tokens": 30167,
+          "cache_read_input_tokens": 18560,
+          "cache_creation_input_tokens": 0,
+          "output_tokens": 998,
+          "reasoning_tokens": 715,
+          "total_tokens": 49725
+        },
+        "num_turns": 3,
+        "total_cost_usd": 0.02570468,
+        "total_cost_usd_ticks": 257046800,
+        "modelUsage": {
+          "grok-4.7-build": {
+            "inputTokens": 30167,
+            "outputTokens": 998,
+            "cacheReadInputTokens": 18560,
+            "cacheCreationInputTokens": 0,
+            "modelCalls": 3,
+            "costUSD": 0.02570468
+          }
+        }
+      },
+      "source": {
+        "stdout": "updated/grok/03-deny/stdout.jsonl",
+        "sha256": "a967d7f9ad245f6859a495aa7ec3538a6c822f1fd3f9b6761734d281637ee593"
+      }
+    },
+    {
+      "name": "04-allow",
+      "version": "grok 1.0.46 (2765805b9442) [stable]",
+      "passed": true,
+      "checks": {
+        "exactContent": true,
+        "cleanExit": true,
+        "completedTools": [
+          "call-a6554c12-bf99-470e-9bf2-abea5c561102-0"
+        ],
+        "noSurvivors": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stopReason": null,
+      "elapsedMs": 9738,
+      "survivors": [],
+      "nativeEnd": {
+        "type": "end",
+        "stopReason": "end_turn",
+        "sessionId": "ae0ce216-fa6b-4b00-9c29-707d18f34def",
+        "requestId": "37e21a76-9d8f-4e72-965b-902a9606876a",
+        "usage": {
+          "input_tokens": 12400,
+          "cache_read_input_tokens": 19456,
+          "cache_creation_input_tokens": 0,
+          "output_tokens": 254,
+          "reasoning_tokens": 144,
+          "total_tokens": 32110
+        },
+        "num_turns": 2,
+        "total_cost_usd": 0.01225768,
+        "total_cost_usd_ticks": 122576800,
+        "modelUsage": {
+          "grok-4.7-build": {
+            "inputTokens": 12400,
+            "outputTokens": 254,
+            "cacheReadInputTokens": 19456,
+            "cacheCreationInputTokens": 0,
+            "modelCalls": 2,
+            "costUSD": 0.01225768
+          }
+        }
+      },
+      "source": {
+        "stdout": "updated/grok/04-allow/stdout.jsonl",
+        "sha256": "9b7f27e2df6c76e88beade1a8b52db406d21eef4112ec79955cfe3f7b4c6bbed"
+      }
+    },
+    {
+      "name": "05-cancel",
+      "version": "grok 1.0.46 (2765805b9442) [stable]",
+      "passed": true,
+      "checks": {
+        "toolStarted": true,
+        "completionAbsent": true,
+        "canceledWhileRunning": true,
+        "noSurvivors": true,
+        "waitedPastToolCompletionMs": 12000
+      },
+      "exit": {
+        "code": null,
+        "signal": "SIGKILL"
+      },
+      "stopReason": "requested_cancel_after_tool_started",
+      "elapsedMs": 19604,
+      "survivors": [],
+      "nativeEnd": null,
+      "source": {
+        "stdout": "updated/grok/05-cancel/stdout.jsonl",
+        "sha256": "77c3b2f3aacc9d711e386e6146ee17ef113c5efdd622f7c05c6b8e4d2d97522e"
+      }
+    },
+    {
+      "name": "06-cancel-resume",
+      "version": "grok 1.0.46 (2765805b9442) [stable]",
+      "passed": true,
+      "checks": {
+        "recalledNonce": true,
+        "nativeSessionMatches": true,
+        "cleanExit": true,
+        "completionAbsent": true,
+        "noTools": true,
+        "noSurvivors": true
+      },
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "stopReason": null,
+      "elapsedMs": 7034,
+      "survivors": [],
+      "nativeEnd": {
+        "type": "end",
+        "stopReason": "end_turn",
+        "sessionId": "3b358ce5-941e-4569-a23c-5f3d880777fa",
+        "requestId": "f7ec63dc-8557-4b4b-94ec-5f7d3b65ba7a",
+        "usage": {
+          "input_tokens": 14833,
+          "cache_read_input_tokens": 1664,
+          "cache_creation_input_tokens": 0,
+          "output_tokens": 86,
+          "reasoning_tokens": 65,
+          "total_tokens": 16583
+        },
+        "num_turns": 1,
+        "total_cost_usd": 0.01054476,
+        "total_cost_usd_ticks": 105447600,
+        "modelUsage": {
+          "grok-4.7-build": {
+            "inputTokens": 14833,
+            "outputTokens": 86,
+            "cacheReadInputTokens": 1664,
+            "cacheCreationInputTokens": 0,
+            "modelCalls": 1,
+            "costUSD": 0.01054476
+          }
+        }
+      },
+      "source": {
+        "stdout": "updated/grok/06-cancel-resume/stdout.jsonl",
+        "sha256": "39ae8121c94f48bad8d3cf19bb9a1de87aa730b053048795719e144f0fc70a6f"
+      }
+    },
+    {
+      "name": "07-turn-limit",
+      "version": "grok 1.0.46 (2765805b9442) [stable]",
+      "passed": true,
+      "checks": {
+        "limitEventSeen": true,
+        "nonzeroExit": true,
+        "nativeTerminal": [
+          {
+            "type": "end",
+            "stopReason": "cancelled",
+            "sessionId": "bc7b9171-16d9-4a0e-a7d3-2ce6561c6d05",
+            "requestId": "9d89b64a-a7b0-4a2f-b27c-5fb59b8d4a67",
+            "usage": {
+              "input_tokens": 6090,
+              "cache_read_input_tokens": 9728,
+              "cache_creation_input_tokens": 0,
+              "output_tokens": 96,
+              "reasoning_tokens": 43,
+              "total_tokens": 15914
+            },
+            "num_turns": 1,
+            "total_cost_usd": 0.0059908,
+            "total_cost_usd_ticks": 59908000,
+            "modelUsage": {
+              "grok-4.7-build": {
+                "inputTokens": 6090,
+                "outputTokens": 96,
+                "cacheReadInputTokens": 9728,
+                "cacheCreationInputTokens": 0,
+                "modelCalls": 1,
+                "costUSD": 0.0059908
+              }
+            }
+          }
+        ],
+        "exit": {
+          "code": 1,
+          "signal": null
+        },
+        "observedText": "I'll read `fixture.txt` and then explain its value in one sentence.",
+        "noSurvivors": true
+      },
+      "exit": {
+        "code": 1,
+        "signal": null
+      },
+      "stopReason": null,
+      "elapsedMs": 6853,
+      "survivors": [],
+      "nativeEnd": {
+        "type": "end",
+        "stopReason": "cancelled",
+        "sessionId": "bc7b9171-16d9-4a0e-a7d3-2ce6561c6d05",
+        "requestId": "9d89b64a-a7b0-4a2f-b27c-5fb59b8d4a67",
+        "usage": {
+          "input_tokens": 6090,
+          "cache_read_input_tokens": 9728,
+          "cache_creation_input_tokens": 0,
+          "output_tokens": 96,
+          "reasoning_tokens": 43,
+          "total_tokens": 15914
+        },
+        "num_turns": 1,
+        "total_cost_usd": 0.0059908,
+        "total_cost_usd_ticks": 59908000,
+        "modelUsage": {
+          "grok-4.7-build": {
+            "inputTokens": 6090,
+            "outputTokens": 96,
+            "cacheReadInputTokens": 9728,
+            "cacheCreationInputTokens": 0,
+            "modelCalls": 1,
+            "costUSD": 0.0059908
+          }
+        }
+      },
+      "source": {
+        "stdout": "updated/grok/07-turn-limit/stdout.jsonl",
+        "sha256": "9cc2c4158e8c6f048c11aa5696f1ecc2cae342c692ce63719a4c2f53be436e66"
+      }
+    }
+  ],
+  "limitations": [
+    "macOS arm64 only",
+    "No shared leader mode",
+    "No server-side cancellation/billing guarantee",
+    "No all-tool/all-plugin security audit",
+    "No json-schema with streaming test",
+    "No arbitrary CLI version compatibility guarantee"
+  ]
+}

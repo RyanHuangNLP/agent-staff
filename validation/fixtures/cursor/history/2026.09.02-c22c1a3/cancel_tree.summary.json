@@ -1,0 +1,79 @@
+{
+  "case": "cancel_tree",
+  "exit_code": 130,
+  "duration_seconds": 24.727,
+  "event_count": 20,
+  "event_types": [
+    "system:init",
+    "user:",
+    "thinking:delta",
+    "thinking:completed",
+    "assistant:",
+    "tool_call:started"
+  ],
+  "session_ids": [
+    "SESSION_3"
+  ],
+  "invalid_json_lines": 0,
+  "result_events": [],
+  "stderr_bytes": 23,
+  "timed_out": false,
+  "cancellation_triggered": true,
+  "tool_calls": [
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-1103529a-28a2-4628-8ca5-9f688fff4c03-0\nfc_p3uKG78-3NsUET-a87192a2-aws_ue1_0",
+      "tool_call": {
+        "shellToolCall": {
+          "args": {
+            "command": "python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py",
+            "workingDirectory": "",
+            "timeout": 300000,
+            "toolCallId": "call-1103529a-28a2-4628-8ca5-9f688fff4c03-0\nfc_p3uKG78-3NsUET-a87192a2-aws_ue1_0",
+            "simpleCommands": [
+              "python3"
+            ],
+            "hasInputRedirect": false,
+            "hasOutputRedirect": false,
+            "parsingResult": {
+              "parsingFailed": false,
+              "executableCommands": [
+                {
+                  "name": "python3",
+                  "args": [
+                    {
+                      "type": "word",
+                      "value": "<PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+                    }
+                  ],
+                  "fullText": "python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+                }
+              ],
+              "hasRedirects": false,
+              "hasCommandSubstitution": false,
+              "redirects": []
+            },
+            "fileOutputThresholdBytes": "40000",
+            "isBackground": false,
+            "skipApproval": false,
+            "timeoutBehavior": "TIMEOUT_BEHAVIOR_BACKGROUND",
+            "hardTimeout": 86400000,
+            "description": "Run long_task.py in foreground",
+            "closeStdin": true,
+            "conversationId": "SESSION_3",
+            "adminCommandDenylist": [],
+            "requestId": "428e966c-cca5-4cba-9ec5-4848dfbe0f47"
+          },
+          "description": "Run long_task.py in foreground"
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-1103529a-28a2-4628-8ca5-9f688fff4c03-0\nfc_p3uKG78-3NsUET-a87192a2-aws_ue1_0",
+        "startedAtMs": "1791133296919"
+      },
+      "model_call_id": "428e966c-cca5-4cba-9ec5-4848dfbe0f47-0-3l34",
+      "session_id": "SESSION_3",
+      "timestamp_ms": 1791133296882
+    }
+  ]
+}

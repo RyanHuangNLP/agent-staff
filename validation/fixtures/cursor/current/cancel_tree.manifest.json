@@ -1,0 +1,200 @@
+{
+  "case": "cancel_tree",
+  "argv": [
+    "<USER_HOME>/.local/bin/cursor-agent",
+    "--print",
+    "--output-format",
+    "stream-json",
+    "--workspace",
+    "<PREFLIGHT_ROOT>/workspace",
+    "--trust",
+    "--force",
+    "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Run the shell command python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py in the foreground, wait for its normal completion, then read <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/completed.txt and report it. Do not background the command, do not change the script, and do not write any marker files yourself. The supervisor may interrupt this test."
+  ],
+  "cwd": "<PREFLIGHT_ROOT>/workspace",
+  "start_utc": "2026-10-04T17:09:35.511140+00:00",
+  "timeout_seconds": 150,
+  "permission_config": {
+    "permissions": {
+      "allow": [
+        "Read(**)"
+      ],
+      "deny": []
+    }
+  },
+  "default_model": true,
+  "cancel_actions": [
+    {
+      "signal": "SIGINT",
+      "target": "owned_identity_tree",
+      "pid": 25340,
+      "at_seconds": 14.871
+    },
+    {
+      "signal": "SIGINT",
+      "target": "owned_identity_tree",
+      "pid": 25328,
+      "at_seconds": 14.875
+    },
+    {
+      "signal": "SIGINT",
+      "target": "owned_identity_tree",
+      "pid": 25227,
+      "at_seconds": 14.878
+    },
+    {
+      "signal": "SIGINT",
+      "target": "owned_identity_tree",
+      "pid": 25191,
+      "at_seconds": 14.881
+    },
+    {
+      "signal": "SIGINT",
+      "target": "owned_identity_tree",
+      "pid": 25082,
+      "at_seconds": 14.885,
+      "cli_running_after_grace": false,
+      "tool_running_after_grace": false
+    }
+  ],
+  "cli_version_before": "2026.10.01-e373342",
+  "cancel_strategy": "verified_identity_tree",
+  "marker_directory": "<PREFLIGHT_ROOT>/workspace/cancel_tree_fixture",
+  "long_task_seconds": 15,
+  "pid": 25082,
+  "pgid": 25082,
+  "process_identity": "25082 25062 25082 Mon Oct  5 01:09:35 2026     Rs   bash <USER_HOME>/.local/bin/cursor-agent --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Run the shell command python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py in the foreground, wait for its normal completion, then read <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/completed.txt and report it. Do not background the command, do not change the script, and do not write any marker files yourself. The supervisor may interrupt this test.",
+  "tool_pid": 25340,
+  "tool_process_before_cancel": "25340 25328 25328 Mon Oct  5 01:09:48 2026     S    /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py",
+  "owned_processes_before_cancel": [
+    {
+      "pid": 25082,
+      "ppid": 25062,
+      "pgid": 25082,
+      "started": "Mon Oct 5 01:09:35 2026",
+      "stat": "Ss",
+      "command": "<USER_HOME>/.local/bin/cursor-agent --use-system-ca <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Run the shell command python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py in the foreground, wait for its normal completion, then read <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/completed.txt and report it. Do not background the command, do not change the script, and do not write any marker files yourself. The supervisor may interrupt this test."
+    },
+    {
+      "pid": 25191,
+      "ppid": 25082,
+      "pgid": 25082,
+      "started": "Mon Oct 5 01:09:38 2026",
+      "stat": "S",
+      "command": "<USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/node <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js worker-server"
+    },
+    {
+      "pid": 25227,
+      "ppid": 25200,
+      "pgid": 25082,
+      "started": "Mon Oct 5 01:09:39 2026",
+      "stat": "S",
+      "command": "node <USER_HOME>/.npm/_npx/94207acffe67148d/node_modules/.bin/typescript-language-server --stdio"
+    },
+    {
+      "pid": 25328,
+      "ppid": 25082,
+      "pgid": 25328,
+      "started": "Mon Oct 5 01:09:48 2026",
+      "stat": "Ss",
+      "command": "/bin/zsh -c builtin export PATH=\"/usr/bin:/bin:/usr/sbin:/sbin${PATH:+:$PATH}\"; snap=$(command cat <&3); builtin unsetopt aliases 2>/dev/null; builtin unalias -m '*' 2>/dev/null || true; builtin eval \"$snap\" && { builtin unsetopt nounset 2>/dev/null || true; builtin eval \"${__CURSOR_SANDBOX_ENV_RESTORE:-}\" 2>/dev/null; builtin eval \"${__CURSOR_SANDBOX_TEMP_RESTORE:-}\" 2>/dev/null; builtin export PWD=\"$(builtin pwd)\"; builtin setopt aliases 2>/dev/null; builtin eval \"$1\" < /dev/null; }; COMMAND_EXIT_CODE=$?; dump_zsh_state >&4; builtin exit $COMMAND_EXIT_CODE -- python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+    },
+    {
+      "pid": 25340,
+      "ppid": 25328,
+      "pgid": 25328,
+      "started": "Mon Oct 5 01:09:48 2026",
+      "stat": "S",
+      "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+    }
+  ],
+  "heartbeat_before_cancel": "1",
+  "tool_detected_at_seconds": 13.369,
+  "exit_code": 130,
+  "tool_process_after_group_cancel": "",
+  "owned_processes_alive_after_primary_cancel": [],
+  "tool_process_after_cleanup": "",
+  "owned_processes_alive_after_exact_tool_cleanup": [],
+  "owned_processes_alive_after_cleanup": [],
+  "completion_exists": false,
+  "heartbeat_after_cleanup": "1",
+  "heartbeat_stable_after_cleanup": true,
+  "observed_processes": [
+    {
+      "pid": 25082,
+      "ppid": 25062,
+      "pgid": 25082,
+      "started": "Mon Oct 5 01:09:35 2026",
+      "stat": "Ss",
+      "command": "<USER_HOME>/.local/bin/cursor-agent --use-system-ca <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Run the shell command python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py in the foreground, wait for its normal completion, then read <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/completed.txt and report it. Do not background the command, do not change the script, and do not write any marker files yourself. The supervisor may interrupt this test."
+    },
+    {
+      "pid": 25191,
+      "ppid": 25082,
+      "pgid": 25082,
+      "started": "Mon Oct 5 01:09:38 2026",
+      "stat": "S",
+      "command": "<USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/node <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js worker-server"
+    },
+    {
+      "pid": 25200,
+      "ppid": 25191,
+      "pgid": 25082,
+      "started": "Mon Oct 5 01:09:39 2026",
+      "stat": "S",
+      "command": "npm exec typescript-language-server --stdio    "
+    },
+    {
+      "pid": 25227,
+      "ppid": 25200,
+      "pgid": 25082,
+      "started": "Mon Oct 5 01:09:39 2026",
+      "stat": "S",
+      "command": "node <USER_HOME>/.npm/_npx/94207acffe67148d/node_modules/.bin/typescript-language-server --stdio"
+    },
+    {
+      "pid": 25296,
+      "ppid": 25082,
+      "pgid": 25296,
+      "started": "Mon Oct 5 01:09:48 2026",
+      "stat": "Ss",
+      "command": "/bin/zsh -o extendedglob -ilc #!/usr/bin/env zsh\\012\\012# Usage:\\012#   source dump_zsh_state.zsh\\012#   dump_zsh_state\\012# Or execute directly (captures a subshell's state):\\012#   ./dump_zsh_state.zsh\\012\\012# Define a function so sourcing won't alter caller state; emulate locally inside\\012function dump_zsh_state() {\\012  emulate -L zsh -o errreturn -o pipefail\\012  set -u\\012\\012\\012  # Helper to log timing, only if DUMP_ZSH_STATE_TIMING is set\\012  if [[ -n \"${DUMP_ZSH_STATE_TIMING:-}\" ]]; then\\012    # Timing setup\\012    typeset start_time=${EPOCHREALTIME}\\012    typeset step_start=${EPOCHREALTIME}\\012    _log_timing() {\\012      typeset step_name=\"$1\"\\012      typeset now=${EPOCHREALTIME}\\012      typeset step_duration=$((now - step_start))\\012      typeset total_duration=$((now - start_time))\\012      builtin printf \"[TIMING] %-20s: %6.3fs (total: %6.3fs)\\012\" \"$step_name\" \"$step_duration\" \"$total_duration\" >&2\\012      step_start=$now\\012    }\\012  else\\012    _log_timing() { :; }\\012  fi\\012\\012  # Ensure parameter arrays are available\\012  builtin zmodload -F zsh/parameter p:parameters p:options p:functions p:aliases p:galiases p:saliases 2>/dev/null || true\\012  _log_timing \"zmodload\"\\012\\012  # Helper to print a line to stdout\\012  _emit() {\\012    builtin print -r -- \"$1\"\\012  }\\012\\012  # Helper to safely encode and emit unsafe values\\012  _emit_encoded() {\\012    local content=\"$1\"\\012    local var_name=\"$2\"\\012    if [[ -n \"$content\" ]]; then\\012      # Builtin printf, not a here-document: no argument length limit, and no temp file\\012      builtin printf 'cursor_snap_%s=$(builtin printf %%s '\"'\"'%s'\"'\"' | command base64 -d)\\012' \"$var_name\" \"$(command base64 <<<\"$content\" | command tr -d '\\012')\"\\012      builtin printf 'eval \"$cursor_snap_%s\"\\012' \"$var_name\"\\012    fi\\012  }\\012\\012  _log_timing \"init\"\\012\\012  # Emit start marker at the very beginning of the output\\012  _emit \"__CURSOR_ZSH_STATE_START__\"\\012\\012  # Header\\012  _emit \"$PWD\"\\012\\012  _emit \"# zsh state dump generated on $(command date +'%Y-%m-%d %H:%M:%S %z')\"\\012  _log_timing \"header\"\\012\\012  # Working directory\\012  _log_timing \"working_dir\"\\012\\012  # Drop ELECTRON_RUN_AS_NODE by exact name so one command exporting it can't\\012  # bake it into the snapshot that every later command re-evals (IDE-2911:\\012  # Cypress boots as plain Node until a new chat). Exact unset rather than the\\012  # line-based grep below, which would also eat vars whose name or multiline\\012  # value merely contains the token. The shell exits right after the dump.\\012  builtin unset ELECTRON_RUN_AS_NODE 2>/dev/null || true\\012\\012  # Environment variables (exported)\\012  # Filter out: proxy settings plus request/session-scoped vars that must not\\012  # leak across shell executions.\\012  # Under a non-UTF-8 locale zsh writes byte 0xa7 inside $'...' as M-', which\\012  # its own parser reads as the closing quote (zsh 5.9 Src/utils.c quotestring,\\012  # https://github.com/zsh-users/zsh/blob/zsh-5.9/Src/utils.c); the sed rewrites\\012  # that one escape to the § form so the restore eval can parse it. It runs\\012  # only on scalar $'...' lines: a plain-quoted value can hold the same four\\012  # characters literally, and there they must stay.\\012  local env_vars\\012  env_vars=$(builtin typeset -xp 2>/dev/null | command grep -viE '_proxy=|CURSOR_SANDBOX|SUDO_ASKPASS|CURSOR_ASKPASS|CURSOR_CONVERSATION_ID|CURSOR_REQUEST_ID|CURSOR_AGENT_STORE' | command sed \"/^export[^=]*=[\\$]'/ s/\\\\\\\\M-'/\\\\\\\\xa7/g\" || true)\\012  if [[ -n \"${__CURSOR_SANDBOX_OWNED_ENV:-}\" ]]; then\\012    env_vars=$(builtin printf '%s\\012' \"$env_vars\" | command grep -vE \"^(export|declare|typeset)( -[a-zA-Z]+)* (${__CURSOR_SANDBOX_OWNED_ENV// /|})=\" || true)\\012  fi\\012  _emit_encoded \"$env_vars\" \"ENV_VARS_B64\"\\012  _log_timing \"env_variables\"\\012\\012  # Options (replayable as setopt lines). Exclude the errreturn/nounset/pipefail this\\012  # function force-enables above, so they are not baked into the restored snapshot and\\012  # leaked onto every subsequent command (a stray pipefail makes a successful\\012  # 'cmd | head' report exit 141).\\012  local zsh_opts\\012  zsh_opts=$(setopt 2>/dev/null | command grep -vE '^(errreturn|nounset|pipefail)$' | command awk '{printf \"builtin setopt %s 2>/dev/null || true\\n\", $0}' || true)\\012  _emit_encoded \"$zsh_opts\" \"ZSH_OPTS_B64\"\\012  _log_timing \"options\"\\012\\012  # Functions: dump all functions at once (much faster than individual processing)\\012  local all_functions\\012  all_functions=$(builtin typeset -f 2>/dev/null || true)\\012  _emit_encoded \"$all_functions\" \"FUNCTIONS_B64\"\\012  _log_timing \"functions\"\\012\\012  # Aliases (regular, global, and suffix)\\012  {\\012    builtin alias -L 2>/dev/null || true\\012    builtin alias -gL 2>/dev/null || true\\012    builtin alias -sL 2>/dev/null || true\\012  }\\012  _log_timing \"aliases\"\\012\\012  # Done\\012  _emit \"# end of zsh state dump\"\\012  _emit \"__CURSOR_ZSH_STATE_END__\"\\012  _log_timing \"finalize\"\\012}\\012 builtin printf '__CURSOR_STATE_MARKER__\\n'; dump_zsh_state"
+    },
+    {
+      "pid": 25305,
+      "ppid": 25296,
+      "pgid": 25296,
+      "started": "Mon Oct 5 01:09:48 2026",
+      "stat": "S",
+      "command": "/bin/zsh -o extendedglob -ilc #!/usr/bin/env zsh\\012\\012# Usage:\\012#   source dump_zsh_state.zsh\\012#   dump_zsh_state\\012# Or execute directly (captures a subshell's state):\\012#   ./dump_zsh_state.zsh\\012\\012# Define a function so sourcing won't alter caller state; emulate locally inside\\012function dump_zsh_state() {\\012  emulate -L zsh -o errreturn -o pipefail\\012  set -u\\012\\012\\012  # Helper to log timing, only if DUMP_ZSH_STATE_TIMING is set\\012  if [[ -n \"${DUMP_ZSH_STATE_TIMING:-}\" ]]; then\\012    # Timing setup\\012    typeset start_time=${EPOCHREALTIME}\\012    typeset step_start=${EPOCHREALTIME}\\012    _log_timing() {\\012      typeset step_name=\"$1\"\\012      typeset now=${EPOCHREALTIME}\\012      typeset step_duration=$((now - step_start))\\012      typeset total_duration=$((now - start_time))\\012      builtin printf \"[TIMING] %-20s: %6.3fs (total: %6.3fs)\\012\" \"$step_name\" \"$step_duration\" \"$total_duration\" >&2\\012      step_start=$now\\012    }\\012  else\\012    _log_timing() { :; }\\012  fi\\012\\012  # Ensure parameter arrays are available\\012  builtin zmodload -F zsh/parameter p:parameters p:options p:functions p:aliases p:galiases p:saliases 2>/dev/null || true\\012  _log_timing \"zmodload\"\\012\\012  # Helper to print a line to stdout\\012  _emit() {\\012    builtin print -r -- \"$1\"\\012  }\\012\\012  # Helper to safely encode and emit unsafe values\\012  _emit_encoded() {\\012    local content=\"$1\"\\012    local var_name=\"$2\"\\012    if [[ -n \"$content\" ]]; then\\012      # Builtin printf, not a here-document: no argument length limit, and no temp file\\012      builtin printf 'cursor_snap_%s=$(builtin printf %%s '\"'\"'%s'\"'\"' | command base64 -d)\\012' \"$var_name\" \"$(command base64 <<<\"$content\" | command tr -d '\\012')\"\\012      builtin printf 'eval \"$cursor_snap_%s\"\\012' \"$var_name\"\\012    fi\\012  }\\012\\012  _log_timing \"init\"\\012\\012  # Emit start marker at the very beginning of the output\\012  _emit \"__CURSOR_ZSH_STATE_START__\"\\012\\012  # Header\\012  _emit \"$PWD\"\\012\\012  _emit \"# zsh state dump generated on $(command date +'%Y-%m-%d %H:%M:%S %z')\"\\012  _log_timing \"header\"\\012\\012  # Working directory\\012  _log_timing \"working_dir\"\\012\\012  # Drop ELECTRON_RUN_AS_NODE by exact name so one command exporting it can't\\012  # bake it into the snapshot that every later command re-evals (IDE-2911:\\012  # Cypress boots as plain Node until a new chat). Exact unset rather than the\\012  # line-based grep below, which would also eat vars whose name or multiline\\012  # value merely contains the token. The shell exits right after the dump.\\012  builtin unset ELECTRON_RUN_AS_NODE 2>/dev/null || true\\012\\012  # Environment variables (exported)\\012  # Filter out: proxy settings plus request/session-scoped vars that must not\\012  # leak across shell executions.\\012  # Under a non-UTF-8 locale zsh writes byte 0xa7 inside $'...' as M-', which\\012  # its own parser reads as the closing quote (zsh 5.9 Src/utils.c quotestring,\\012  # https://github.com/zsh-users/zsh/blob/zsh-5.9/Src/utils.c); the sed rewrites\\012  # that one escape to the § form so the restore eval can parse it. It runs\\012  # only on scalar $'...' lines: a plain-quoted value can hold the same four\\012  # characters literally, and there they must stay.\\012  local env_vars\\012  env_vars=$(builtin typeset -xp 2>/dev/null | command grep -viE '_proxy=|CURSOR_SANDBOX|SUDO_ASKPASS|CURSOR_ASKPASS|CURSOR_CONVERSATION_ID|CURSOR_REQUEST_ID|CURSOR_AGENT_STORE' | command sed \"/^export[^=]*=[\\$]'/ s/\\\\\\\\M-'/\\\\\\\\xa7/g\" || true)\\012  if [[ -n \"${__CURSOR_SANDBOX_OWNED_ENV:-}\" ]]; then\\012    env_vars=$(builtin printf '%s\\012' \"$env_vars\" | command grep -vE \"^(export|declare|typeset)( -[a-zA-Z]+)* (${__CURSOR_SANDBOX_OWNED_ENV// /|})=\" || true)\\012  fi\\012  _emit_encoded \"$env_vars\" \"ENV_VARS_B64\"\\012  _log_timing \"env_variables\"\\012\\012  # Options (replayable as setopt lines). Exclude the errreturn/nounset/pipefail this\\012  # function force-enables above, so they are not baked into the restored snapshot and\\012  # leaked onto every subsequent command (a stray pipefail makes a successful\\012  # 'cmd | head' report exit 141).\\012  local zsh_opts\\012  zsh_opts=$(setopt 2>/dev/null | command grep -vE '^(errreturn|nounset|pipefail)$' | command awk '{printf \"builtin setopt %s 2>/dev/null || true\\n\", $0}' || true)\\012  _emit_encoded \"$zsh_opts\" \"ZSH_OPTS_B64\"\\012  _log_timing \"options\"\\012\\012  # Functions: dump all functions at once (much faster than individual processing)\\012  local all_functions\\012  all_functions=$(builtin typeset -f 2>/dev/null || true)\\012  _emit_encoded \"$all_functions\" \"FUNCTIONS_B64\"\\012  _log_timing \"functions\"\\012\\012  # Aliases (regular, global, and suffix)\\012  {\\012    builtin alias -L 2>/dev/null || true\\012    builtin alias -gL 2>/dev/null || true\\012    builtin alias -sL 2>/dev/null || true\\012  }\\012  _log_timing \"aliases\"\\012\\012  # Done\\012  _emit \"# end of zsh state dump\"\\012  _emit \"__CURSOR_ZSH_STATE_END__\"\\012  _log_timing \"finalize\"\\012}\\012 builtin printf '__CURSOR_STATE_MARKER__\\n'; dump_zsh_state"
+    },
+    {
+      "pid": 25306,
+      "ppid": 25305,
+      "pgid": 25296,
+      "started": "Mon Oct 5 01:09:48 2026",
+      "stat": "R",
+      "command": "<USER_HOME>/miniconda3/bin/python <USER_HOME>/miniconda3/bin/conda shell.posix activate base"
+    },
+    {
+      "pid": 25328,
+      "ppid": 25082,
+      "pgid": 25328,
+      "started": "Mon Oct 5 01:09:48 2026",
+      "stat": "Ss",
+      "command": "/bin/zsh -c builtin export PATH=\"/usr/bin:/bin:/usr/sbin:/sbin${PATH:+:$PATH}\"; snap=$(command cat <&3); builtin unsetopt aliases 2>/dev/null; builtin unalias -m '*' 2>/dev/null || true; builtin eval \"$snap\" && { builtin unsetopt nounset 2>/dev/null || true; builtin eval \"${__CURSOR_SANDBOX_ENV_RESTORE:-}\" 2>/dev/null; builtin eval \"${__CURSOR_SANDBOX_TEMP_RESTORE:-}\" 2>/dev/null; builtin export PWD=\"$(builtin pwd)\"; builtin setopt aliases 2>/dev/null; builtin eval \"$1\" < /dev/null; }; COMMAND_EXIT_CODE=$?; dump_zsh_state >&4; builtin exit $COMMAND_EXIT_CODE -- python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+    },
+    {
+      "pid": 25340,
+      "ppid": 25328,
+      "pgid": 25328,
+      "started": "Mon Oct 5 01:09:48 2026",
+      "stat": "S",
+      "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+    }
+  ],
+  "survivors_before_postrun_cleanup": [],
+  "survivors_after_postrun_cleanup": [],
+  "duration_seconds": 16.994,
+  "cli_version_after": "2026.10.01-e373342"
+}

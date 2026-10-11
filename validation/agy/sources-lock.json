@@ -1,0 +1,56 @@
+{
+  "upstream_repository": "https://github.com/keli-wen/agy-staff",
+  "commit": "9a30e0774de09e0815c4fc5caf456472f8fc3509",
+  "license": "MIT",
+  "copyright": "Copyright (c) 2026 Keli (pkuwkl)",
+  "files": [
+    {
+      "path": "upstream/companion/agy-companion.mjs",
+      "upstream_path": "companion/agy-companion.mjs",
+      "sha256": "f6896f792fda203ceca4f853d115472d34d8edff543aa407f8e0ad0d36e138f2",
+      "bytes": 88482
+    },
+    {
+      "path": "upstream/companion/observation.mjs",
+      "upstream_path": "companion/observation.mjs",
+      "sha256": "0f22de482d3fa8c10beee3aa64bf881d2be38819b0940405711818b8ac459397",
+      "bytes": 7691
+    },
+    {
+      "path": "upstream/companion/stream-worker.mjs",
+      "upstream_path": "companion/stream-worker.mjs",
+      "sha256": "2d2b37c75b952aa67bcea49d084c637a3baf1167edb58abfa0bc8005e3800c48",
+      "bytes": 17080
+    },
+    {
+      "path": "upstream/companion/state-lock.mjs",
+      "upstream_path": "companion/state-lock.mjs",
+      "sha256": "9ce9ddeb57f30277b195a23c6b69135fbc3e08d851f1231169fa79d51c165683",
+      "bytes": 4532
+    },
+    {
+      "path": "upstream/templates/staffer.md",
+      "upstream_path": "templates/staffer.md",
+      "sha256": "7a404621f2c1a6c78fc642d2da2d43af04665c6aa587b140dda1f8121ec3841f",
+      "bytes": 994
+    },
+    {
+      "path": "upstream/templates/review.md",
+      "upstream_path": "templates/review.md",
+      "sha256": "9a248fb7baea45cc162563468ca551bf1f9cd90e9acb0942f4ba8f4096dca0ef",
+      "bytes": 2144
+    },
+    {
+      "path": "upstream/tests/real-continuation.integration.mjs",
+      "upstream_path": "tests/real-continuation.integration.mjs",
+      "sha256": "bc892f2bd3935789d439a6ae94aab8f2ebea15bb55c0351c183e5381a8e7b3d9",
+      "bytes": 16244
+    },
+    {
+      "path": "upstream/LICENSE",
+      "upstream_path": "LICENSE",
+      "sha256": "caba21dab151bcd8b337d8f82b74fc671845fae572607f419edafc03327e76e8",
+      "bytes": 1070
+    }
+  ]
+}

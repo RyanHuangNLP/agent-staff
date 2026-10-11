@@ -1,0 +1,98 @@
+{
+  "kind": "fixture-provenance-manifest",
+  "original_evidence_root": "/private/tmp/agent-staff-preflight.fODiUI/agy",
+  "recorded_cli_version": "1.2.16",
+  "recorded_model": "gemini-3.8-flash-low",
+  "redactions": [
+    "Native session IDs consistently replaced with UUID-shaped fixture IDs.",
+    "Only recorded test cwd paths replaced with /TEST_WORKSPACE/... placeholders.",
+    "Random test nonce consistently replaced with a fixture nonce.",
+    "Event keys, event order, statuses, errors, step indices, timing and usage fields are preserved.",
+    "No native cancellation event was synthesized. The observed native terminal is ERROR/interrupted; companion canceled is a separate real status sidecar."
+  ],
+  "files": [
+    {
+      "file": "success.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "agy-continuation-real-lyNSrA/cancel-continue/.agy-staff/staffer-muu2bdul-035e042f.captured-events.jsonl",
+      "source_sha256": "3b0cfc99d64560036dbb9c23512f8a2c00b2be4ca1acddb4821eaabab70f00d1",
+      "fixture_sha256": "02f6db89239b768eb0a48cb048ef1895bf483427784bd78412abfd73e47fcc87",
+      "source_bytes": 2327,
+      "fixture_bytes": 2262
+    },
+    {
+      "file": "cancel.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "agy-continuation-real-lyNSrA/cancel-continue/.agy-staff/jobs/staffer-muu2bn2u-63ac6630.events.jsonl",
+      "source_sha256": "38b30c04cbb3453d312051c8e12252037689de30f2440dad6c386eb1d3dc54c7",
+      "fixture_sha256": "3a01c44d1a5f1f0d252bc815a155fecbed5630f46c098170562b4459c61fa4e1",
+      "source_bytes": 2603,
+      "fixture_bytes": 2538
+    },
+    {
+      "file": "resume.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "agy-continuation-real-lyNSrA/cancel-continue/.agy-staff/staffer-muu2btq3-e91acda7.captured-events.jsonl",
+      "source_sha256": "f32134d1737b10327cad95754177734298e603b590cafb31cdf0b841d135bed5",
+      "fixture_sha256": "8ffa887ac6469e12b71dc4d909214abcce04f43a0363fe473c087d5e6a429702",
+      "source_bytes": 3438,
+      "fixture_bytes": 3373
+    },
+    {
+      "file": "structured.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "structured/captured-events.jsonl",
+      "source_sha256": "fe0ab58166434932850b4b29d836c5939f208699936b20922c76ac9c1747bca4",
+      "fixture_sha256": "e6f188a47fb98a492bdb2d68e5b39c845629743d98cbdbf0b7728b5a69616137",
+      "source_bytes": 4055,
+      "fixture_bytes": 4025
+    },
+    {
+      "file": "nonce.jsonl",
+      "kind": "sanitized-observed-native-stream",
+      "source_evidence_relative_path": "memory.captured-events.jsonl",
+      "source_sha256": "f7dbba830440402c046cf4c8f7410f64e04ea2f40a70321e8af5a3eb12496100",
+      "fixture_sha256": "a52cca4a0415f737ef4cf1e78e07bfce0c6e5d21dfc261d5d02dee0c07a9407d",
+      "source_bytes": 2589,
+      "fixture_bytes": 2524
+    },
+    {
+      "file": "cancel.companion-status.json",
+      "kind": "sanitized-observed-companion-status-sidecar",
+      "source_evidence_relative_path": "agy-continuation-real-lyNSrA/cancel-continue/.agy-staff/jobs/staffer-muu2bn2u-63ac6630.result.md.status.json",
+      "source_sha256": "a3f42f29ea829558970fbda1071ab84462eae898bd7c592ae5e10fa53c1382eb",
+      "fixture_sha256": "a3f42f29ea829558970fbda1071ab84462eae898bd7c592ae5e10fa53c1382eb",
+      "source_bytes": 83,
+      "fixture_bytes": 83
+    },
+    {
+      "file": "run-metadata.json",
+      "kind": "derived-test-metadata-not-native-events",
+      "source_summaries": [
+        "agy-continuation-real-lyNSrA/summary.json",
+        "memory-summary.json",
+        "cleanup-after-window.json",
+        "structured-native-validation.json"
+      ],
+      "fixture_sha256": "b60554a824fa10b3d0ffb9fc8162f215eae1404e707da4845d4b33836ec47fad",
+      "source_summary_digests": [
+        {
+          "path": "agy-continuation-real-lyNSrA/summary.json",
+          "sha256": "2dcc5e51eef9696ff3511c728147c7582c62393b0747fe1b31873eb22c906a93"
+        },
+        {
+          "path": "memory-summary.json",
+          "sha256": "a1bcb29b75042d0dda8be37ec599403a4a12b2355bc2615cdedbdf0279db6a3b"
+        },
+        {
+          "path": "cleanup-after-window.json",
+          "sha256": "f1bf2eaa11b7ab5d793a49407946e8c639276de99296d73b95a17b5676e43e39"
+        },
+        {
+          "path": "structured-native-validation.json",
+          "sha256": "1fa6b7d2698251300799d38964c5643353cb446ab8a784e50437bc80ec29c39f"
+        }
+      ]
+    }
+  ]
+}

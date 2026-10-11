@@ -1,0 +1,117 @@
+{
+  "case": "write",
+  "argv": [
+    "<USER_HOME>/.local/bin/cursor-agent",
+    "--print",
+    "--output-format",
+    "stream-json",
+    "--workspace",
+    "<PREFLIGHT_ROOT>/workspace",
+    "--trust",
+    "--force",
+    "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Use a file edit/write tool to replace allowed.txt with exactly AFTER_ALLOWED_EDIT followed by a newline. Then use a read tool to verify its exact contents and report success. Do not touch any other file."
+  ],
+  "cwd": "<PREFLIGHT_ROOT>/workspace",
+  "start_utc": "2026-10-04T17:09:02.117611+00:00",
+  "timeout_seconds": 150,
+  "permission_config": {
+    "permissions": {
+      "allow": [
+        "Read(**)"
+      ],
+      "deny": []
+    }
+  },
+  "default_model": true,
+  "cancel_actions": [
+    {
+      "signal": "SIGTERM",
+      "target": "owned_identity_postrun_cleanup",
+      "pid": 24742
+    },
+    {
+      "signal": "SIGTERM",
+      "target": "owned_identity_postrun_cleanup",
+      "pid": 24705
+    }
+  ],
+  "cli_version_before": "2026.10.01-e373342",
+  "cancel_strategy": null,
+  "marker_directory": null,
+  "long_task_seconds": null,
+  "pid": 24606,
+  "pgid": 24606,
+  "process_identity": "24606 24578 24606 Mon Oct  5 01:09:02 2026     Rs   bash <USER_HOME>/.local/bin/cursor-agent --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Use a file edit/write tool to replace allowed.txt with exactly AFTER_ALLOWED_EDIT followed by a newline. Then use a read tool to verify its exact contents and report success. Do not touch any other file.",
+  "exit_code": 0,
+  "observed_processes": [
+    {
+      "pid": 24606,
+      "ppid": 24578,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:02 2026",
+      "stat": "Ss",
+      "command": "<USER_HOME>/.local/bin/cursor-agent --use-system-ca <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Use a file edit/write tool to replace allowed.txt with exactly AFTER_ALLOWED_EDIT followed by a newline. Then use a read tool to verify its exact contents and report success. Do not touch any other file."
+    },
+    {
+      "pid": 24649,
+      "ppid": 24606,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:03 2026",
+      "stat": "R",
+      "command": "(git)"
+    },
+    {
+      "pid": 24656,
+      "ppid": 24606,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:03 2026",
+      "stat": "R",
+      "command": "(git)"
+    },
+    {
+      "pid": 24705,
+      "ppid": 24606,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:05 2026",
+      "stat": "S",
+      "command": "<USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/node <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js worker-server"
+    },
+    {
+      "pid": 24714,
+      "ppid": 24705,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:06 2026",
+      "stat": "S",
+      "command": "npm exec typescript-language-server --stdio    "
+    },
+    {
+      "pid": 24742,
+      "ppid": 24714,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:06 2026",
+      "stat": "S",
+      "command": "node <USER_HOME>/.npm/_npx/94207acffe67148d/node_modules/.bin/typescript-language-server --stdio"
+    }
+  ],
+  "survivors_before_postrun_cleanup": [
+    {
+      "pid": 24705,
+      "ppid": 24606,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:05 2026",
+      "stat": "S",
+      "command": "<USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/node <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js worker-server"
+    },
+    {
+      "pid": 24742,
+      "ppid": 24714,
+      "pgid": 24606,
+      "started": "Mon Oct 5 01:09:06 2026",
+      "stat": "S",
+      "command": "node <USER_HOME>/.npm/_npx/94207acffe67148d/node_modules/.bin/typescript-language-server --stdio"
+    }
+  ],
+  "survivors_after_postrun_cleanup": [],
+  "duration_seconds": 15.941,
+  "cli_version_after": "2026.10.01-e373342"
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "probe-observation-not-native-event",
+  "exit": {
+    "code": null,
+    "signal": "SIGKILL"
+  },
+  "stopReason": "requested_cancel_after_tool_started",
+  "survivors": [],
+  "checks": {
+    "toolStarted": true,
+    "completionAbsent": true,
+    "canceledWhileRunning": true,
+    "noSurvivors": true,
+    "waitedPastToolCompletionMs": 12000
+  }
+}

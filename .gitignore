@@ -1,0 +1,15 @@
+.local/
+node_modules/
+coverage/
+*.tgz
+.DS_Store
+
+# Per-workspace execution state and local credentials
+.agy-staff/
+.grok-staff/
+.cursor-staff/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc

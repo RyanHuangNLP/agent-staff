@@ -1,0 +1,10 @@
+{
+  "case": "cancel_tree",
+  "observed_utc": "2026-10-04T17:10:29.134784+00:00",
+  "seconds_since_first_cancel_signal": 38.752644,
+  "natural_task_seconds": 15,
+  "past_natural_completion_window": true,
+  "completion_exists": false,
+  "heartbeat": "1",
+  "owned_processes_still_alive": []
+}

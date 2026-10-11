@@ -1,0 +1,25 @@
+{
+  "name": "agent-staff",
+  "owner": {
+    "name": "Keli Wen",
+    "url": "https://github.com/keli-wen"
+  },
+  "description": "Choose one AGY, Grok Build, or Cursor Agent employee using the original AGY Staff workflow.",
+  "plugins": [
+    {
+      "name": "agy",
+      "source": "./",
+      "description": "agy employee: seven roles with background jobs, wait, cancel, and continuation."
+    },
+    {
+      "name": "grok",
+      "source": "./plugins/grok",
+      "description": "grok employee: seven roles with background jobs, wait, cancel, and continuation."
+    },
+    {
+      "name": "cursor",
+      "source": "./plugins/cursor",
+      "description": "cursor employee: seven roles with background jobs, wait, cancel, and continuation."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "kind": "probe-observation-not-native-event",
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "stopReason": null,
+  "survivors": [],
+  "checks": {
+    "editAbsent": true,
+    "shellAbsent": true,
+    "positiveRead": true,
+    "attemptedTools": [
+      {
+        "id": "call-00000000-0000-4000-8000-000000000005-0",
+        "name": "read_file",
+        "kind": "read"
+      },
+      {
+        "id": "call-00000000-0000-4000-8000-000000000006-1",
+        "name": "write",
+        "kind": "write"
+      },
+      {
+        "id": "call-00000000-0000-4000-8000-000000000006-2",
+        "name": "run_terminal_command",
+        "kind": "execute"
+      }
+    ],
+    "failedTools": [
+      {
+        "type": "tool_call_update",
+        "toolCallId": "call-00000000-0000-4000-8000-000000000006-1",
+        "status": "failed",
+        "content": [
+          {
+            "type": "content",
+            "content": {
+              "type": "text",
+              "text": "Tool `write` was not executed: Denied by permission policy: deny rule on edit"
+            }
+          }
+        ],
+        "rawOutput": null,
+        "locations": []
+      },
+      {
+        "type": "tool_call_update",
+        "toolCallId": "call-00000000-0000-4000-8000-000000000006-2",
+        "status": "failed",
+        "content": [
+          {
+            "type": "content",
+            "content": {
+              "type": "text",
+              "text": "Tool `run_terminal_command` was not executed: Denied by permission policy: deny rule on bash"
+            }
+          }
+        ],
+        "rawOutput": null,
+        "locations": []
+      }
+    ],
+    "cleanExit": true
+  }
+}

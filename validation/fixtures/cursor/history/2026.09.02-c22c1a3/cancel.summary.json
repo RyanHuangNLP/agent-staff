@@ -1,0 +1,133 @@
+{
+  "case": "cancel",
+  "exit_code": 130,
+  "duration_seconds": 27.914,
+  "event_count": 23,
+  "event_types": [
+    "system:init",
+    "user:",
+    "thinking:delta",
+    "thinking:completed",
+    "assistant:",
+    "tool_call:started",
+    "tool_call:completed"
+  ],
+  "session_ids": [
+    "SESSION_2"
+  ],
+  "invalid_json_lines": 0,
+  "result_events": [],
+  "stderr_bytes": 23,
+  "timed_out": false,
+  "cancellation_triggered": true,
+  "tool_calls": [
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-86a53733-6ae9-41bb-843f-3d3857ddf56e-0\nfc_p3uJckA-2dTqGa-19cc5c40-aws_uw2_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/long_task.py"
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-86a53733-6ae9-41bb-843f-3d3857ddf56e-0\nfc_p3uJckA-2dTqGa-19cc5c40-aws_uw2_0",
+        "startedAtMs": "1791133163156"
+      },
+      "model_call_id": "a109f128-4bcc-4dd6-9e9c-d8a79558e2c3-0-q3bc",
+      "session_id": "SESSION_2",
+      "timestamp_ms": 1791133163098
+    },
+    {
+      "type": "tool_call",
+      "subtype": "completed",
+      "call_id": "call-86a53733-6ae9-41bb-843f-3d3857ddf56e-0\nfc_p3uJckA-2dTqGa-19cc5c40-aws_uw2_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/long_task.py"
+          },
+          "result": {
+            "success": {
+              "content": "import os,time\nfrom pathlib import Path\np=Path(__file__).resolve().parent\n(p/'long-task.pid').write_text(str(os.getpid()))\nfor i in range(90):\n (p/'heartbeat.txt').write_text(str(i))\n time.sleep(1)\n(p/'completed.txt').write_text('FINISHED_ALL_90_SECONDS')\n",
+              "isEmpty": false,
+              "exceededLimit": false,
+              "totalLines": 9,
+              "fileSize": 256,
+              "path": "<PREFLIGHT_ROOT>/workspace/long_task.py",
+              "readRange": {
+                "startLine": 1,
+                "endLine": 9
+              },
+              "relatedCursorRulePaths": [],
+              "relatedCursorRules": []
+            }
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-86a53733-6ae9-41bb-843f-3d3857ddf56e-0\nfc_p3uJckA-2dTqGa-19cc5c40-aws_uw2_0",
+        "startedAtMs": "1791133163156",
+        "completedAtMs": "1791133164026"
+      },
+      "model_call_id": "a109f128-4bcc-4dd6-9e9c-d8a79558e2c3-0-q3bc",
+      "session_id": "SESSION_2",
+      "timestamp_ms": 1791133163956
+    },
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-7e0654fa-296e-4879-b70d-51ff13e2bc56-1\nfc_p3uJecb-2dTqGa-a7626c23-aws_uw2_0",
+      "tool_call": {
+        "shellToolCall": {
+          "args": {
+            "command": "python3 <PREFLIGHT_ROOT>/workspace/long_task.py",
+            "workingDirectory": "<PREFLIGHT_ROOT>/workspace",
+            "timeout": 150000,
+            "toolCallId": "call-7e0654fa-296e-4879-b70d-51ff13e2bc56-1\nfc_p3uJecb-2dTqGa-a7626c23-aws_uw2_0",
+            "simpleCommands": [
+              "python3"
+            ],
+            "hasInputRedirect": false,
+            "hasOutputRedirect": false,
+            "parsingResult": {
+              "parsingFailed": false,
+              "executableCommands": [
+                {
+                  "name": "python3",
+                  "args": [
+                    {
+                      "type": "word",
+                      "value": "<PREFLIGHT_ROOT>/workspace/long_task.py"
+                    }
+                  ],
+                  "fullText": "python3 <PREFLIGHT_ROOT>/workspace/long_task.py"
+                }
+              ],
+              "hasRedirects": false,
+              "hasCommandSubstitution": false,
+              "redirects": []
+            },
+            "fileOutputThresholdBytes": "40000",
+            "isBackground": false,
+            "skipApproval": false,
+            "timeoutBehavior": "TIMEOUT_BEHAVIOR_BACKGROUND",
+            "hardTimeout": 86400000,
+            "description": "Run long_task.py in foreground",
+            "closeStdin": true,
+            "conversationId": "SESSION_2",
+            "adminCommandDenylist": [],
+            "requestId": "a109f128-4bcc-4dd6-9e9c-d8a79558e2c3"
+          },
+          "description": "Run long_task.py in foreground"
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-7e0654fa-296e-4879-b70d-51ff13e2bc56-1\nfc_p3uJecb-2dTqGa-a7626c23-aws_uw2_0",
+        "startedAtMs": "1791133165774"
+      },
+      "model_call_id": "a109f128-4bcc-4dd6-9e9c-d8a79558e2c3-1-2pft",
+      "session_id": "SESSION_2",
+      "timestamp_ms": 1791133165707
+    }
+  ]
+}

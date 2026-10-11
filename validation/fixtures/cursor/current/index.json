@@ -1,0 +1,170 @@
+{
+  "label": "verified-2026.10.01-e373342",
+  "source_root": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor",
+  "transformations": [
+    "replace preflight root path",
+    "replace user home path",
+    "replace generated nonce and session IDs consistently",
+    "omit thinking payload while preserving type/subtype",
+    "preserve call_id exactly, including embedded newline",
+    "retain automatic-update process evidence in manifests"
+  ],
+  "files": [
+    {
+      "fixture": "baseline.manifest.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/baseline.manifest.json",
+      "source_sha256": "c1c539db826377b0848dd3833c5c479f962efc4655fabfff77358a77b87ad196",
+      "fixture_sha256": "66357fad1dd1ecaab0a51f585137c77c183d4094ebdcca638599dd07e058aac6"
+    },
+    {
+      "fixture": "baseline.stderr.txt",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/baseline.stderr.txt",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "fixture": "baseline.stdout.ndjson",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/baseline.stdout.ndjson",
+      "source_sha256": "8dc257b4fa98791c051c5759fcc7a9efe6c6fdba1e876f4e6ffca7eb2cd6878f",
+      "fixture_sha256": "6e46de107f95fbfb0d41f2ae5680d3bae4f4414f8be05a2940eda859fba577ca"
+    },
+    {
+      "fixture": "baseline.summary.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/baseline.summary.json",
+      "source_sha256": "552a78c6c183715190b91530c63f1dc2d8b6d0fa28a4b5e1ac622b9bebe1b33b",
+      "fixture_sha256": "5c01f913d2ac80f6e2137e6399d0f3e400dcff81ff4a0b64c478b60677a9ad32"
+    },
+    {
+      "fixture": "cancel_resume.manifest.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_resume.manifest.json",
+      "source_sha256": "e5867fc7ede96d5a57dbdbbb73dcaec6ac4aaa6e0473238ad662a9f5590e55b4",
+      "fixture_sha256": "1ee77af49cc8c20ea76e539a84a00cfaf87c27fa3fe8b80f1f6fba6986674cdd"
+    },
+    {
+      "fixture": "cancel_resume.stderr.txt",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_resume.stderr.txt",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "fixture": "cancel_resume.stdout.ndjson",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_resume.stdout.ndjson",
+      "source_sha256": "8a6f800fbdcc323a230ac981369f5cf68663fe747c5199c9e69ed711931c60f3",
+      "fixture_sha256": "04e8b60d05ef7402b540405618ca2a6f57d2cee27e57d563d1920a6186a2989b"
+    },
+    {
+      "fixture": "cancel_resume.summary.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_resume.summary.json",
+      "source_sha256": "650f653012825b3d2782daba42de7fac68c14ecdfd2f58a9a5cc8eae1d98c130",
+      "fixture_sha256": "d50f7fc40141d517dc8c1d47cb6b08ab4686df642dbaac01164c9209cc89b7dd"
+    },
+    {
+      "fixture": "cancel_tree.delayed-observation.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_tree.delayed-observation.json",
+      "source_sha256": "9f775d1cf1d143c9fce4bb5f5aa3b0b5c56706a5f1755fa837b85edb13b948a1",
+      "fixture_sha256": "9f775d1cf1d143c9fce4bb5f5aa3b0b5c56706a5f1755fa837b85edb13b948a1"
+    },
+    {
+      "fixture": "cancel_tree.manifest.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_tree.manifest.json",
+      "source_sha256": "b286126efa083696e3a5c5889d246e93e17b2eb08d2a237d3a8402c8d6fa9f73",
+      "fixture_sha256": "eb990b91753c21c5394c3a6a51df641d96976992b0949d5e1529f7a737ed3472"
+    },
+    {
+      "fixture": "cancel_tree.stderr.txt",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_tree.stderr.txt",
+      "source_sha256": "e19b082e9b846bd2f2935d62b5162e1b4b957bc2849234c8a5cbbf6281f73bc5",
+      "fixture_sha256": "e19b082e9b846bd2f2935d62b5162e1b4b957bc2849234c8a5cbbf6281f73bc5"
+    },
+    {
+      "fixture": "cancel_tree.stdout.ndjson",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_tree.stdout.ndjson",
+      "source_sha256": "3f6a0046b014574ed4f17bd2bcf9598d8714c54abf4868d088ed4d1bbb95fed6",
+      "fixture_sha256": "208860248ffe62b1036495d82976b4e0df21ffb8f5bc52c6f31c47c15cc7dfd4"
+    },
+    {
+      "fixture": "cancel_tree.summary.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/cancel_tree.summary.json",
+      "source_sha256": "102604cb4063c54fc87568fec5804700fd1f573ebb337874c2fdb41f0119c742",
+      "fixture_sha256": "241ad39f3dc70ecc64d2bc12a7871240c40a858056899c0f56c9c7efbd3c79f4"
+    },
+    {
+      "fixture": "deny.manifest.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/deny.manifest.json",
+      "source_sha256": "1bd6dba31a0589edfc30a25d1b9baff490367eb5e9e4ec5701d0de7a8a33e950",
+      "fixture_sha256": "cedfbf859ac2660dac9309cc392cea5fc110b3005e71bfea767bded7415ba945"
+    },
+    {
+      "fixture": "deny.stderr.txt",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/deny.stderr.txt",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "fixture": "deny.stdout.ndjson",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/deny.stdout.ndjson",
+      "source_sha256": "a8e647013c3da667d9c1896ff8e17e404045c288653c76f032123d476c2edf5d",
+      "fixture_sha256": "5a2a6b71a6ad2e6fe74b5f9e88461de388a4023e3cb2290c0e8bbe6e32a9deb2"
+    },
+    {
+      "fixture": "deny.summary.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/deny.summary.json",
+      "source_sha256": "392639170f6e27b06179424c7b43d95c537c9d9d1d6c96d8d7c9388155c6094d",
+      "fixture_sha256": "9586387be4c6280d469c4d02accd2d03f55e5dd72fc703a18b1fa0f7253142d8"
+    },
+    {
+      "fixture": "installed-help.txt",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/installed-help.txt",
+      "source_sha256": "c24026e17118188478fcb47ed8113fa842f93df2043da5116660a368d3dc64b0",
+      "fixture_sha256": "c24026e17118188478fcb47ed8113fa842f93df2043da5116660a368d3dc64b0"
+    },
+    {
+      "fixture": "resume.manifest.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/resume.manifest.json",
+      "source_sha256": "b15074fc800e250fe9c55d223ef83b7e2030cac6775e9613d0057f7c2b0ea33e",
+      "fixture_sha256": "a512fdd887e2476d900f2100506cac714155047e61dfa30128e51d9ba0876264"
+    },
+    {
+      "fixture": "resume.stderr.txt",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/resume.stderr.txt",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "fixture": "resume.stdout.ndjson",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/resume.stdout.ndjson",
+      "source_sha256": "a9a5baa2ac1cdc59ec2ea8c4a4ffa4161bad14dea34cb1a1ea624ae4fc41f748",
+      "fixture_sha256": "706bea6fb3560c4f8591c1c51fb766e21cadb073ae6105dcd40a70e2e32ca5ff"
+    },
+    {
+      "fixture": "resume.summary.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/resume.summary.json",
+      "source_sha256": "72e9626fc9180c32fc8b0dbdc7bd5d7f82ef475005408d1a13e28eb43ef57fe8",
+      "fixture_sha256": "6697ca6b5364a2a040e9f54c3b91c094f2216b5c5209c28f7a83e5387443be50"
+    },
+    {
+      "fixture": "write.manifest.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/write.manifest.json",
+      "source_sha256": "3ee15024e30b04471c98b26cb870c6b70382fc09c7b37da079713a0ccb2dd811",
+      "fixture_sha256": "dbaed757f6eb48a74bc9e594e7ebbb11d035de459a92f72cef88221537ee05fb"
+    },
+    {
+      "fixture": "write.stderr.txt",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/write.stderr.txt",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fixture_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "fixture": "write.stdout.ndjson",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/write.stdout.ndjson",
+      "source_sha256": "7d09c3b1a8820fd22f3f3ebdf9519ee75d553c77aba40f1bd0823f67d6fd0584",
+      "fixture_sha256": "3cafda3bbe9d725ceee3c96e73925201d1988ee901d22c8bd423f07cbdaa2d9e"
+    },
+    {
+      "fixture": "write.summary.json",
+      "source": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor/logs/write.summary.json",
+      "source_sha256": "47b563d8d06de730cdc7bb73d0cb5166a4832ef3277ba0de3ed2febfc6f0dfd3",
+      "fixture_sha256": "8175c7696b09902ba6e2a0eb708d1e4e25776390ef4a9a889afd7c6c6efe87ed"
+    }
+  ]
+}

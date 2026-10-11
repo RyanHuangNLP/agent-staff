@@ -1,0 +1,12 @@
+{"type": "system", "subtype": "init", "apiKeySource": "login", "cwd": "<PREFLIGHT_ROOT>/workspace", "session_id": "SESSION_1", "model": "Grok 4.6 Extra High Fast", "permissionMode": "default"}
+{"type": "user", "message": {"role": "user", "content": [{"type": "text", "text": "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. Without reading files or using tools, recall and print the exact memory token from our previous turn. Reply with the token only."}]}, "session_id": "SESSION_1"}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_1", "timestamp_ms": 1791133694193}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_1", "timestamp_ms": 1791133694196}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_1", "timestamp_ms": 1791133694719}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_1", "timestamp_ms": 1791133694719}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_1", "timestamp_ms": 1791133694720}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_1", "timestamp_ms": 1791133694720}
+{"type": "thinking", "subtype": "delta", "session_id": "SESSION_1", "timestamp_ms": 1791133694720}
+{"type": "thinking", "subtype": "completed", "session_id": "SESSION_1", "timestamp_ms": 1791133694720}
+{"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": "<MEMORY_NONCE>"}]}, "session_id": "SESSION_1"}
+{"type": "result", "subtype": "success", "duration_ms": 20570, "duration_api_ms": 20570, "is_error": false, "result": "<MEMORY_NONCE>", "session_id": "SESSION_1", "request_id": "aaf1d5a9-0c74-403e-8695-4b55efdc0cf9", "usage": {"inputTokens": 305, "outputTokens": 121, "cacheReadTokens": 10944, "cacheWriteTokens": 0}}

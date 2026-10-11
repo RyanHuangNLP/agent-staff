@@ -1,0 +1,41 @@
+{
+  "kind": "derived-test-metadata-not-native-events",
+  "phase": "post-update-final",
+  "version": "1.2.16",
+  "model": "gemini-3.8-flash-low",
+  "session_a": "00000000-0000-4000-8000-000000000001",
+  "structured_session": "00000000-0000-4000-8000-000000000002",
+  "expected_nonce": "MEMORY_00000000000000000000000000000001",
+  "nonce_request_prompt": "Without using any tools or reading files, recall the exact MEMORY_ test token supplied in the first request of this conversation. Return only that token. If you cannot recall it, reply NOT_RECALLED.",
+  "nonce_prompt_contains_token": false,
+  "nonce_result_matches_seed": true,
+  "nonce_stream_tool_events": 0,
+  "cancel_native_result": {
+    "status": "ERROR",
+    "error": "interrupted"
+  },
+  "cancel_companion_terminal": {
+    "status": "canceled",
+    "reason": "canceled",
+    "wait_exit": 4
+  },
+  "structured_response_extra_fields": [
+    "toolAction",
+    "toolSummary"
+  ],
+  "cleanup": {
+    "observed_beyond_planned_completion": true,
+    "shell_gate_limit_ms": 65000,
+    "elapsed_since_shell_entered_ms": 103193,
+    "any_recorded_pid_present": false,
+    "canceled_shell_completed": false,
+    "canceled_shell_entered_count": 1,
+    "remaining_running_count": 0
+  },
+  "source_summaries": [
+    "agy-continuation-real-lcWFeF/summary.json",
+    "extras/summary.json",
+    "final-process-check.json",
+    "execution-manifest.json"
+  ]
+}

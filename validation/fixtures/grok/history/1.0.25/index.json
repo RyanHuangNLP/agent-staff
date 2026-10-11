@@ -1,0 +1,63 @@
+{
+  "backend": "grok",
+  "version": "1.0.25",
+  "batch": "history",
+  "kind": "sanitized-real-events",
+  "transformations": [
+    "workspace and home path placeholders",
+    "consistent synthetic UUIDs",
+    "thought text omitted",
+    "opaque usage signatures redacted"
+  ],
+  "files": [
+    {
+      "file": "01-seed.jsonl",
+      "source": "grok/01-seed/stdout.jsonl",
+      "sourceSha256": "46455e50690eae203aa66910b3787039fb84b341f09facde294617b9dba1ae22",
+      "sha256": "ba10e3cd077d4d84b4a4e06ffb9bead06d86fc9a75f5a25fc5ab013a7086cf51",
+      "eventCount": 63
+    },
+    {
+      "file": "02-resume.jsonl",
+      "source": "grok/02-resume/stdout.jsonl",
+      "sourceSha256": "001cc5022bee1322a9b5f9661f71c9d7343a2e35f51d4d7173676b8c1eb2657e",
+      "sha256": "ff62d540551a9446adaffcc324b4df031264a7873d9aa6567f3db25f5e4042d8",
+      "eventCount": 30
+    },
+    {
+      "file": "03-deny.jsonl",
+      "source": "grok/03-deny/stdout.jsonl",
+      "sourceSha256": "bd8d283875c9e441208f2dfa873c2db072e86b4d8c1bafae43fc1146092b7e47",
+      "sha256": "2f5ff699227ea329471d5e96566d77e90900c53387b81cce0d28eba9aae0c43e",
+      "eventCount": 215
+    },
+    {
+      "file": "04-allow.jsonl",
+      "source": "grok/04-allow/stdout.jsonl",
+      "sourceSha256": "cb195d4134d9c4ffb76a3ea63d88dcf79f8ab82a3c25a16687153466e9b464c5",
+      "sha256": "575d6adcdb449798041ec450b18327324225d5c0e3dbb65c35acbd8fbe12a8d6",
+      "eventCount": 75
+    },
+    {
+      "file": "05-cancel.jsonl",
+      "source": "grok/05-cancel/stdout.jsonl",
+      "sourceSha256": "6067f0076aac2b24466f832712483b0e88e4fb4f0cf0ab338346463aebf389e1",
+      "sha256": "13749c4479607d4ac12474bf4e55c00053469814a9f6005d1497b37d944d7623",
+      "eventCount": 26
+    },
+    {
+      "file": "06-cancel-resume.jsonl",
+      "source": "grok/06-cancel-resume/stdout.jsonl",
+      "sourceSha256": "79ac69e89feccbeab0caef5256f05fd5794774d2a68919caff9654e7309dccbb",
+      "sha256": "2d8650cdae6a0c3d8aa7e91090d31845af5f1b23f96ff0a363a7c0d5aa26b8c9",
+      "eventCount": 26
+    },
+    {
+      "file": "07-turn-limit.jsonl",
+      "source": "grok/07-turn-limit/stdout.jsonl",
+      "sourceSha256": "845de80e832ea98c6463f2ab48536a249e97ffb73009ffe727d21c21ca5d7e15",
+      "sha256": "52c019f9ce88bebe56ee3e92612cc39ce9710ee99120754955fe27b5d82088ff",
+      "eventCount": 23
+    }
+  ]
+}

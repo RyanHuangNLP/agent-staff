@@ -1,0 +1,133 @@
+{
+  "case": "cancel_tree",
+  "exit_code": 130,
+  "duration_seconds": 16.994,
+  "event_count": 23,
+  "event_types": [
+    "system:init",
+    "user:",
+    "thinking:delta",
+    "thinking:completed",
+    "assistant:",
+    "tool_call:started",
+    "tool_call:completed"
+  ],
+  "session_ids": [
+    "SESSION_2"
+  ],
+  "invalid_json_lines": 0,
+  "result_events": [],
+  "stderr_bytes": 23,
+  "timed_out": false,
+  "cancellation_triggered": true,
+  "tool_calls": [
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-610bdfbf-68eb-449c-ac1e-dbac3d4f3aca-0\nfc_p3uMphc-4SRMt5-ca41cf19-aws_uw1_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-610bdfbf-68eb-449c-ac1e-dbac3d4f3aca-0\nfc_p3uMphc-4SRMt5-ca41cf19-aws_uw1_0",
+        "startedAtMs": "1791133785781"
+      },
+      "model_call_id": "83b2afef-fecc-46b3-85fb-108bd30f02d6-0-vbje",
+      "session_id": "SESSION_2",
+      "timestamp_ms": 1791133785853
+    },
+    {
+      "type": "tool_call",
+      "subtype": "completed",
+      "call_id": "call-610bdfbf-68eb-449c-ac1e-dbac3d4f3aca-0\nfc_p3uMphc-4SRMt5-ca41cf19-aws_uw1_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+          },
+          "result": {
+            "success": {
+              "content": "import os,time\nfrom pathlib import Path\np=Path(__file__).resolve().parent\n(p/'long-task.pid').write_text(str(os.getpid()))\nfor i in range(15):\n (p/'heartbeat.txt').write_text(str(i))\n time.sleep(1)\n(p/'completed.txt').write_text('FINISHED_ALL_SECONDS')\n",
+              "isEmpty": false,
+              "exceededLimit": false,
+              "totalLines": 9,
+              "fileSize": 253,
+              "path": "<PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py",
+              "readRange": {
+                "startLine": 1,
+                "endLine": 9
+              },
+              "relatedCursorRulePaths": [],
+              "relatedCursorRules": []
+            }
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-610bdfbf-68eb-449c-ac1e-dbac3d4f3aca-0\nfc_p3uMphc-4SRMt5-ca41cf19-aws_uw1_0",
+        "startedAtMs": "1791133785781",
+        "completedAtMs": "1791133786745"
+      },
+      "model_call_id": "83b2afef-fecc-46b3-85fb-108bd30f02d6-0-vbje",
+      "session_id": "SESSION_2",
+      "timestamp_ms": 1791133786681
+    },
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-344b4648-bd6b-4e0b-b381-077f866f4766-1\nfc_p3uMqiU-4SRMt5-fe944f71-aws_uw1_0",
+      "tool_call": {
+        "shellToolCall": {
+          "args": {
+            "command": "python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py",
+            "workingDirectory": "<PREFLIGHT_ROOT>/workspace",
+            "timeout": 25000,
+            "toolCallId": "call-344b4648-bd6b-4e0b-b381-077f866f4766-1\nfc_p3uMqiU-4SRMt5-fe944f71-aws_uw1_0",
+            "simpleCommands": [
+              "python3"
+            ],
+            "hasInputRedirect": false,
+            "hasOutputRedirect": false,
+            "parsingResult": {
+              "parsingFailed": false,
+              "executableCommands": [
+                {
+                  "name": "python3",
+                  "args": [
+                    {
+                      "type": "word",
+                      "value": "<PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+                    }
+                  ],
+                  "fullText": "python3 <PREFLIGHT_ROOT>/workspace/cancel_tree_fixture/long_task.py"
+                }
+              ],
+              "hasRedirects": false,
+              "hasCommandSubstitution": false,
+              "redirects": []
+            },
+            "fileOutputThresholdBytes": "40000",
+            "isBackground": false,
+            "skipApproval": false,
+            "timeoutBehavior": "TIMEOUT_BEHAVIOR_BACKGROUND",
+            "hardTimeout": 86400000,
+            "description": "Run long_task.py in foreground",
+            "closeStdin": true,
+            "conversationId": "SESSION_2",
+            "adminCommandDenylist": [],
+            "requestId": "83b2afef-fecc-46b3-85fb-108bd30f02d6"
+          },
+          "description": "Run long_task.py in foreground"
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-344b4648-bd6b-4e0b-b381-077f866f4766-1\nfc_p3uMqiU-4SRMt5-fe944f71-aws_uw1_0",
+        "startedAtMs": "1791133788145"
+      },
+      "model_call_id": "83b2afef-fecc-46b3-85fb-108bd30f02d6-1-akcd",
+      "session_id": "SESSION_2",
+      "timestamp_ms": 1791133788079
+    }
+  ]
+}

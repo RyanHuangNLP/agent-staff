@@ -1,0 +1,15 @@
+{
+  "name": "cursor",
+  "version": "0.8.0",
+  "description": "Cursor Agent employee using the original AGY Staff workflow.",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cursor Agent Staff",
+    "shortDescription": "Delegate to one Cursor Agent employee.",
+    "category": "Engineering",
+    "capabilities": [
+      "Instructions"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "probe-observation-not-native-event",
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "stopReason": null,
+  "survivors": [],
+  "checks": {
+    "recalledNonce": true,
+    "nativeSessionMatches": true,
+    "cleanExit": true,
+    "completionAbsent": true,
+    "noTools": true,
+    "noSurvivors": true
+  }
+}

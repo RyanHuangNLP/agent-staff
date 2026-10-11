@@ -1,0 +1,29 @@
+{"type":"available_commands","tools":["run_terminal_command","read_file","search_replace","list_dir","grep","kill_command_or_subagent","todo_write","get_command_or_subagent_output","spawn_subagent","scheduler_create","scheduler_delete","scheduler_list","monitor","search_tool","use_tool","workflow","enter_plan_mode","exit_plan_mode","ask_user_question","send_feedback","image_gen","image_edit","image_to_video","reference_to_video","write"],"commands":["compact","always-approve","context","session-info","feedback","deep-research","workflow","goal","loop","leskovec-writing-polish","build-with-ai","code-review","create-skill","create-workflow","design","execute-plan","game-assets","bundled:imagine","implement","learn","long-running-background-tasks","pr-babysit","resume-claude","resume-codex","resume-cursor","review","skill-design-principles","statusline","threejs-frame-conventions","learn-traces"]}
+{"type":"available_commands","tools":["run_terminal_command","read_file","search_replace","list_dir","grep","kill_command_or_subagent","todo_write","get_command_or_subagent_output","spawn_subagent","scheduler_create","scheduler_delete","scheduler_list","monitor","search_tool","use_tool","workflow","enter_plan_mode","exit_plan_mode","ask_user_question","send_feedback","image_gen","image_edit","image_to_video","reference_to_video","write"],"commands":["compact","always-approve","context","session-info","feedback","deep-research","workflow","goal","loop","leskovec-writing-polish","build-with-ai","code-review","create-skill","create-workflow","design","execute-plan","game-assets","bundled:imagine","implement","learn","long-running-background-tasks","pr-babysit","resume-claude","resume-codex","resume-cursor","review","skill-design-principles","statusline","threejs-frame-conventions","learn-traces"]}
+{"type":"thought","data":"[model thought omitted]"}
+{"type":"thought","data":"[model thought omitted]"}
+{"type":"thought","data":"[model thought omitted]"}
+{"type":"text","data":"I'll"}
+{"type":"text","data":" run"}
+{"type":"text","data":" that"}
+{"type":"text","data":" single"}
+{"type":"text","data":" Node"}
+{"type":"text","data":" heartbeat"}
+{"type":"text","data":" command"}
+{"type":"text","data":" in"}
+{"type":"text","data":" this"}
+{"type":"text","data":" workspace"}
+{"type":"text","data":" and"}
+{"type":"text","data":" wait"}
+{"type":"text","data":" for"}
+{"type":"text","data":" the"}
+{"type":"text","data":" harness"}
+{"type":"text","data":" to"}
+{"type":"text","data":" interrupt"}
+{"type":"text","data":" it"}
+{"type":"text","data":"."}
+{"type":"available_commands","tools":["run_terminal_command","read_file","search_replace","list_dir","grep","kill_command_or_subagent","todo_write","get_command_or_subagent_output","spawn_subagent","scheduler_create","scheduler_delete","scheduler_list","monitor","search_tool","use_tool","workflow","enter_plan_mode","exit_plan_mode","ask_user_question","send_feedback","image_gen","image_edit","image_to_video","reference_to_video","write"],"commands":["compact","always-approve","context","session-info","feedback","deep-research","workflow","goal","loop","leskovec-writing-polish","build-with-ai","code-review","create-skill","create-workflow","design","execute-plan","game-assets","bundled:imagine","implement","learn","long-running-background-tasks","pr-babysit","resume-claude","resume-codex","resume-cursor","review","skill-design-principles","statusline","threejs-frame-conventions","learn-traces"]}
+{"type":"usage","usage":{"input_tokens":13592,"output_tokens":427,"cache_read_input_tokens":2304,"cache_creation_input_tokens":0,"reasoning_tokens":365},"signature":"[opaque signature redacted]"}
+{"type":"tool_call","toolCallId":"call-00000000-0000-4000-8000-000000000012-0","title":"run_terminal_command","kind":"execute","status":"pending","toolName":"run_terminal_command","rawInput":{"command":"/opt/homebrew/Cellar/node/26.8.2/bin/node heartbeat.mjs","description":"Run the heartbeat cancellation test"},"content":[],"locations":[]}
+{"type":"tool_call_update","toolCallId":"call-00000000-0000-4000-8000-000000000012-0","status":null,"content":[{"type":"content","content":{"type":"text","text":"Run the heartbeat cancellation test"}}],"rawOutput":null,"locations":[]}
+{"type":"tool_call_update","toolCallId":"call-00000000-0000-4000-8000-000000000012-0","status":"in_progress","content":[{"type":"content","content":{"type":"text","text":""}}],"rawOutput":{"type":"Bash","output":[],"output_for_prompt":"","exit_code":0,"command":"/opt/homebrew/Cellar/node/26.8.2/bin/node heartbeat.mjs","truncated":false,"signal":null,"timed_out":false,"description":null,"current_dir":"<WORKSPACE>","output_file":"","total_bytes":0},"locations":[]}

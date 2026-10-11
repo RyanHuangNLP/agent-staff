@@ -1,0 +1,103 @@
+{
+  "case": "cancel_resume",
+  "argv": [
+    "<USER_HOME>/.local/bin/cursor-agent",
+    "--print",
+    "--output-format",
+    "stream-json",
+    "--workspace",
+    "<PREFLIGHT_ROOT>/workspace",
+    "--trust",
+    "--force",
+    "--resume",
+    "SESSION_2",
+    "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. The previous turn was intentionally cancelled by the integration-test supervisor. Do not restart any command or use any tools. Answer exactly CANCEL_RECOVERY_OK."
+  ],
+  "cwd": "<PREFLIGHT_ROOT>/workspace",
+  "start_utc": "2026-10-04T17:10:11.117771+00:00",
+  "timeout_seconds": 150,
+  "permission_config": {
+    "permissions": {
+      "allow": [
+        "Read(**)"
+      ],
+      "deny": []
+    }
+  },
+  "default_model": true,
+  "cancel_actions": [
+    {
+      "signal": "SIGTERM",
+      "target": "owned_identity_postrun_cleanup",
+      "pid": 25625
+    },
+    {
+      "signal": "SIGTERM",
+      "target": "owned_identity_postrun_cleanup",
+      "pid": 25589
+    }
+  ],
+  "cli_version_before": "2026.10.01-e373342",
+  "cancel_strategy": null,
+  "marker_directory": null,
+  "long_task_seconds": null,
+  "pid": 25473,
+  "pgid": 25473,
+  "process_identity": "25473 25453 25473 Mon Oct  5 01:10:11 2026     Rs   bash <USER_HOME>/.local/bin/cursor-agent --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force --resume SESSION_2 This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. The previous turn was intentionally cancelled by the integration-test supervisor. Do not restart any command or use any tools. Answer exactly CANCEL_RECOVERY_OK.",
+  "exit_code": 0,
+  "observed_processes": [
+    {
+      "pid": 25473,
+      "ppid": 25453,
+      "pgid": 25473,
+      "started": "Mon Oct 5 01:10:11 2026",
+      "stat": "Ss",
+      "command": "<USER_HOME>/.local/bin/cursor-agent --use-system-ca <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force --resume SESSION_2 This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. The previous turn was intentionally cancelled by the integration-test supervisor. Do not restart any command or use any tools. Answer exactly CANCEL_RECOVERY_OK."
+    },
+    {
+      "pid": 25589,
+      "ppid": 25473,
+      "pgid": 25473,
+      "started": "Mon Oct 5 01:10:15 2026",
+      "stat": "S",
+      "command": "<USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/node <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js worker-server"
+    },
+    {
+      "pid": 25598,
+      "ppid": 25589,
+      "pgid": 25473,
+      "started": "Mon Oct 5 01:10:15 2026",
+      "stat": "S",
+      "command": "npm exec typescript-language-server --stdio    "
+    },
+    {
+      "pid": 25625,
+      "ppid": 25598,
+      "pgid": 25473,
+      "started": "Mon Oct 5 01:10:16 2026",
+      "stat": "S",
+      "command": "node <USER_HOME>/.npm/_npx/94207acffe67148d/node_modules/.bin/typescript-language-server --stdio"
+    }
+  ],
+  "survivors_before_postrun_cleanup": [
+    {
+      "pid": 25589,
+      "ppid": 25473,
+      "pgid": 25473,
+      "started": "Mon Oct 5 01:10:15 2026",
+      "stat": "S",
+      "command": "<USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/node <USER_HOME>/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js worker-server"
+    },
+    {
+      "pid": 25625,
+      "ppid": 25598,
+      "pgid": 25473,
+      "started": "Mon Oct 5 01:10:16 2026",
+      "stat": "S",
+      "command": "node <USER_HOME>/.npm/_npx/94207acffe67148d/node_modules/.bin/typescript-language-server --stdio"
+    }
+  ],
+  "survivors_after_postrun_cleanup": [],
+  "duration_seconds": 9.096,
+  "cli_version_after": "2026.10.01-e373342"
+}

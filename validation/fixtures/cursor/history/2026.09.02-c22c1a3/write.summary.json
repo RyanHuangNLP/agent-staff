@@ -1,0 +1,198 @@
+{
+  "case": "write",
+  "exit_code": 0,
+  "duration_seconds": 14.378,
+  "event_count": 34,
+  "event_types": [
+    "system:init",
+    "user:",
+    "thinking:delta",
+    "thinking:completed",
+    "assistant:",
+    "tool_call:started",
+    "tool_call:completed",
+    "result:success"
+  ],
+  "session_ids": [
+    "SESSION_5"
+  ],
+  "invalid_json_lines": 0,
+  "result_events": [
+    {
+      "type": "result",
+      "subtype": "success",
+      "duration_ms": 9410,
+      "duration_api_ms": 9410,
+      "is_error": false,
+      "result": "我会只改当前工作区里的 `allowed.txt`，写入指定内容后再用读取工具核对。已完成。\n\n`allowed.txt` 已替换为恰好一行：`AFTER_ALLOWED_EDIT`，并以换行结束。读取核对结果与预期一致。未改动其他文件。",
+      "session_id": "SESSION_5",
+      "request_id": "063418f3-e2b8-490c-83e0-eb525e0cb10c",
+      "usage": {
+        "inputTokens": 10955,
+        "outputTokens": 330,
+        "cacheReadTokens": 32064,
+        "cacheWriteTokens": 0
+      }
+    }
+  ],
+  "stderr_bytes": 0,
+  "timed_out": false,
+  "cancellation_triggered": false,
+  "tool_calls": [
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-97e7e74e-d907-4ae2-b189-c7c369be269a-0\nfc_p3uJPo7-2dTqGa-f2294466-aws_uw2_0",
+      "tool_call": {
+        "globToolCall": {
+          "args": {
+            "targetDirectory": "<PREFLIGHT_ROOT>/workspace",
+            "globPattern": "allowed.txt"
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-97e7e74e-d907-4ae2-b189-c7c369be269a-0\nfc_p3uJPo7-2dTqGa-f2294466-aws_uw2_0",
+        "startedAtMs": "1791133116111"
+      },
+      "model_call_id": "063418f3-e2b8-490c-83e0-eb525e0cb10c-0-aszw",
+      "session_id": "SESSION_5",
+      "timestamp_ms": 1791133116058
+    },
+    {
+      "type": "tool_call",
+      "subtype": "completed",
+      "call_id": "call-97e7e74e-d907-4ae2-b189-c7c369be269a-0\nfc_p3uJPo7-2dTqGa-f2294466-aws_uw2_0",
+      "tool_call": {
+        "globToolCall": {
+          "args": {
+            "targetDirectory": "<PREFLIGHT_ROOT>/workspace",
+            "globPattern": "allowed.txt"
+          },
+          "result": {
+            "success": {
+              "pattern": "",
+              "path": "<PREFLIGHT_ROOT>/workspace",
+              "files": [
+                "allowed.txt"
+              ],
+              "totalFiles": 1,
+              "clientTruncated": false,
+              "ripgrepTruncated": false
+            }
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-97e7e74e-d907-4ae2-b189-c7c369be269a-0\nfc_p3uJPo7-2dTqGa-f2294466-aws_uw2_0",
+        "startedAtMs": "1791133116111",
+        "completedAtMs": "1791133116913"
+      },
+      "model_call_id": "063418f3-e2b8-490c-83e0-eb525e0cb10c-0-aszw",
+      "session_id": "SESSION_5",
+      "timestamp_ms": 1791133116843
+    },
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-d2ba30be-6da1-4ce7-b265-18d7365ce873-1\nfc_p3uJQfS-2dTqGa-3cb4c6ae-aws_uw2_0",
+      "tool_call": {
+        "editToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/allowed.txt",
+            "streamContent": "AFTER_ALLOWED_EDIT\n"
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-d2ba30be-6da1-4ce7-b265-18d7365ce873-1\nfc_p3uJQfS-2dTqGa-3cb4c6ae-aws_uw2_0",
+        "startedAtMs": "1791133118477"
+      },
+      "model_call_id": "063418f3-e2b8-490c-83e0-eb525e0cb10c-1-b2rq",
+      "session_id": "SESSION_5",
+      "timestamp_ms": 1791133118418
+    },
+    {
+      "type": "tool_call",
+      "subtype": "completed",
+      "call_id": "call-d2ba30be-6da1-4ce7-b265-18d7365ce873-1\nfc_p3uJQfS-2dTqGa-3cb4c6ae-aws_uw2_0",
+      "tool_call": {
+        "editToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/allowed.txt",
+            "streamContent": "AFTER_ALLOWED_EDIT\n"
+          },
+          "result": {
+            "success": {
+              "path": "<PREFLIGHT_ROOT>/workspace/allowed.txt",
+              "linesAdded": 1,
+              "linesRemoved": 1,
+              "diffString": "--- a/<PREFLIGHT_ROOT>/workspace/allowed.txt\n+++ b/<PREFLIGHT_ROOT>/workspace/allowed.txt\n@@ -1 +1 @@\n-BEFORE_ALLOWED_EDIT\n+AFTER_ALLOWED_EDIT",
+              "beforeFullFileContent": "BEFORE_ALLOWED_EDIT\n",
+              "afterFullFileContent": "AFTER_ALLOWED_EDIT\n",
+              "message": "Wrote contents to <PREFLIGHT_ROOT>/workspace/allowed.txt"
+            }
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-d2ba30be-6da1-4ce7-b265-18d7365ce873-1\nfc_p3uJQfS-2dTqGa-3cb4c6ae-aws_uw2_0",
+        "startedAtMs": "1791133118477",
+        "completedAtMs": "1791133118905"
+      },
+      "model_call_id": "063418f3-e2b8-490c-83e0-eb525e0cb10c-1-b2rq",
+      "session_id": "SESSION_5",
+      "timestamp_ms": 1791133118839
+    },
+    {
+      "type": "tool_call",
+      "subtype": "started",
+      "call_id": "call-af40958a-0202-498f-aa91-d6ce4061ad0a-2\nfc_p3uJRFW-2dTqGa-2caf7abf-aws_uw2_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/allowed.txt"
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-af40958a-0202-498f-aa91-d6ce4061ad0a-2\nfc_p3uJRFW-2dTqGa-2caf7abf-aws_uw2_0",
+        "startedAtMs": "1791133120133"
+      },
+      "model_call_id": "063418f3-e2b8-490c-83e0-eb525e0cb10c-2-wjaa",
+      "session_id": "SESSION_5",
+      "timestamp_ms": 1791133120070
+    },
+    {
+      "type": "tool_call",
+      "subtype": "completed",
+      "call_id": "call-af40958a-0202-498f-aa91-d6ce4061ad0a-2\nfc_p3uJRFW-2dTqGa-2caf7abf-aws_uw2_0",
+      "tool_call": {
+        "readToolCall": {
+          "args": {
+            "path": "<PREFLIGHT_ROOT>/workspace/allowed.txt"
+          },
+          "result": {
+            "success": {
+              "content": "AFTER_ALLOWED_EDIT\n",
+              "isEmpty": false,
+              "exceededLimit": false,
+              "totalLines": 2,
+              "fileSize": 19,
+              "path": "<PREFLIGHT_ROOT>/workspace/allowed.txt",
+              "readRange": {
+                "startLine": 1,
+                "endLine": 2
+              },
+              "relatedCursorRulePaths": [],
+              "relatedCursorRules": []
+            }
+          }
+        },
+        "hookAdditionalContexts": [],
+        "toolCallId": "call-af40958a-0202-498f-aa91-d6ce4061ad0a-2\nfc_p3uJRFW-2dTqGa-2caf7abf-aws_uw2_0",
+        "startedAtMs": "1791133120133",
+        "completedAtMs": "1791133120328"
+      },
+      "model_call_id": "063418f3-e2b8-490c-83e0-eb525e0cb10c-2-wjaa",
+      "session_id": "SESSION_5",
+      "timestamp_ms": 1791133120257
+    }
+  ],
+  "allowed_write_verified": true
+}

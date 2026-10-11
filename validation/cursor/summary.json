@@ -1,0 +1,224 @@
+{
+  "provider": "cursor",
+  "status": "verified_current_version",
+  "generated_utc": "2026-10-04T17:10:37.076357+00:00",
+  "raw_evidence_root": "/private/tmp/agent-staff-preflight.fODiUI/updated/cursor",
+  "live_call_count": 6,
+  "default_model_used": true,
+  "observed_models": [
+    "Grok 4.6 Extra High Fast"
+  ],
+  "versions": [
+    {
+      "case": "baseline",
+      "before": "2026.10.01-e373342",
+      "after": "2026.10.01-e373342"
+    },
+    {
+      "case": "resume",
+      "before": "2026.10.01-e373342",
+      "after": "2026.10.01-e373342"
+    },
+    {
+      "case": "deny",
+      "before": "2026.10.01-e373342",
+      "after": "2026.10.01-e373342"
+    },
+    {
+      "case": "write",
+      "before": "2026.10.01-e373342",
+      "after": "2026.10.01-e373342"
+    },
+    {
+      "case": "cancel_tree",
+      "before": "2026.10.01-e373342",
+      "after": "2026.10.01-e373342"
+    },
+    {
+      "case": "cancel_resume",
+      "before": "2026.10.01-e373342",
+      "after": "2026.10.01-e373342"
+    }
+  ],
+  "checks": {
+    "baseline_protocol_and_cwd": {
+      "passed": true
+    },
+    "exact_resume_nonce": {
+      "passed": true
+    },
+    "explicit_write_deny": {
+      "passed": true
+    },
+    "explicit_shell_deny": {
+      "passed": true
+    },
+    "deny_positive_read_control": {
+      "passed": true
+    },
+    "allowed_write_verified": {
+      "passed": true
+    },
+    "complete_identity_tree_cancel": {
+      "passed": true
+    },
+    "cancel_observed_after_natural_deadline": {
+      "passed": true
+    },
+    "cancel_resume_without_tool_restart": {
+      "passed": true
+    },
+    "all_observed_owned_processes_cleaned": {
+      "passed": true
+    }
+  },
+  "protocol": {
+    "format": "stream-json",
+    "partial_output_enabled": false,
+    "thinking_events_observed": true,
+    "tool_call_id_embedded_newline_observed": true,
+    "aggregate_result_differs_from_last_assistant": true,
+    "permission_denial_turn_exits_successfully": true
+  },
+  "cancellation": {
+    "strategy": "verified owned PID/start-time/command identities, including descendants in separate process groups",
+    "exit_code": 130,
+    "heartbeat_before": "1",
+    "heartbeat_after": "1",
+    "signal_actions": [
+      {
+        "signal": "SIGINT",
+        "target": "owned_identity_tree",
+        "pid": 25340,
+        "at_seconds": 14.871
+      },
+      {
+        "signal": "SIGINT",
+        "target": "owned_identity_tree",
+        "pid": 25328,
+        "at_seconds": 14.875
+      },
+      {
+        "signal": "SIGINT",
+        "target": "owned_identity_tree",
+        "pid": 25227,
+        "at_seconds": 14.878
+      },
+      {
+        "signal": "SIGINT",
+        "target": "owned_identity_tree",
+        "pid": 25191,
+        "at_seconds": 14.881
+      },
+      {
+        "signal": "SIGINT",
+        "target": "owned_identity_tree",
+        "pid": 25082,
+        "at_seconds": 14.885,
+        "cli_running_after_grace": false,
+        "tool_running_after_grace": false
+      }
+    ],
+    "delayed_observation": {
+      "case": "cancel_tree",
+      "observed_utc": "2026-10-04T17:10:29.134784+00:00",
+      "seconds_since_first_cancel_signal": 38.752644,
+      "natural_task_seconds": 15,
+      "past_natural_completion_window": true,
+      "completion_exists": false,
+      "heartbeat": "1",
+      "owned_processes_still_alive": []
+    },
+    "group_only_retested_on_current_version": false
+  },
+  "not_verified": [
+    "partial-output streaming",
+    "ACP runtime protocol",
+    "OS sandbox confinement",
+    "all possible child-process detachment races",
+    "remote task cancellation",
+    "general model/task correctness",
+    "permission isolation of every web/MCP/plugin tool"
+  ],
+  "permission_contract": {
+    "single_argv": [
+      "--workspace",
+      "--resume",
+      "--mode ask|plan",
+      "--force",
+      "--trust",
+      "--sandbox enabled|disabled"
+    ],
+    "native_config_required": [
+      "Read/Write/Shell allow/deny"
+    ],
+    "tested_native_project_policy": {
+      "permissions": {
+        "allow": [
+          "Read(**)"
+        ],
+        "deny": [
+          "Write(**)",
+          "Shell(*)"
+        ]
+      }
+    },
+    "do_not_mutate_real_project_policy": true
+  },
+  "auto_update": {
+    "official_default": true,
+    "disable_switch_confirmed": false,
+    "historical_child_process_download_observed": true,
+    "recommendation": "Check actual version before and after each run; revalidate on drift. Do not invent disable flags."
+  },
+  "evidence_by_case": {
+    "baseline": {
+      "stdout": "logs/baseline.stdout.ndjson",
+      "stderr": "logs/baseline.stderr.txt",
+      "manifest": "logs/baseline.manifest.json",
+      "summary": "logs/baseline.summary.json",
+      "exit_code": 0,
+      "duration_seconds": 16.76
+    },
+    "resume": {
+      "stdout": "logs/resume.stdout.ndjson",
+      "stderr": "logs/resume.stderr.txt",
+      "manifest": "logs/resume.manifest.json",
+      "summary": "logs/resume.summary.json",
+      "exit_code": 0,
+      "duration_seconds": 27.622
+    },
+    "deny": {
+      "stdout": "logs/deny.stdout.ndjson",
+      "stderr": "logs/deny.stderr.txt",
+      "manifest": "logs/deny.manifest.json",
+      "summary": "logs/deny.summary.json",
+      "exit_code": 0,
+      "duration_seconds": 26.989
+    },
+    "write": {
+      "stdout": "logs/write.stdout.ndjson",
+      "stderr": "logs/write.stderr.txt",
+      "manifest": "logs/write.manifest.json",
+      "summary": "logs/write.summary.json",
+      "exit_code": 0,
+      "duration_seconds": 15.941
+    },
+    "cancel_tree": {
+      "stdout": "logs/cancel_tree.stdout.ndjson",
+      "stderr": "logs/cancel_tree.stderr.txt",
+      "manifest": "logs/cancel_tree.manifest.json",
+      "summary": "logs/cancel_tree.summary.json",
+      "exit_code": 130,
+      "duration_seconds": 16.994
+    },
+    "cancel_resume": {
+      "stdout": "logs/cancel_resume.stdout.ndjson",
+      "stderr": "logs/cancel_resume.stderr.txt",
+      "manifest": "logs/cancel_resume.manifest.json",
+      "summary": "logs/cancel_resume.summary.json",
+      "exit_code": 0,
+      "duration_seconds": 9.096
+    }
+  }
+}

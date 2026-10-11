@@ -1,0 +1,34 @@
+{
+  "case": "cancel_resume",
+  "argv": [
+    "<USER_HOME>/.local/bin/cursor-agent",
+    "--print",
+    "--output-format",
+    "stream-json",
+    "--workspace",
+    "<PREFLIGHT_ROOT>/workspace",
+    "--trust",
+    "--force",
+    "--resume",
+    "SESSION_2",
+    "This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. The previous turn was intentionally cancelled by the integration-test supervisor. Do not restart any command or use any tools. Answer exactly CANCEL_RECOVERY_OK."
+  ],
+  "cwd": "<PREFLIGHT_ROOT>/workspace",
+  "start_utc": "2026-10-04T17:00:11.504891+00:00",
+  "timeout_seconds": 150,
+  "permission_config": {
+    "permissions": {
+      "allow": [
+        "Read(**)"
+      ],
+      "deny": []
+    }
+  },
+  "default_model": true,
+  "cancel_actions": [],
+  "pid": 17788,
+  "pgid": 17788,
+  "process_identity": "17788 17781 17788 Mon Oct  5 01:00:11 2026     Rs   bash <USER_HOME>/.local/bin/cursor-agent --print --output-format stream-json --workspace <PREFLIGHT_ROOT>/workspace --trust --force --resume SESSION_2 This is an authorized integration test in a disposable workspace. Do not read or modify anything outside the current workspace; do not inspect credentials. The previous turn was intentionally cancelled by the integration-test supervisor. Do not restart any command or use any tools. Answer exactly CANCEL_RECOVERY_OK.",
+  "exit_code": 0,
+  "duration_seconds": 8.712
+}
