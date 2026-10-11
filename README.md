@@ -2,7 +2,13 @@
 
 保留原版 agy-staff 的任务流程，增加 **Grok Build** 和 **Cursor Agent** 两个可选员工。通常一次选一个：交办任务、等待结果、继续追问；员工之间不互相调度。
 
-基于 agy-staff 0.7.4，版本 0.8.0；归属见 [NOTICE](NOTICE)。源码仓库为 [RyanHuangNLP/agent-staff](https://github.com/RyanHuangNLP/agent-staff)。交付包含本地源码与三个可安装插件，尚未发布 npm 包。
+当前版本为 0.8.0。源码仓库为 [RyanHuangNLP/agent-staff](https://github.com/RyanHuangNLP/agent-staff)。交付包含本地源码与三个可安装插件，尚未发布 npm 包。
+
+## 致谢与项目来源
+
+感谢 [agy-staff](https://github.com/keli-wen/agy-staff) 原项目及其作者 [Keli Wen](https://github.com/keli-wen) 的开源贡献。**agent-staff 是参考并基于 agy-staff 0.7.4 改造和扩展的项目**，沿用了原项目的任务委派流程、角色技能与 companion runtime，并在此基础上加入 Grok Build 和 Cursor Agent 两个后端，扩展了多后端的任务管理与续聊能力。
+
+原项目采用 MIT 许可证；本仓库保留原作者的版权声明与许可证，详见 [LICENSE](LICENSE)。原始版本、提交及代码归属记录见 [NOTICE](NOTICE)。
 
 ## 安装三个 Codex 插件
 
