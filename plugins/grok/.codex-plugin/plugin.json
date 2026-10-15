@@ -1,6 +1,6 @@
 {
   "name": "grok",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Grok Build employee using the original AGY Staff workflow.",
   "license": "MIT",
   "skills": "./skills/",

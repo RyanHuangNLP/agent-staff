@@ -8,6 +8,7 @@ coverage/
 .agy-staff/
 .grok-staff/
 .cursor-staff/
+.codex-staff/
 .env
 .env.*
 !.env.example

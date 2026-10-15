@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | C01 | AGY既有模型/effort、权限、输入和角色行为不回退 | 原 flags/modes/policy/setup/triage 测试 |
 | C02 | AGY旧状态和continue/restart、最近任务、显式覆盖保留 | 原 continuation/recovery/state/jobs/wait 回归 |
-| C03 | 三入口路由只启动指定CLI，doctor不触发模型 | entry-and-packaging、multi-backend |
+| C03 | 四入口路由只启动指定CLI，doctor不触发模型 | entry-and-packaging、multi-backend |
 | C04 | 每员工独立state；相同原生ID也不串会话；原工作目录恢复 | multi-backend、continuation |
 | C05 | Grok增量文本、Cursor最后assistant、thought隔离、不透明tool IDs | backend-adapters，真实fixtures |
 | C06 | Denial保留、turn_limit不误判成功、非零退出和部分结果准确 | backend-adapters、multi-backend |
@@ -31,3 +31,8 @@
 - 打包后的CLI、Grok/Cursor独立插件入口至少各有可运行验证；全套结束核查owned执行和原参考仓库状态。
 
 原版ask的无工具约定由提示和restricted构成；测试记录观察到的工具次数，不宣传OS强隔离。失败/未验证项目必须在最终运行报告明确说明，不计入通过。
+# 0.9.0 Codex CLI 补充验收
+
+Codex 接入复用上方既有任务语义，新增离线检查：原生 JSONL 终帧与会话 ID、stdin 长任务、启动失败的管道清理、原生 JSON schema、最新会话配置与显式旧 job、跨角色和前台续聊占用、取消和 worker 异常清理、四后端状态隔离，以及独立插件复制后的 ask → 后台任务 → wait → continue。
+
+本机只检查 Codex CLI 0.142.0 的版本和参数解析；未运行真实模型或原生工具。原三后端的历史真实结果不能转移到 Codex。当前结果和限制见 [Codex CLI 支持](codex-support.md)。

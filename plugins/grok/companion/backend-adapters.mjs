@@ -1,20 +1,28 @@
 import { createProjection, excerpt } from './observation.mjs';
+import { codexArgs, createCodexProjection } from './codex-backend.mjs';
 
-export const BACKENDS = ['agy', 'grok', 'cursor'];
+export const BACKENDS = ['agy', 'grok', 'cursor', 'codex'];
+export const BACKEND_TITLES = { agy: 'Antigravity', grok: 'Grok Build', cursor: 'Cursor Agent', codex: 'Codex CLI' };
+export function backendBinary(backend) {
+  if (backend === 'agy') return process.env.AGY_BIN || 'agy';
+  if (backend === 'grok') return process.env.GROK_BIN || 'grok';
+  if (backend === 'cursor') return process.env.CURSOR_BIN || process.env.CURSOR_AGENT_BIN || 'cursor-agent';
+  if (backend === 'codex') return process.env.CODEX_BIN || 'codex';
+  throw new Error(`Unknown coding backend: ${backend}`);
+}
 export const STOP_POLICIES = Object.freeze({
   agy: [{ signal: 'SIGTERM', graceMs: 500 }, { signal: 'SIGKILL', graceMs: 500 }],
   grok: [{ signal: 'SIGTERM', graceMs: 1200 }, { signal: 'SIGKILL', graceMs: 1000 }],
   cursor: [{ signal: 'SIGINT', graceMs: 5000 }, { signal: 'SIGTERM', graceMs: 3000 }, { signal: 'SIGKILL', graceMs: 1000 }],
+  codex: [{ signal: 'SIGINT', graceMs: 1500 }, { signal: 'SIGTERM', graceMs: 1000 }, { signal: 'SIGKILL', graceMs: 1000 }],
 });
 
 const unsupported = (message) => Object.assign(new Error(message), { reason: 'unsupported_capability' });
 
 /** Build argv without a shell. Provider session IDs are allocated by the core. */
-export function buildInvocation(backend, invoke, { mode = invoke.mode, promptFile, effort = invoke.effort } = {}) {
+export function buildInvocation(backend, invoke, { mode = invoke.mode, promptFile, effort = invoke.effort, schemaFile, configArgs } = {}) {
   if (!BACKENDS.includes(backend)) throw unsupported(`Unknown coding backend: ${backend}`);
-  const binary = invoke.binary || (backend === 'agy' ? process.env.AGY_BIN || 'agy'
-    : backend === 'grok' ? process.env.GROK_BIN || 'grok'
-      : process.env.CURSOR_BIN || process.env.CURSOR_AGENT_BIN || 'cursor-agent');
+  const binary = invoke.binary || backendBinary(backend);
   const command = (args) => /\.(?:mjs|cjs|js)$/i.test(binary)
     ? { binary: process.execPath, args: [binary, ...args] } : { binary, args };
   const { workspace, model, conversation, unrestricted, jsonSchema } = invoke;
@@ -25,6 +33,7 @@ export function buildInvocation(backend, invoke, { mode = invoke.mode, promptFil
     if (jsonSchema) args.push('--json-schema', jsonSchema);
     return command(args);
   }
+  if (backend === 'codex') return { ...command(codexArgs(invoke, { effort, schemaFile, configArgs })), input: invoke.prompt };
   if (jsonSchema) throw unsupported(`${backend} structured review schema is not supported by this adapter.`);
   if (backend === 'grok') {
     if (!conversation) throw Object.assign(new Error('Grok requires a preallocated session UUID or an explicit session to resume.'), { reason: 'invalid_session' });
@@ -58,6 +67,7 @@ const contentText = (content) => Array.isArray(content) ? content.map((item) =>
 /** Native events are interpreted only in memory; the runner retains raw bytes. */
 export function createBackendProjection(backend = 'agy', onConversation = () => {}) {
   if (backend === 'agy') return createProjection(onConversation);
+  if (backend === 'codex') return createCodexProjection(onConversation);
   if (!BACKENDS.includes(backend)) throw unsupported(`Unknown coding backend: ${backend}`);
   const data = { last_event_at: null, recent_activities: [], latest_text: null, warnings: [] };
   const tools = new Map(), denials = new Map();

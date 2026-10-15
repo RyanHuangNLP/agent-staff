@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const roles = ['lead', 'staffer', 'researcher', 'reviewer', 'implementer', 'ask', 'jobs'];
-const titles = { grok: 'Grok Build', cursor: 'Cursor Agent' };
+const titles = { grok: 'Grok Build', cursor: 'Cursor Agent', codex: 'Codex CLI' };
 const modes = { staffer: 'staffer', researcher: 'research', reviewer: 'review', implementer: 'implement', ask: 'ask' };
 const goals = {
   staffer: 'Delegate a general task; the user task determines the work and output.',
@@ -20,7 +20,10 @@ const goals = {
 
 function skill(backend, role) {
   const title = titles[backend], entry = `<skill-dir>/../../companion/${backend}-companion.mjs`;
-  const header = `---\nname: ${role}\ndescription: ${JSON.stringify(`${goals[role]} Use when the user invokes $${backend}:${role} or requests this workflow with ${title}.`)}\n---\n\n# ${title} ${role}\n\n`;
+  const trigger = backend === 'codex'
+    ? `Use when the user invokes $codex:${role} or requests delegating this workflow to a separate Codex CLI worker. Ordinary work in the host Codex agent does not require this skill.`
+    : `Use when the user invokes $${backend}:${role} or requests this workflow with ${title}.`;
+  const header = `---\nname: ${role}\ndescription: ${JSON.stringify(`${goals[role]} ${trigger}`)}\n---\n\n# ${title} ${role}\n\n`;
   const runtime = `The plugin includes its own shared runtime. Resolve this path from this skill directory:\n\n\`\`\`sh\nnode "${entry}" ${modes[role] || 'staffer'} --prompt-file "<task-file>"\n\`\`\`\n\nRun the CLI in the same local permission context as its existing authenticated installation. Use the host’s normal escalation mechanism if its command sandbox prevents authentication, network access, or owned-process inspection. Do not read credentials or modify global CLI settings.\n\n`;
   if (role === 'lead') return header + `You are the lead in the current host. Use ${title} as the selected employee for this task; do not start or switch to another backend unless the user asks. This guidance adds no scheduler or multi-staff collaboration.\n\n` +
     `Frame the assignment with the user’s outcome, constraints, context, and existing authorization. Delegate substantive work to staffer by default; use researcher, reviewer, or implementer when that role helps. Keep related work in one conversation. Handle small checks directly when handoff would cost more than it helps.\n\n` +
@@ -31,7 +34,7 @@ function skill(backend, role) {
     `- After dispatch, use \`wait <id> --timeout 10m\`. Exit 2 only means this wait expired; wait again for the same job. Use the host’s pending-command collection mechanism while a wait is running. Do not launch routine status/observe loops.\n` +
     `- When the user asks for progress, use \`observe <id>\`; it is a bounded snapshot, not the full result. Get the full result from wait or result.\n` +
     `- \`status [id]\` lists or inspects jobs. \`wait\` and \`observe\` without an ID select this employee’s latest job at the moment the command starts; a wait already in progress does not switch to a job started later. \`result\` without an ID selects its latest finished job. Prefer the ID already tracked by the host.\n` +
-    `- Use only this employee’s entry for wait, continue, status, and result. A job started with grok-staff is collected with grok-staff wait, not cursor-staff or agy-staff, and the same rule applies to the other two entries.\n` +
+    `- Use only this employee’s entry for wait, continue, status, and result. A job started with ${backend}-staff is collected with ${backend}-staff wait. Each backend has a separate state directory and conversation history.\n` +
     `- For a requested follow-up, use \`continue --job <id> --prompt-file <file>\`; \`continue --prompt <text>\` also resumes this employee’s latest conversation. Model and permissions are inherited unless explicitly overridden. The same running session cannot accept another turn.\n` +
     `- For an immediate change, \`cancel <id>\`, confirm cleanup, inspect partial work, then continue. Ending a wait does not stop the worker. \`restart <id>\` creates a fresh conversation for the original assignment.\n` +
     `- On timeout, return the saved diagnosis and recovery command. Follow existing user authorization; if continuation was not authorized, obtain it before consuming another run. Never silently change backend, model, or permissions after failure.\n\n` +
@@ -44,7 +47,7 @@ function skill(backend, role) {
   if (role === 'staffer') guidance += `Use the task’s requested output; do not impose a specialist report format. Native employee capabilities may be used when the task calls for them.\n\n`;
   if (role === 'ask') guidance += `This is question-only foreground mode with a restricted profile. Do not add repository context or tell the employee to inspect files, run tools, or fetch material. Return its answer faithfully; use a tool-enabled role for work requiring tools. The no-tool instruction is not a claim of OS sandbox isolation. No setup is required.\n\n`;
   else guidance += `This role returns a background job ID. Read ../jobs/SKILL.md, wait for the complete result, and collect it. Observe only for a user progress request or relevant failure diagnosis.\n\n`;
-  guidance += `Model defaults come from ${title}; --model passes a native ID unchanged. ` + (backend === 'grok' ? `--effort passes Grok’s native reasoning effort.` : `Use the native model ID (including supported bracket parameters); a separate --effort is not mapped to Gemini-style names.`) +
+  guidance += `Model defaults come from ${title}; --model passes a native ID unchanged. ` + (backend === 'grok' ? `--effort passes Grok’s native reasoning effort.` : backend === 'codex' ? `--effort sets model_reasoning_effort for this invocation and is inherited on continuation. --restricted uses the native read-only sandbox with approval_policy=never; it can still read files. review --json uses Codex’s native output schema and local validation.` : `Use the native model ID (including supported bracket parameters); a separate --effort is not mapped to Gemini-style names.`) +
     ` Tool roles default to unrestricted operation; --restricted is an explicit opt-in, while ask stays restricted. Native deny and managed policies can still limit operations.\n\n`;
   return header + guidance + runtime;
 }
@@ -65,7 +68,7 @@ export function pluginFiles(root = ROOT) {
       for (const rel of collect(path.join(root, folder))) files.set(path.join(base, folder, rel), fs.readFileSync(path.join(root, folder, rel)));
     }
     for (const name of ['LICENSE','NOTICE']) files.set(path.join(base,name),fs.readFileSync(path.join(root,name)));
-    for (const role of roles) files.set(path.join(base,'skills',role,'SKILL.md'),Buffer.from(skill(backend,role)));
+    for (const role of roles) files.set(path.join(base,'skills',role,'SKILL.md'),Buffer.from(skill(backend,role).trimEnd()+'\n'));
     for (const rel of collect(path.join(root,'skills/reviewer/references'))) files.set(path.join(base,'skills/reviewer/references',rel),fs.readFileSync(path.join(root,'skills/reviewer/references',rel)));
     const manifest = { name: backend, version, description: `${titles[backend]} employee using the original AGY Staff workflow.`, license: 'MIT', skills: './skills/', interface: { displayName: `${titles[backend]} Staff`, shortDescription: `Delegate to one ${titles[backend]} employee.`, category:'Engineering', capabilities:['Instructions'] } };
     files.set(path.join(base,'.codex-plugin/plugin.json'),Buffer.from(JSON.stringify(manifest,null,2)+'\n'));

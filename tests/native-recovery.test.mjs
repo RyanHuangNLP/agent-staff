@@ -13,7 +13,8 @@ const stateFile = (sb, backend) => path.join(sb.repo, `.${backend}-staff`, 'stat
 const state = (sb, backend) => JSON.parse(fs.readFileSync(stateFile(sb, backend), 'utf8'));
 const job = (sb, backend, id) => state(sb, backend).jobs.find((item) => item.id === id);
 const invoke = (sb, backend, args, extra = {}) => run(sb, args, {
-  AGENT_STAFF_BACKEND: backend, GROK_BIN: fakeCoding, CURSOR_BIN: fakeCoding, ...extra,
+  AGENT_STAFF_BACKEND: backend, GROK_BIN: fakeCoding, CURSOR_BIN: fakeCoding,
+  CODEX_BIN: fakeCoding, CODEX_HOME: path.join(sb.home, '.codex'), ...extra,
 });
 const until = async (predicate) => {
   const deadline = Date.now() + 10000;
@@ -79,7 +80,7 @@ test('new foreground ask retains failed raw output and optional successful diagn
   assert.equal(JSON.parse(fs.readFileSync(path.join(keptDir, 'diagnostics.json'), 'utf8')).observed_tool_calls, 0);
 });
 
-for (const backend of ['grok', 'cursor']) {
+for (const backend of ['grok', 'cursor', 'codex']) {
   test(`${backend} accepts an explicit native session through a role without searching other state`, () => {
     const sb = sandbox(`${backend}-native-id`);
     const session = '981474c1-1f8b-4f72-b6cb-e99ced6aef70';

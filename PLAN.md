@@ -1,5 +1,9 @@
 # agent-staff 实施计划（按原版体验修订）
 
+## 0.9.0 Codex CLI 扩展
+
+新增 `companion/codex-backend.mjs` 处理原生 argv、JSONL 投影、审查 schema 和单次配置兼容；通过薄入口接入共享任务核心。增加 `bin/codex-staff.mjs` 和生成式 `plugins/codex` 七角色插件。扩展既有多后端生命周期测试，并增加 Codex 专项协议、stdin 和独立插件测试。具体映射和真实验证边界见 [Codex CLI 支持](docs/codex-support.md)。下文为原三后端实施记录。
+
 2026-10-05。产品要求以 [PRD](PRD.md) 为准。用户已授权开始实现，并明确每次通常只调用一个 staff，staff 之间不协作。此前全工作树串行、强制显式 job、统一 native-default 模型和默认收紧权限的设计已撤回。
 
 ## 实现原则

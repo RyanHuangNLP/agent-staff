@@ -16,6 +16,11 @@ const state = (sb, backend) => JSON.parse(fs.readFileSync(path.join(directory(sb
 const job = (sb, backend, id) => state(sb, backend).jobs.find(item => item.id === id);
 const calls = sb => fs.existsSync(sb.calls) ? fs.readFileSync(sb.calls, 'utf8').trim().split('\n').filter(Boolean).map(JSON.parse) : [];
 const arg = (call, flag) => { const i = call.argv.indexOf(flag); return i < 0 ? undefined : call.argv[i + 1]; };
+const resumedSession = call => arg(call, call.backend === 'codex' ? 'resume' : '--resume');
+const effortOf = call => call.backend === 'codex'
+  ? JSON.parse(call.argv.find(value => value.startsWith('model_reasoning_effort='))?.split('=').slice(1).join('=') || 'null')
+  : arg(call, '--reasoning-effort');
+const unrestrictedFlag = backend => backend === 'codex' ? '--dangerously-bypass-approvals-and-sandbox' : '--force';
 
 function fixture(label) {
   const sb = sandbox(`multi-${label}`);
@@ -25,7 +30,8 @@ function fixture(label) {
 
 function environment(sb, backend, extra = {}) {
   return { ...process.env, HOME: sb.home, USERPROFILE: sb.home,
-    AGENT_STAFF_BACKEND: backend, GROK_BIN: FAKE, CURSOR_BIN: FAKE,
+    AGENT_STAFF_BACKEND: backend, GROK_BIN: FAKE, CURSOR_BIN: FAKE, CODEX_BIN: FAKE,
+    CODEX_HOME: path.join(sb.home, '.codex'),
     CURSOR_AGENT_BIN: FAKE, FAKE_CODING_CALLS: sb.calls, ...extra };
 }
 
@@ -73,7 +79,7 @@ function cleanup(t, sb, backend) {
   });
 }
 
-for (const backend of ['grok', 'cursor']) {
+for (const backend of ['grok', 'cursor', 'codex']) {
   test(`${backend}: all tool personas retain background/unrestricted defaults and backend state`, t => {
     const sb = fixture(`${backend}-roles`);
     cleanup(t, sb, backend);
@@ -94,6 +100,13 @@ for (const backend of ['grok', 'cursor']) {
         assert.equal(arg(native, '--output-format'), 'streaming-json');
         for (const flag of ['--no-leader', '--no-memory', '--no-subagents']) assert.ok(native.argv.includes(flag), flag);
         assert.equal(arg(native, '--session-id'), saved.conversation_id);
+      } else if (backend === 'codex') {
+        assert.ok(native.argv.includes('--dangerously-bypass-approvals-and-sandbox'));
+        assert.ok(native.argv.includes('--json'));
+        assert.ok(native.argv.includes('approval_policy="never"'));
+        assert.equal(native.argv.at(-1), '-');
+        assert.equal(native.argv.includes(native.prompt), false, 'Codex task goes through stdin, never argv');
+        assert.equal(result.stdout.includes('CODEX_PROGRESS_ONLY'), false);
       } else {
         assert.ok(native.argv.includes('--force'));
         assert.ok(native.argv.includes('--trust'));
@@ -119,7 +132,10 @@ for (const backend of ['grok', 'cursor']) {
       assert.equal(arg(native, '--permission-mode'), 'dontAsk');
       assert.equal(arg(native, '--tools'), '');
       assert.ok(native.argv.includes('--disable-web-search'));
-    } else assert.ok(!native.argv.includes('--force'));
+    } else {
+      assert.ok(!native.argv.includes(unrestrictedFlag(backend)));
+      if (backend === 'codex') assert.equal(arg(native, '--sandbox'), 'read-only');
+    }
 
     const denied = run(sb, backend, ['ask', '--backend', backend === 'grok' ? 'cursor' : 'grok', '--prompt', 'must not launch'], {}, { alias: true });
     assert.equal(denied.code, 1);
@@ -133,26 +149,26 @@ for (const backend of ['grok', 'cursor']) {
     fs.mkdirSync(subdir);
     const nested = { ...sb, repo: subdir };
     const firstFlags = ['research', '--restricted', '--model', 'model-one', '--prompt', 'first task'];
-    if (backend === 'grok') firstFlags.push('--effort', 'low');
+    if (backend !== 'cursor') firstFlags.push('--effort', 'low');
     const first = dispatch(nested, backend, firstFlags, {}, { flagAfter: true });
     assert.equal(collect(sb, backend, first).code, 0);
     const conversation = job(sb, backend, first).conversation_id;
 
     const changedFlags = ['continue', '--job', first, '--unrestricted', '--model', 'model-two', '--prompt', 'new explicit settings'];
-    if (backend === 'grok') changedFlags.push('--effort', 'high');
+    if (backend !== 'cursor') changedFlags.push('--effort', 'high');
     const second = dispatch(sb, backend, changedFlags);
     assert.equal(collect(sb, backend, second).code, 0);
     assert.equal(job(sb, backend, second).model, 'model-two');
     assert.equal(job(sb, backend, second).profile, 'unrestricted');
     assert.equal(job(sb, backend, second).parent_job_id, first);
     assert.equal(calls(sb).at(-1).cwd, fs.realpathSync(subdir));
-    assert.equal(arg(calls(sb).at(-1), '--resume'), conversation);
+    assert.equal(resumedSession(calls(sb).at(-1)), conversation);
 
     const third = dispatch(sb, backend, ['continue', '--job', first, '--prompt', 'inherit the selected earlier job']);
     assert.equal(collect(sb, backend, third).code, 0);
     assert.equal(job(sb, backend, third).model, 'model-one');
     assert.equal(job(sb, backend, third).profile, 'restricted');
-    if (backend === 'grok') assert.equal(arg(calls(sb).at(-1), '--reasoning-effort'), 'low');
+    if (backend !== 'cursor') assert.equal(effortOf(calls(sb).at(-1)), 'low');
 
     const fourth = dispatch(sb, backend, ['research', '--continue', '--prompt', 'same-mode implicit follow-up']);
     assert.equal(run(sb, backend, ['wait', '--timeout', '12s']).code, 0);
@@ -171,7 +187,7 @@ for (const backend of ['grok', 'cursor']) {
     const sb = fixture(`${backend}-cross-role`);
     cleanup(t, sb, backend);
     const firstFlags = ['research', '--restricted', '--model', 'model-one', '--prompt', 'restricted research'];
-    if (backend === 'grok') firstFlags.push('--effort', 'low');
+    if (backend !== 'cursor') firstFlags.push('--effort', 'low');
     const first = dispatch(sb, backend, firstFlags);
     assert.equal(collect(sb, backend, first).code, 0);
     const conversation = job(sb, backend, first).conversation_id;
@@ -189,10 +205,15 @@ for (const backend of ['grok', 'cursor']) {
       assert.equal(arg(native, '--permission-mode'), 'dontAsk');
       assert.equal(arg(native, '--reasoning-effort'), 'low');
     } else {
-      assert.equal(native.argv.includes('--force'), false);
+      assert.equal(native.argv.includes(unrestrictedFlag(backend)), false);
+      if (backend === 'codex') {
+        assert.equal(saved.effort, 'low');
+        assert.equal(effortOf(native), 'low');
+        assert.equal(arg(native, '--sandbox'), 'read-only');
+      }
     }
     const overrideFlags = ['implement', '--conversation', conversation, '--unrestricted', '--model', 'model-two', '--prompt', 'explicit override'];
-    if (backend === 'grok') overrideFlags.push('--effort', 'high');
+    if (backend !== 'cursor') overrideFlags.push('--effort', 'high');
     const third = dispatch(sb, backend, overrideFlags);
     assert.equal(collect(sb, backend, third).code, 0);
     assert.equal(job(sb, backend, third).model, 'model-two');
@@ -204,18 +225,18 @@ for (const backend of ['grok', 'cursor']) {
     const sb = fixture(`${backend}-config-precedence`);
     cleanup(t, sb, backend);
     const researchFlags = ['research', '--unrestricted', '--model', 'model-one', '--prompt', 'first model'];
-    if (backend === 'grok') researchFlags.push('--effort', 'low');
+    if (backend !== 'cursor') researchFlags.push('--effort', 'low');
     const first = dispatch(sb, backend, researchFlags);
     assert.equal(collect(sb, backend, first).code, 0);
     const conversation = job(sb, backend, first).conversation_id;
     const askFlags = ['ask', '--conversation', conversation, '--restricted', '--model', 'model-two', '--prompt', 'switch model'];
-    if (backend === 'grok') askFlags.push('--effort', 'high');
+    if (backend !== 'cursor') askFlags.push('--effort', 'high');
     const asked = run(sb, backend, askFlags);
     assert.equal(asked.code, 0, asked.stdout + asked.stderr);
     const savedConfig = state(sb, backend).conversation_configs[conversation];
     assert.equal(savedConfig.model, 'model-two');
     assert.equal(savedConfig.profile, 'restricted');
-    if (backend === 'grok') assert.equal(savedConfig.effort, 'high');
+    if (backend !== 'cursor') assert.equal(savedConfig.effort, 'high');
     const second = dispatch(sb, backend, ['implement', '--conversation', conversation, '--prompt', 'use the latest session config']);
     assert.equal(collect(sb, backend, second).code, 0);
     const saved = job(sb, backend, second);
@@ -230,7 +251,12 @@ for (const backend of ['grok', 'cursor']) {
       assert.equal(arg(native, '--permission-mode'), 'dontAsk');
       assert.equal(arg(native, '--reasoning-effort'), 'high');
     } else {
-      assert.equal(native.argv.includes('--force'), false);
+      assert.equal(native.argv.includes(unrestrictedFlag(backend)), false);
+      if (backend === 'codex') {
+        assert.equal(saved.effort, 'high');
+        assert.equal(effortOf(native), 'high');
+        assert.equal(arg(native, '--sandbox'), 'read-only');
+      }
     }
     const pinned = dispatch(sb, backend, ['continue', '--job', first, '--prompt', 'selected job config']);
     assert.equal(collect(sb, backend, pinned).code, 0);
@@ -242,7 +268,8 @@ for (const backend of ['grok', 'cursor']) {
       assert.equal(arg(selected, '--permission-mode'), 'bypassPermissions');
       assert.equal(arg(selected, '--reasoning-effort'), 'low');
     } else {
-      assert.equal(selected.argv.includes('--force'), true);
+      assert.equal(selected.argv.includes(unrestrictedFlag(backend)), true);
+      if (backend === 'codex') assert.equal(effortOf(selected), 'low');
     }
   });
 
@@ -365,7 +392,7 @@ for (const backend of ['grok', 'cursor']) {
     cleanup(t, sb, backend);
     const report = { verdict: 'approve', summary: 'No findings.', findings: [], could_not_verify: [] };
     const firstFlags = ['review', '--json', '--restricted', '--model', 'model-one', '--prompt', 'Review this fixture'];
-    if (backend === 'grok') firstFlags.push('--effort', 'low');
+    if (backend !== 'cursor') firstFlags.push('--effort', 'low');
     const first = dispatch(sb, backend, firstFlags, { FAKE_CODING_RESPONSE: JSON.stringify(report) });
     assert.equal(collect(sb, backend, first).code, 0);
     const conversation = job(sb, backend, first).conversation_id;
@@ -393,7 +420,12 @@ for (const backend of ['grok', 'cursor']) {
         assert.equal(saved.effort, 'low');
         assert.equal(arg(calls(sb).at(-1), '--permission-mode'), 'dontAsk');
       } else {
-        assert.equal(calls(sb).at(-1).argv.includes('--force'), false);
+        assert.equal(calls(sb).at(-1).argv.includes(unrestrictedFlag(backend)), false);
+        if (backend === 'codex') {
+          assert.equal(saved.effort, 'low');
+          assert.equal(effortOf(calls(sb).at(-1)), 'low');
+          assert.ok(calls(sb).at(-1).schema, 'native schema must remain active during follow-up');
+        }
       }
     }
   });
@@ -417,6 +449,12 @@ for (const backend of ['grok', 'cursor']) {
     assert.equal(collect(sb, backend, valid).code, 0);
     assert.match(calls(sb).at(-1).prompt, /could_not_verify/);
     assert.ok(!calls(sb).at(-1).argv.includes('--json-schema'), 'native schema support must not be invented');
+    if (backend === 'codex') {
+      const schema = calls(sb).at(-1).schema;
+      assert.equal(schema.additionalProperties, false);
+      assert.equal(schema.properties.findings.items.additionalProperties, false);
+      assert.deepEqual(new Set(schema.properties.findings.items.required), new Set(Object.keys(schema.properties.findings.items.properties)));
+    }
 
     for (const response of [
       `Here is the report: ${JSON.stringify(report)}`,
@@ -485,25 +523,29 @@ for (const backend of ['grok', 'cursor']) {
 
 test('backend directories isolate equal native session IDs without serializing independent conversations', async t => {
   const sb = fixture('isolation');
-  cleanup(t, sb, 'grok'); cleanup(t, sb, 'cursor');
+  cleanup(t, sb, 'grok'); cleanup(t, sb, 'cursor'); cleanup(t, sb, 'codex');
   const release = path.join(sb.root, 'release');
   t.after(() => fs.writeFileSync(release, 'finish'));
   const grok = dispatch(sb, 'grok', ['staffer', '--prompt', 'grok separate conversation'], { FAKE_CODING_RELEASE: release, FAKE_CODING_RESPONSE: 'ONLY_GROK' });
   await until(() => job(sb, 'grok', grok).conversation_id, 'Grok preallocated session');
   const shared = job(sb, 'grok', grok).conversation_id;
   const cursor = dispatch(sb, 'cursor', ['staffer', '--prompt', 'cursor separate conversation'], { FAKE_CODING_RELEASE: release, FAKE_CODING_SESSION: shared, FAKE_CODING_RESPONSE: 'ONLY_CURSOR' });
-  await until(() => calls(sb).length === 2, 'both independent native calls to start');
+  const codex = dispatch(sb, 'codex', ['staffer', '--prompt', 'codex separate conversation'], { FAKE_CODING_RELEASE: release, FAKE_CODING_SESSION: shared, FAKE_CODING_RESPONSE: 'ONLY_CODEX' });
+  await until(() => calls(sb).length === 3, 'all independent native calls to start');
   assert.equal(job(sb, 'grok', grok).status, 'running');
   assert.equal(job(sb, 'cursor', cursor).status, 'running');
+  assert.equal(job(sb, 'codex', codex).status, 'running');
   fs.writeFileSync(release, 'finish');
   assert.match(collect(sb, 'grok', grok).stdout, /ONLY_GROK/);
   assert.match(collect(sb, 'cursor', cursor).stdout, /ONLY_CURSOR/);
+  assert.match(collect(sb, 'codex', codex).stdout, /ONLY_CODEX/);
   assert.equal(job(sb, 'grok', grok).conversation_id, shared);
   assert.equal(job(sb, 'cursor', cursor).conversation_id, shared);
-  for (const backend of ['grok', 'cursor']) {
+  assert.equal(job(sb, 'codex', codex).conversation_id, shared);
+  for (const backend of ['grok', 'cursor', 'codex']) {
     const next = dispatch(sb, backend, ['continue', '--prompt', 'backend-scoped implicit continuation']);
     assert.equal(collect(sb, backend, next).code, 0);
-    assert.equal(arg(calls(sb).at(-1), '--resume'), shared);
+    assert.equal(resumedSession(calls(sb).at(-1)), shared);
     assert.equal(calls(sb).at(-1).backend, backend);
   }
 });

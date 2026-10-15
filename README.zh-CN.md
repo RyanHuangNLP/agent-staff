@@ -6,5 +6,6 @@
 
 - [产品需求](PRD.md)
 - [后端差异](docs/backend-contracts.md)
+- [Codex CLI 支持与验证范围](docs/codex-support.md)
 - [实现与验证结果](docs/implementation-report.md)
 - [原 AGY 详细参考](docs/REFERENCE.zh-CN.md)

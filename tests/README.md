@@ -1,5 +1,7 @@
 # Companion regression tests
 
+Version 0.9.0 adds Codex CLI coverage in `codex-backend.test.mjs` and extends `multi-backend.test.mjs` / `native-recovery.test.mjs`. The standard suite uses `CODEX_BIN` pointing to the protocol fixture, never the real Codex CLI. It covers stdin transport, structured review, thread/turn/item events, exact-session continuation, state isolation, lifecycle cleanup, and a copied standalone plugin. Native CLI help checks are separate and do not prove real model or native-tool execution; see [Codex validation scope](../docs/codex-support.md). The opt-in real-backends harness below retains its original AGY/Grok/Cursor scope.
+
 Regression tests for the 0.6.1 companion interface: black-box CLI tests for `companion/agy-companion.mjs`, plus focused tests for observation parsing, byte budgets and state locking.
 
 `issue-regressions.test.mjs` covers #8 response-timeout attention and conversation configuration history, #9 workspace attachment across execution/recovery paths, and #10 broad allow plus targeted deny setup rules, preserving existing settings and upgrading deny-only gaps. Timeout tests distinguish complete answers, unrelated errors, absent conversation IDs and the background timeout ceiling; terminal-observation tests cover attention publication races. All use fake AGY and temporary workspaces/settings.

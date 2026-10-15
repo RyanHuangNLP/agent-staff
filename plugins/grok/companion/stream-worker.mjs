@@ -257,7 +257,7 @@ export async function stopExecution(root, known = [], table = processTable, { ba
   return { status: survivors.length ? 'failed' : 'confirmed', survivors, owned: [...children.values()], actions };
 }
 
-export async function runStreaming({ backend = 'agy', binary, args, job, budget, signal, update = () => {}, conversation, cwd = job.cwd }) {
+export async function runStreaming({ backend = 'agy', binary, args, input, job, budget, signal, update = () => {}, conversation, cwd = job.cwd }) {
   const hardDeadline = Date.now() + Math.max(0, budget);
   const rawFd = fs.openSync(job.events_file, 'a');
   const projection = createBackendProjection(backend, conversation);
@@ -331,7 +331,7 @@ export async function runStreaming({ backend = 'agy', binary, args, job, budget,
       detached: process.platform !== 'win32',
       windowsHide: true,
       cwd,
-      stdio: ['ignore', 'pipe', 'pipe'],
+      stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'],
     });
     const exited = new Promise((resolve) => {
       child.once('error', (error) => { spawnError = error; resolve({ exit: null, killedSignal: null }); });
@@ -365,6 +365,13 @@ export async function runStreaming({ backend = 'agy', binary, args, job, budget,
       process.stderr.write(chunk);
       stderr = excerpt(stderr + chunk.toString('utf8'), 8192, true).text;
     }));
+    if (child.stdin) {
+      // A native startup/config error can close stdin before consuming the
+      // prompt. Preserve its stderr/exit diagnosis rather than crashing on
+      // an unhandled EPIPE. Other write failures are real stream failures.
+      child.stdin.on('error', (error) => { if (error.code !== 'EPIPE') safely(() => { throw error; }); });
+      child.stdin.end(input);
+    }
     const outcome = await exited;
     clearTimeout(deadline); clearInterval(trackingTimer);
     if (stopping) await stopping;

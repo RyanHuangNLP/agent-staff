@@ -95,7 +95,8 @@ import { randomUUID } from 'node:crypto';
 import { boundSnapshot, excerpt } from './observation.mjs';
 import { atomicJSON, runStreaming, processIdentity, processTable, stopExecution } from './stream-worker.mjs';
 import { withStateLock, replaceFile, readTextRetry } from './state-lock.mjs';
-import { buildInvocation } from './backend-adapters.mjs';
+import { BACKENDS, BACKEND_TITLES, buildInvocation } from './backend-adapters.mjs';
+import { codexCompatibilityArgs, codexReviewSchema } from './codex-backend.mjs';
 
 const SELF = fileURLToPath(import.meta.url);
 const TEMPLATES_DIR = path.join(path.dirname(SELF), '..', 'templates');
@@ -565,7 +566,7 @@ function fillTemplate(mode, vars) {
     die(`template not found: ${file}`);
   }
   // Adapt only the template, never words in the user's task or quoted text.
-  if (BACKEND !== 'agy') text = text.replace(/\bAntigravity\b/g, BACKEND === 'grok' ? 'Grok Build' : 'Cursor Agent').replace(/\bagy\b/gi, BACKEND);
+  if (BACKEND !== 'agy') text = text.replace(/\bAntigravity\b/g, BACKEND_TITLES[BACKEND]).replace(/\bagy\b/gi, BACKEND);
   return text.replace(/\{\{(\w+)\}\}/g, (_, key) => vars[key] ?? '');
 }
 
@@ -981,7 +982,7 @@ function resolveRun(mode, opts, priorJob = null) {
   if (BACKEND === 'agy' && opts.effort && !['low', 'medium', 'high'].includes(opts.effort)) {
     die('--effort must be low|medium|high');
   }
-  let model, effort = BACKEND === 'grok' ? opts.effort || null : null;
+  let model, effort = ['grok', 'codex'].includes(BACKEND) ? opts.effort || null : null;
   if (BACKEND !== 'agy') {
     model = opts.model || null;
   } else if (opts.model) {
@@ -1244,10 +1245,13 @@ function triageBackendResult(result) {
 function streamInvocation(invoke, resolved, job, controller, budget, update) {
   const promptFile = BACKEND === 'agy' ? null : job.spec_file + '.prompt.txt';
   if (promptFile) fs.writeFileSync(promptFile, invoke.prompt, { mode: 0o600 });
+  const schemaFile = BACKEND === 'codex' && invoke.jsonSchema ? job.spec_file + '.schema.json' : null;
+  if (schemaFile) fs.writeFileSync(schemaFile, invoke.jsonSchema, { mode: 0o600 });
+  const configArgs = BACKEND === 'codex' ? codexCompatibilityArgs() : [];
   const command = BACKEND === 'agy' ? (() => {
     const agy = agyCommand(agyArgs(invoke, 'stream-json'));
     return { binary: agy.cmd, args: agy.args };
-  })() : buildInvocation(BACKEND, invoke, { mode: resolved.mode, promptFile, effort: resolved.effort });
+  })() : buildInvocation(BACKEND, invoke, { mode: resolved.mode, promptFile, effort: resolved.effort, schemaFile, configArgs });
   return runStreaming({ ...command, backend: BACKEND, job, budget, signal: controller.signal,
     update, conversation: (id) => rememberConversation(resolved, id, job.id),
   });
@@ -1307,11 +1311,12 @@ async function executeRun(resolved, prompt, opts, execution = null) {
   const workspaceBefore = resolved.mode === 'ask' ? null : porcelainSnapshot();
   const implementBefore = implementGuardApplies(resolved) ? workspaceBefore : null;
   const treeBefore = treeReportApplies(resolved) ? workspaceBefore : null;
+  const reviewSchema = BACKEND === 'codex' ? codexReviewSchema(REVIEW_JSON_SCHEMA) : REVIEW_JSON_SCHEMA;
 
   const invoke = {
     backend: BACKEND, mode: resolved.mode,
     prompt: BACKEND !== 'agy' && opts.json && resolved.mode === 'review'
-      ? `${prompt}\n\n## Required response format\nReturn only one complete JSON object, without Markdown fences or surrounding prose, matching this schema:\n${REVIEW_JSON_SCHEMA}` : prompt,
+      ? `${prompt}\n\n## Required response format\nReturn only one complete JSON object, without Markdown fences or surrounding prose, matching this schema:\n${reviewSchema}` : prompt,
     cwd: process.cwd(), workspace: repoRoot(),
     model: resolved.model,
     effort: resolved.effort,
@@ -1319,7 +1324,7 @@ async function executeRun(resolved, prompt, opts, execution = null) {
     conversation: resolved.conversation,
     isResume: resolved.isResume ?? !!resolved.conversation,
     unrestricted: resolved.profile === 'unrestricted',
-    jsonSchema: BACKEND === 'agy' && opts.json && resolved.mode === 'review' ? REVIEW_JSON_SCHEMA : null,
+    jsonSchema: ['agy', 'codex'].includes(BACKEND) && opts.json && resolved.mode === 'review' ? reviewSchema : null,
   };
   let result, response;
   try {
@@ -2186,7 +2191,7 @@ function printSetupNotes() {
 // ---------------------------------------------------------------------------
 
 function main() {
-  if (!['agy', 'grok', 'cursor'].includes(BACKEND)) die(`unknown backend: ${BACKEND}`);
+  if (!BACKENDS.includes(BACKEND)) die(`unknown backend: ${BACKEND}`);
   const [cmd, ...rest] = process.argv.slice(2);
   if (!cmd) {
     die(

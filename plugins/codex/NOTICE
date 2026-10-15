@@ -1,0 +1,5 @@
+agent-staff extends agy-staff 0.7.4, commit 9a30e0774de09e0815c4fc5caf456472f8fc3509.
+Original project: https://github.com/keli-wen/agy-staff
+Copyright (c) 2026 Keli (pkuwkl).
+Original code, templates, and skills remain available under the included MIT LICENSE.
+The shared runtime is maintained in companion/; backend plugin runtime files are generated copies for self-contained installation.

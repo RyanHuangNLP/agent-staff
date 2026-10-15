@@ -1,5 +1,11 @@
 # agent-staff 产品需求
 
+## 0.9.0 扩展：Codex CLI
+
+在原三后端基础上增加第四个可选员工 Codex CLI：统一入口接受 `--backend codex`，新增 `codex-staff` 别名、`.codex-staff` 独立状态和 `$codex:<角色>` 七类插件入口。继续复用原有任务、等待、续聊、取消与配置继承流程；不增加跨员工调度。
+
+Codex 使用原生默认模型，支持显式模型和 reasoning effort；通过 `exec --json` 的线程、回合和 item 事件取证，显式 ID 续聊，结构化审查使用原生 schema 与本地校验。新功能的验证范围记录在 [Codex CLI 支持](docs/codex-support.md)，本轮不消耗真实模型额度。下文保留 0.8.0 的原需求与真实验收标准，不能据此宣称 Codex 已完成真实模型验收。
+
 版本：2026-10-05 修订。本文优先于先前以统一接口为由收缩原功能的设计。
 
 ## 1. 用户目标

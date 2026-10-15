@@ -18,4 +18,3 @@ node "<skill-dir>/../../companion/cursor-companion.mjs" ask --prompt-file "<task
 ```
 
 Run the CLI in the same local permission context as its existing authenticated installation. Use the host’s normal escalation mechanism if its command sandbox prevents authentication, network access, or owned-process inspection. Do not read credentials or modify global CLI settings.
-

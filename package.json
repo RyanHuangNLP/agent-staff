@@ -1,7 +1,7 @@
 {
   "name": "agent-staff",
-  "version": "0.8.0",
-  "description": "AGY Staff workflow with selectable AGY, Grok Build, and Cursor CLI backends.",
+  "version": "0.9.0",
+  "description": "AGY Staff workflow with selectable AGY, Grok Build, Cursor Agent, and Codex CLI backends.",
   "keywords": [
     "pi-package",
     "opencode-plugin"
@@ -29,7 +29,8 @@
     "docs/backend-contracts.md",
     "docs/acceptance-matrix.md",
     "docs/implementation-report.md",
-    "PLAN.md"
+    "PLAN.md",
+    "docs/codex-support.md"
   ],
   "scripts": {
     "generate:pi": "node scripts/generate-skills.mjs --target=pi",
@@ -61,7 +62,8 @@
     "agent-staff": "bin/agent-staff.mjs",
     "agy-staff": "bin/agy-staff.mjs",
     "grok-staff": "bin/grok-staff.mjs",
-    "cursor-staff": "bin/cursor-staff.mjs"
+    "cursor-staff": "bin/cursor-staff.mjs",
+    "codex-staff": "bin/codex-staff.mjs"
   },
   "repository": {
     "type": "git",

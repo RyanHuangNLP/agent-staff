@@ -4,7 +4,7 @@
     "name": "Keli Wen",
     "url": "https://github.com/keli-wen"
   },
-  "description": "Choose one AGY, Grok Build, or Cursor Agent employee using the original AGY Staff workflow.",
+  "description": "Choose one AGY, Grok Build, Cursor Agent, or Codex CLI employee using the original AGY Staff workflow.",
   "plugins": [
     {
       "name": "agy",
@@ -20,6 +20,11 @@
       "name": "cursor",
       "source": "./plugins/cursor",
       "description": "cursor employee: seven roles with background jobs, wait, cancel, and continuation."
+    },
+    {
+      "name": "codex",
+      "source": "./plugins/codex",
+      "description": "codex employee: seven roles with background jobs, wait, cancel, and continuation."
     }
   ]
 }
