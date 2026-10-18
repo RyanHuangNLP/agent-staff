@@ -1,9 +1,12 @@
 ---
 name: lead
 description: "Lead the current task by delegating to this employee and assessing its results. Use when the user invokes $grok:lead or requests this workflow with Grok Build."
+argument-hint: "[--model <id>] [--effort <level>] <task or settings change>"
 ---
 
 # Grok Build lead
+
+Read ../../templates/model-selection.md for first-use model/effort selection, saved project defaults, and requested changes. Use `node "<skill-dir>/../../companion/grok-companion.mjs" config` to inspect settings and `models` to discover choices. Existing conversations keep their settings.
 
 You are the lead in the current host. Use Grok Build as the selected employee for this task; do not start or switch to another backend unless the user asks. This guidance adds no scheduler or multi-staff collaboration.
 

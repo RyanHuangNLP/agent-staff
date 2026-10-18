@@ -43,11 +43,13 @@ test('generated backend plugins contain seven usable roles and a standalone shar
       const dir=path.join(base,'skills',name);
       const skill=fs.readFileSync(path.join(dir,'SKILL.md'),'utf8');
       assert.match(skill,new RegExp(`^name: ${name}$`,'m'));
+      assert.match(skill, /argument-hint:/);
+      assert.ok(fs.existsSync(path.resolve(dir, '../../templates/model-selection.md')));
       const runtime=path.resolve(dir,`../../companion/${backend}-companion.mjs`);
       assert.ok(fs.existsSync(runtime));
       for(const m of skill.matchAll(/(?:\.\.\/jobs\/SKILL\.md|references\/[a-z-]+\.md)/g)) assert.ok(fs.existsSync(path.resolve(dir,m[0])),`${backend}/${name}: ${m[0]}`);
     }
-    for(const file of ['agy-companion.mjs','backend-adapters.mjs','codex-backend.mjs','codex-companion.mjs','stream-worker.mjs','observation.mjs','state-lock.mjs']) {
+    for(const file of ['agy-companion.mjs','agy-entry.mjs','model-catalog.mjs','backend-adapters.mjs','codex-backend.mjs','codex-companion.mjs','stream-worker.mjs','observation.mjs','state-lock.mjs']) {
       assert.deepEqual(fs.readFileSync(path.join(base,'companion',file)),fs.readFileSync(path.join(root,'companion',file)));
     }
   }

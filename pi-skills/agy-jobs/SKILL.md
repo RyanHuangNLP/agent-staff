@@ -1,18 +1,20 @@
 ---
 name: agy-jobs
-description: Manage agy staffer background jobs - collect results, check status, cancel, follow-up conversation, and setup. Use when an agy job needs collecting, when the user asks "is the agy job done", "show agy's result", "cancel the agy job", "continue the agy conversation", or "set up agy". This is the orchestrator's skill; the persona skills (staffer/researcher/reviewer/implementer) point here.
+description: Manage agy staffer project model/effort defaults and background jobs - collect results, check status, cancel, follow-up conversation, and setup. Use when an agy job needs collecting, when the user asks "is the agy job done", "show agy's result", "cancel the agy job", "continue the agy conversation", "set up agy", or asks to view or change AGY project model/effort defaults. This is the orchestrator's skill; the persona skills (staffer/researcher/reviewer/implementer) point here.
 ---
 
 <!-- Generated from skills/jobs/SKILL.md; run npm run generate:pi. Do not edit here. -->
 
 # agy jobs
 
+Read `../../templates/model-selection.md` before choosing model/effort for a new task or changing project defaults. Use this backend-bound entry to inspect the saved choice: `node "<skill-dir>/../../companion/agy-entry.mjs" config`; `models` lists choices. Existing conversations keep their settings.
+
 Manage background staffer/research/review/implement jobs. State is per repository in `.agy-staff/`. Only ask runs synchronously.
 
 This file lives at `<plugin-root>/pi-skills/agy-jobs/SKILL.md`:
 
 ```bash
-node "<skill-dir>/../../companion/agy-companion.mjs" <command> [args]
+node "<skill-dir>/../../companion/agy-entry.mjs" <command> [args]
 ```
 
 ## Collect the result

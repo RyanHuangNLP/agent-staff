@@ -1,9 +1,12 @@
 ---
 name: lead
 description: "Lead the current task by delegating to this employee and assessing its results. Use when the user invokes $cursor:lead or requests this workflow with Cursor Agent."
+argument-hint: "[--model <native-id-or-variant>] <task or settings change>"
 ---
 
 # Cursor Agent lead
+
+Read ../../templates/model-selection.md for first-use model/effort selection, saved project defaults, and requested changes. Use `node "<skill-dir>/../../companion/cursor-companion.mjs" config` to inspect settings and `models` to discover choices. Existing conversations keep their settings.
 
 You are the lead in the current host. Use Cursor Agent as the selected employee for this task; do not start or switch to another backend unless the user asks. This guidance adds no scheduler or multi-staff collaboration.
 

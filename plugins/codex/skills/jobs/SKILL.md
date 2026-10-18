@@ -1,9 +1,12 @@
 ---
 name: jobs
-description: "Wait for, inspect, cancel, continue, or restart this employee’s jobs. Use when the user invokes $codex:jobs or requests delegating this workflow to a separate Codex CLI worker. Ordinary work in the host Codex agent does not require this skill."
+description: "Wait for, inspect, cancel, continue, or restart this employee’s jobs; view or change project model and effort defaults. Use when the user invokes $codex:jobs or requests delegating this workflow to a separate Codex CLI worker. Ordinary work in the host Codex agent does not require this skill."
+argument-hint: "[--model <id>] [--effort <level>] <task or settings change>"
 ---
 
 # Codex CLI jobs
+
+Read ../../templates/model-selection.md for first-use model/effort selection, saved project defaults, and requested changes. Use `node "<skill-dir>/../../companion/codex-companion.mjs" config` to inspect settings and `models` to discover choices. Existing conversations keep their settings.
 
 The employee’s CLI is `node "<skill-dir>/../../companion/codex-companion.mjs"`. Its job state is scoped to this backend and the current Git worktree (or current non-Git directory). Keep the returned job ID with the assignment.
 
@@ -17,4 +20,4 @@ The employee’s CLI is `node "<skill-dir>/../../companion/codex-companion.mjs"`
 
 For direct persona invocations, relay short results faithfully; summarize long results and link the complete file without rewriting evidence or errors. For lead, assess and integrate. Diagnostics and usage are separate from the answer. A successful CLI turn does not prove the user task was accomplished: check relevant artifacts before relying on it.
 
-Common options: --restricted/--unrestricted, --model, --timeout; --json requests the built-in review result shape. The normal tool roles work without setup. Optional `setup --restrict review,research` sets only this employee’s repository policy. Native global allow/deny rules remain the CLI’s configuration and are not copied from AGY.
+Common options: --restricted/--unrestricted, --model, --timeout, --effort; --json requests the built-in review result shape. Model preferences use `config`; optional `setup --restrict review,research` sets only this employee’s repository permission policy. Native global allow/deny rules remain the CLI’s configuration and are not copied from AGY.

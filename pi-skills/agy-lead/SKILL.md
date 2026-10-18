@@ -7,6 +7,8 @@ description: Orchestrate an ongoing task with AGY while the current agent owns k
 
 # agy lead
 
+Read `../../templates/model-selection.md` before choosing model/effort for a new task or changing project defaults. Use this backend-bound entry to inspect the saved choice: `node "<skill-dir>/../../companion/agy-entry.mjs" config`; `models` lists choices. Existing conversations keep their settings.
+
 Task orchestration with AGY. You are the lead in the current harness. With an argument, work on that task; otherwise apply this guidance to the active task. Extend it across the session only when the user asks.
 
 ## Working with AGY
@@ -23,7 +25,7 @@ Task orchestration with AGY. You are the lead in the current harness. With an ar
 Read `../agy-jobs/SKILL.md` for result collection, cancellation, continuation, and recovery. This skill lives at `<plugin-root>/pi-skills/agy-lead/SKILL.md`. Write the brief to a temporary file and call the shared companion:
 
 ```bash
-node "<skill-dir>/../../companion/agy-companion.mjs" staffer --prompt-file "<brief-path>"
+node "<skill-dir>/../../companion/agy-entry.mjs" staffer --prompt-file "<brief-path>"
 ```
 
 For a specialist, replace `staffer` with `research`, `review`, or `implement`. When requesting code review, use the review-brief guidance in `../agy-reviewer/references/code-review.md`. Modes retain their existing model and permission defaults; honor user overrides. Run unsandboxed as described in `../agy-jobs/references/troubleshooting.md` (escalated execution in Codex).

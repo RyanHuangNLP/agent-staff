@@ -42,6 +42,34 @@ $codex:implementer 修复登录流程，并运行相关测试
 
 已有旧来源的 AGY 插件时，在插件目录中确认使用的是本仓库 **agent-staff** 来源下的 0.9.0，避免同名插件混淆。安装步骤只安装插件，不替你安装原生 CLI、不切换登录，也不修改原生全局权限。
 
+## 模型与 effort 选择
+
+在项目中首次调用某个员工的技能时，宿主会展示该后端的模型与适用的 effort 选项。选择后保存在当前 worktree 的 `.<backend>-staff/config.json`，后续任务自动使用；四个员工分别保存。也可以选择沿用原生/内置默认值，确认后不会重复询问。模型列表来自原生 CLI；Codex 使用本机原生模型目录缓存，并标明缓存属性，不保证账号或自定义 provider 当前可用。
+
+随时可以用自然语言修改，例如「把这个项目的 Codex 默认 effort 改成 high」或「修改 Cursor 的默认模型」。只请求改设置时不会启动任务。「这次用……」和调用中的 `--model`、`--effort` 仅覆盖本次，不改项目默认值。首次调用已明确指定选择时，会直接保存并使用，无需再次确认；明确说仅本次或跳过配置时不保存。
+
+| 员工 | 模型选择 | effort 选择 |
+| --- | --- | --- |
+| AGY | 原生具体 ID，或 `flash` / `pro` 家族别名 | 具体 ID 已包含 effort；家族支持的 `low` / `medium` / `high` 组合以模型列表为准 |
+| Grok | 原生模型 ID | 推理模型支持的原生 effort；也可沿用原生默认 |
+| Cursor | 原生 ID、带 effort 的模型变体或受支持的括号参数 | 随模型字符串保存，不传独立的非默认 `--effort` |
+| Codex | 原生模型 ID | 所选模型目录中列出的等级；如 `low`、`high`、`xhigh`，不统一限制为三档 |
+
+在待处理项目目录也可直接查看、保存或修改设置（把路径和模型 ID 换成实际值）：
+
+```sh
+node /absolute/path/to/agent-staff/bin/codex-staff.mjs models
+node /absolute/path/to/agent-staff/bin/codex-staff.mjs config
+node /absolute/path/to/agent-staff/bin/codex-staff.mjs config --model "<原生模型ID>" --effort high
+node /absolute/path/to/agent-staff/bin/codex-staff.mjs config --effort medium
+node /absolute/path/to/agent-staff/bin/codex-staff.mjs config --model default --effort default
+node /absolute/path/to/agent-staff/bin/codex-staff.mjs config --reset
+```
+
+`config` 不带参数只读取；带参数只更新提供的字段。`default` 清除该字段的覆盖，`--reset` 忘记整个模型选择、让技能下次重新询问，二者均保留权限策略。偏好不会修改原生全局配置，也不会启动模型任务。直接调用命令行不会弹出交互选择，适合脚本使用。
+
+优先级是 **本次参数 → 原会话配置 → 项目默认 → 原生/内置默认**。更改项目默认只影响之后的新任务，运行中任务不变；续聊保留原选择，仍可显式覆盖。`restart` 使用原任务及其配置。Codex 的可选 effort 取决于模型和客户端，见 [OpenAI 官方配置说明](https://learn.chatgpt.com/docs/config-file/config-reference)。
+
 ## 直接使用
 
 需要 Node.js 24+，以及已安装并登录的所选 CLI。无需额外 npm 运行依赖。以下在**待处理项目目录**运行：
@@ -73,10 +101,13 @@ Codex 使用 `codex exec --json` 和显式会话 ID 续聊，默认模型沿用�
 | continue --job ID --prompt TEXT | 继续指定任务 |
 | continue --prompt TEXT | 继续当前员工最近会话 |
 | cancel ID / restart ID | 停止执行；或用原任务开启新会话 |
+| models | 查询模型选择；Codex 返回本机原生模型目录缓存 |
+| config [--model ID\|default] [--effort LEVEL\|default] | 查看、保存或修改当前员工的项目模型默认值 |
+| config --reset | 忘记模型选择，保留权限策略 |
 
 角色也支持 --continue、--conversation ID。续聊按会话而不是按角色继承模型、effort 与权限，可显式覆盖。前台 ask 在返回前占用该会话，同会话续聊会被拒绝且不会排队。历史分别保存在当前 worktree 的 .agy-staff、.grok-staff、.cursor-staff、.codex-staff。
 
-任务输入用 --prompt、--prompt-file 或 --stdin。工具角色默认允许原生工具执行，--restricted 可主动收紧；ask 始终 restricted。AGY 保留原模型别名与 --effort，Grok/Cursor/Codex 默认使用原生 CLI 模型。详见 [后端契约](docs/backend-contracts.md)。
+任务输入用 --prompt、--prompt-file 或 --stdin。工具角色默认允许原生工具执行，--restricted 可主动收紧；ask 始终 restricted。没有项目偏好或本次覆盖时，AGY 保留原角色模型默认值，Grok/Cursor/Codex 使用原生 CLI 模型。详见 [后端契约](docs/backend-contracts.md)。
 
 ## Codex 入口文件
 

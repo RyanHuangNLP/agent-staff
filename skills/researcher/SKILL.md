@@ -1,11 +1,13 @@
 ---
 name: researcher
 description: Delegate a deep research or survey task to Google's Antigravity CLI (agy staffer, fast Gemini). Use when the user says /agy:researcher, "ask agy to research", "have the agy staffer survey X", or wants a second, independent deep-dive on a topic or codebase without spending the host model's quota.
-argument-hint: '[--continue] [--model <id>|--effort low|medium|high] [--restricted|--unrestricted] [--prompt-file <path>|--stdin] "what to research"'
+argument-hint: '[--continue] [--model <id>] [--effort low|medium|high] [--restricted|--unrestricted] [--prompt-file <path>|--stdin] "what to research"'
 allowed-tools: Read, Glob, Grep, Bash(node:*), Bash(git:*), Bash(gh:*)
 ---
 
 # agy researcher
+
+Read `../../templates/model-selection.md` before choosing model/effort for a new task or changing project defaults. Use this backend-bound entry to inspect the saved choice: `node "<skill-dir>/../../companion/agy-entry.mjs" config`; `models` lists choices. Existing conversations keep their settings.
 
 Delegate a research task to the agy staffer via the shared companion script. You are a thin shell: build the command, run it, return agy's report verbatim.
 
@@ -14,7 +16,7 @@ Delegate a research task to the agy staffer via the shared companion script. You
 This skill file lives at `<plugin-root>/skills/researcher/SKILL.md`; resolve the companion path relative to this skill directory:
 
 ```bash
-node "<skill-dir>/../../companion/agy-companion.mjs" research [flags] --prompt "what to research"
+node "<skill-dir>/../../companion/agy-entry.mjs" research [flags] --prompt "what to research"
 ```
 
 Pass the user's research topic verbatim via `--prompt`; use `--prompt-file <path>` or `--stdin` for a long brief.
@@ -29,7 +31,7 @@ The command returns a job id. Read `../jobs/SKILL.md` for result collection and 
 ## Flags (all optional)
 
 - `--continue` — reuse the last research conversation (quota-friendly, served largely from cache); `--conversation <id>` targets a specific one.
-- `--model <id>` or `--effort low|medium|high` — default model is `gemini-3.8-flash-high`.
+- `--model <id>` or `--effort low|medium|high` — built-in model before project preferences is `gemini-3.8-flash-high`.
 - `--restricted` / `--unrestricted` — permission profile. research defaults to unrestricted, so it works out of the box with no setup. `--restricted` is the opt-in hardening path: agy runs without `--dangerously-skip-permissions` and may only use allowlisted tools, so it needs the setup flow's evidence-gathering allowlist to be useful — and some native agy tools ignore allow-rules headless, so restricted runs can still come back empty.
 - `--prompt <text>` / `--prompt-file <path>` / `--stdin` — the task, from exactly one of these three sources. Use file/stdin for long prompts.
 - `--timeout <dur>` — default 60m, maximum 120m hard execution limit.

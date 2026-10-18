@@ -1,15 +1,18 @@
 ---
 name: ask
 description: "Ask a short question and return the answer in the same call. Use when the user invokes $grok:ask or requests this workflow with Grok Build."
+argument-hint: "[--model <id>] [--effort <level>] <task or settings change>"
 ---
 
 # Grok Build ask
+
+Read ../../templates/model-selection.md for first-use model/effort selection, saved project defaults, and requested changes. Use `node "<skill-dir>/../../companion/grok-companion.mjs" config` to inspect settings and `models` to discover choices. Existing conversations keep their settings.
 
 Pass the user’s task, constraints, and explicit authorizations faithfully. Do not complete the delegated work first and then hand the employee your answer. The chosen backend stays grok.
 
 This is question-only foreground mode with a restricted profile. Do not add repository context or tell the employee to inspect files, run tools, or fetch material. Return its answer faithfully; use a tool-enabled role for work requiring tools. The no-tool instruction is not a claim of OS sandbox isolation. No setup is required.
 
-Model defaults come from Grok Build; --model passes a native ID unchanged. --effort passes Grok’s native reasoning effort. Tool roles default to unrestricted operation; --restricted is an explicit opt-in, while ask stays restricted. Native deny and managed policies can still limit operations.
+Model/effort precedence: explicit flags, saved conversation, project defaults, then Grok Build's native defaults. --model passes a native ID unchanged; default clears that field's override for this invocation. --effort passes Grok’s native reasoning effort. Tool roles default to unrestricted operation; --restricted is an explicit opt-in, while ask stays restricted. Native deny and managed policies can still limit operations.
 
 The plugin includes its own shared runtime. Resolve this path from this skill directory:
 

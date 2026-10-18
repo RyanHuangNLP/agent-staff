@@ -7,6 +7,8 @@ description: Ask Google's Antigravity CLI (agy staffer, fast Gemini) a cheap one
 
 # agy ask
 
+Read `../../templates/model-selection.md` before choosing model/effort for a new task or changing project defaults. Use this backend-bound entry to inspect the saved choice: `node "<skill-dir>/../../companion/agy-entry.mjs" config`; `models` lists choices. Existing conversations keep their settings.
+
 The quick mode: one question in, one answer out, ~3 seconds on the default `gemini-3.8-flash-low`. Zero tools by design (restricted profile, question-only prompt), so it needs no setup and works on a fresh install — run it first as the smoke test: `ask --prompt "reply with OK"`.
 
 ask is the only persona that runs in the foreground: the call blocks and the answer comes back on stdout. staffer, researcher, reviewer, and implementer instead return a background job id (see the jobs skill, `../agy-jobs/SKILL.md`).
@@ -16,7 +18,7 @@ ask is the only persona that runs in the foreground: the call blocks and the ans
 This skill file lives at `<plugin-root>/opencode-skills/agy-ask/SKILL.md`; resolve the companion path relative to this skill directory:
 
 ```bash
-node "<skill-dir>/../../companion/agy-companion.mjs" ask [flags] --prompt "question"
+node "<skill-dir>/../../companion/agy-entry.mjs" ask [flags] --prompt "question"
 ```
 
 Pass the user's question verbatim via `--prompt`; use `--prompt-file <path>` or `--stdin` for a long question.
@@ -28,7 +30,7 @@ Pass the user's question verbatim via `--prompt`; use `--prompt-file <path>` or 
 
 - `--prompt <text>` / `--prompt-file <path>` / `--stdin` — the question, from exactly one of these three sources. Use file/stdin for a long question.
 - `--continue` — reuse the last ask conversation; `--conversation <id>` targets a specific one.
-- `--model <id>` or `--effort low|medium|high` — default model is `gemini-3.8-flash-low`.
+- `--model <id>` or `--effort low|medium|high` — built-in model before project preferences is `gemini-3.8-flash-low`.
 - `--timeout <dur>` — default 2m.
 
 ask is always restricted (it is tool-free, so there is nothing to unrestrict); `--unrestricted` is ignored with a note on stderr. That is fixed for ask alone — the tool-using personas default to unrestricted, where `--restricted` is an opt-in hardening flag. Execution style is likewise fixed per mode and no flag changes it.

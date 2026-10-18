@@ -36,11 +36,15 @@ export async function main(fixedBackend = null, input = process.argv.slice(2)) {
       `Aliases: agy-staff, grok-staff, cursor-staff, codex-staff\n` +
       `Tasks: staffer | research | review | implement | ask\n` +
       `Jobs: continue | restart | wait | observe | status | result | cancel\n` +
-      `Setup: setup (optional restricted policy) | doctor [--backend all]\n` +
+      `Setup: config | models | setup (optional restricted policy) | doctor [--backend all]\n` +
       `Input: --prompt TEXT | --prompt-file FILE | --stdin\n` +
-      `Options: --model ID --effort low|medium|high --restricted|--unrestricted\n` +
+      `Options: --model ID|default --effort LEVEL|default --restricted|--unrestricted\n` +
       `         --timeout DURATION --continue --conversation ID --json (review)\n\n` +
-      `AGY retains its original model defaults. Grok/Cursor/Codex use their native default model.\n` +
+      `config shows project model defaults; config --model ID --effort LEVEL saves/updates them.\n` +
+      `config --reset clears only model defaults. models discovers native model choices.\n` +
+      `Explicit flags > conversation settings > project defaults > native/built-in defaults.\n` +
+      `AGY effort: low|medium|high. Grok/Codex: model-dependent native levels.\n` +
+      `Cursor: choose an effort-specific native --model; separate --effort is unsupported.\n` +
       `ask returns an answer in this call; other roles return a job ID.\n` +
       `Each backend has its own workspace state and continuation history.\n` +
       `lead is a host skill, not a CLI mode or a multi-staff scheduler.\n`);

@@ -97,6 +97,7 @@ import { atomicJSON, runStreaming, processIdentity, processTable, stopExecution 
 import { withStateLock, replaceFile, readTextRetry } from './state-lock.mjs';
 import { BACKENDS, BACKEND_TITLES, buildInvocation } from './backend-adapters.mjs';
 import { codexCompatibilityArgs, codexReviewSchema } from './codex-backend.mjs';
+import { modelCatalog } from './model-catalog.mjs';
 
 const SELF = fileURLToPath(import.meta.url);
 const TEMPLATES_DIR = path.join(path.dirname(SELF), '..', 'templates');
@@ -295,9 +296,10 @@ const CONFIGURABLE_MODES = ['staffer', 'research', 'review', 'implement'];
 function loadProjectConfig() {
   let raw;
   try {
-    raw = fs.readFileSync(configPath(), 'utf8');
-  } catch {
-    return null;
+    raw = readTextRetry(configPath());
+  } catch (error) {
+    if (error.code === 'ENOENT') return null;
+    die(`cannot read project config ${configPath()}: ${error.message}`);
   }
   let cfg;
   try {
@@ -305,6 +307,8 @@ function loadProjectConfig() {
   } catch {
     die(`project config is corrupt: ${configPath()} — fix or delete it, then retry`);
   }
+  if (!cfg || typeof cfg !== 'object' || Array.isArray(cfg)) die(`project config must be an object: ${configPath()}`);
+  if (Object.hasOwn(cfg, 'defaults')) validateModelDefaults(cfg.defaults);
   for (const [m, p] of Object.entries(cfg.profiles || {})) {
     if (!CONFIGURABLE_MODES.includes(m)) {
       die(
@@ -317,6 +321,89 @@ function loadProjectConfig() {
     }
   }
   return cfg;
+}
+
+function validateModelDefaults(defaults) {
+  if (!defaults || typeof defaults !== 'object' || Array.isArray(defaults)) die('project config: defaults must be an object');
+  for (const [key, value] of Object.entries(defaults)) {
+    if (!['model', 'effort'].includes(key)) die(`project config: unknown model default ${key}`);
+    if (value !== null && (typeof value !== 'string' || !value.trim() || value.startsWith('--'))) die(`project config: ${key} must be a nonempty string or null`);
+  }
+  validateEffort(defaults.effort);
+  if (BACKEND === 'agy' && defaults.model) {
+    const family = MODEL_ALIASES[defaults.model] || defaults.model.replace(/-(low|medium|high)$/, '');
+    if (defaults.effort && !MODEL_FAMILIES[family]?.includes(defaults.effort)) {
+      die(`model ${defaults.model} has no supported separate effort ${defaults.effort}; choose a listed concrete ID with --effort default, or a supported family/effort combination`);
+    }
+    normalizeModel(defaults.model, defaults.effort);
+  }
+}
+
+function validateEffort(effort) {
+  if (effort == null) return;
+  if (BACKEND === 'cursor') die('UNSUPPORTED_CAPABILITY: Cursor has no supported --effort mapping; use its native --model value.');
+  if (BACKEND === 'agy' && !['low', 'medium', 'high'].includes(effort)) die('--effort must be low|medium|high');
+  if (!/^[a-z][a-z0-9_-]*$/.test(effort)) die('--effort must be a native reasoning level or default');
+}
+
+function modelOption(value) { return value === 'default' ? null : value; }
+
+// Per-field precedence: explicit invocation > saved conversation > project >
+// original backend defaults. A recorded null means native default, not a hole
+// to fill from a project preference added after the conversation started.
+function resolveModel(mode, opts, project, prior = null) {
+  let model = opts.model !== undefined ? modelOption(opts.model) : (prior ? prior.model : project?.model) || null;
+  const requestedEffort = opts.effort !== undefined ? modelOption(opts.effort) : (prior ? prior.effort : project?.effort) || null;
+  validateEffort(requestedEffort);
+  if (BACKEND !== 'agy') return { model, effort: requestedEffort };
+  // AGY encodes effort in model IDs. Preserve an explicit concrete ID; when
+  // changing only effort, keep the saved Gemini family rather than switching
+  // a pro conversation back to the built-in Flash family.
+  if (model && requestedEffort && opts.model === undefined) {
+    const family = model.replace(/-(low|medium|high)$/, '');
+    if (MODEL_FAMILIES[family]) model = family;
+  }
+  model = model ? normalizeModel(model, requestedEffort)
+    : requestedEffort ? `gemini-3.8-flash-${requestedEffort}` : DEFAULTS.model[mode];
+  return { model, effort: null };
+}
+
+function updateProjectConfig(change) {
+  ensureStateDir();
+  return withStateLock(path.join(stateDir(), '.config.lock'), () => {
+    const cfg = loadProjectConfig() || {};
+    change(cfg);
+    if (Object.keys(cfg).length) atomicJSON(configPath(), cfg);
+    else fs.rmSync(configPath(), { force: true });
+    return cfg;
+  });
+}
+
+function cmdConfig(opts) {
+  if (opts._.length || Object.keys(opts).some(key => !['_', 'model', 'effort', 'reset'].includes(key))) {
+    die('usage: config [--model ID|default] [--effort LEVEL|default] | config --reset');
+  }
+  const changing = opts.model !== undefined || opts.effort !== undefined;
+  if (opts.reset && changing) die('config --reset cannot be combined with --model or --effort');
+  let cfg;
+  if (changing || opts.reset) {
+    cfg = updateProjectConfig(current => {
+      if (opts.reset) { delete current.defaults; return; }
+      const defaults = { model: null, effort: null, ...current.defaults };
+      if (opts.model !== undefined) defaults.model = modelOption(opts.model);
+      if (opts.effort !== undefined) defaults.effort = modelOption(opts.effort);
+      // If only effort changes, a previously saved concrete Gemini ID must
+      // change within its own family too. Persist the family for later edits.
+      if (BACKEND === 'agy' && defaults.model && defaults.effort) {
+        const family = defaults.model.replace(/-(low|medium|high)$/, '');
+        if (MODEL_FAMILIES[family]) defaults.model = family;
+      }
+      validateModelDefaults(defaults);
+      current.defaults = defaults;
+    });
+  } else cfg = loadProjectConfig() || {};
+  process.stdout.write(JSON.stringify({ backend: BACKEND, path: configPath(), configured: Object.hasOwn(cfg, 'defaults'),
+    defaults: cfg.defaults || null }, null, 2) + '\n');
 }
 
 /** Create .agy-staff/ on first use and keep it out of `git status`.
@@ -442,7 +529,7 @@ function pidAlive(pid) {
 }
 
 const VALUE_FLAGS = new Set(['job', 'conversation', 'model', 'effort', 'timeout', 'restrict', 'prompt', 'prompt-file']);
-const BOOL_FLAGS = new Set(['continue', 'restricted', 'unrestricted', 'json', 'apply', 'dry-run', 'stdin']);
+const BOOL_FLAGS = new Set(['continue', 'restricted', 'unrestricted', 'json', 'apply', 'dry-run', 'stdin', 'reset']);
 
 // Flags dropped in 0.2. They get their own error instead of falling through to
 // "unknown flag", so a 0.1 caller learns what replaced them.
@@ -977,25 +1064,12 @@ function resolveRun(mode, opts, priorJob = null) {
     die(`--restrict is a setup flag (per-repo policy: \`setup --restrict <modes|none>\`). For a single ${mode} run use --restricted.`);
   }
 
-  // model / effort
-  if (BACKEND === 'cursor' && opts.effort !== undefined) die('UNSUPPORTED_CAPABILITY: Cursor has no supported --effort mapping; use its native --model value.');
-  if (BACKEND === 'agy' && opts.effort && !['low', 'medium', 'high'].includes(opts.effort)) {
-    die('--effort must be low|medium|high');
-  }
-  let model, effort = ['grok', 'codex'].includes(BACKEND) ? opts.effort || null : null;
-  if (BACKEND !== 'agy') {
-    model = opts.model || null;
-  } else if (opts.model) {
-    model = normalizeModel(opts.model, opts.effort);
-  } else if (opts.effort) {
-    model = `gemini-3.8-flash-${opts.effort}`;
-  } else {
-    model = DEFAULTS.model[mode];
-  }
+  if (opts.reset) die('--reset belongs to config; use config --reset to clear project model defaults');
+  const project = loadProjectConfig();
 
   // profile: CLI flag > project policy (.agy-staff/config.json) > built-in default
   if (opts.restricted && opts.unrestricted) die('--restricted and --unrestricted are mutually exclusive');
-  const policyProfile = mode === 'ask' ? null : loadProjectConfig()?.profiles?.[mode] || null;
+  const policyProfile = mode === 'ask' ? null : project?.profiles?.[mode] || null;
   let profile;
   let profileSource; // 'flag' | 'project' | 'default' | 'inherited'
   if (opts.restricted || opts.unrestricted) {
@@ -1044,14 +1118,9 @@ function resolveRun(mode, opts, priorJob = null) {
   if (prior) {
     assertBackend(prior, 'conversation');
     if (prior.executionMayBeActive) die('Conversation cleanup is unverified; inspect the retained diagnostics before continuing.');
-    if (BACKEND === 'agy') {
-      if (!opts.model && !opts.effort && prior.model) model = prior.model;
-    } else {
-      if (!opts.model) model = prior.model || null;
-      if (!opts.effort) effort = prior.effort || null;
-    }
     if (!opts.restricted && !opts.unrestricted && prior.profile) { profile = prior.profile; profileSource = 'inherited'; }
   }
+  const { model, effort } = resolveModel(mode, opts, project?.defaults, prior);
   // ask stays restricted even when a historical record was manually edited.
   if (mode === 'ask') profile = 'restricted';
   if (profileSource === 'project') process.stderr.write(`${STAFF_NAME}: profile=${profile} set by project policy (${configPath()})\n`);
@@ -1488,7 +1557,7 @@ async function dispatch(resolved, prompt, opts) {
   process.stdout.write(
     `Started background ${mode} job.\n` +
       `job id: ${jobId} (pid ${child.pid})\n` +
-      `model: ${resolved.model || 'native-default'}  profile: ${resolved.profile}  timeout: ${resolved.timeout}\n` +
+      `model: ${resolved.model || 'native-default'}  effort: ${resolved.effort || (BACKEND === 'agy' ? 'model-id' : 'native-default')}  profile: ${resolved.profile}  timeout: ${resolved.timeout}\n` +
       `result file (written when the job finishes): ${resultFile}\n` +
       `Collect: run \`wait ${jobId} --timeout 10m\` as a background command ` +
       `(one background wait per job; exit 0 = result printed, 2 = still running — wait again for the same job, without extra progress checks).\n` +
@@ -2026,16 +2095,8 @@ function cmdRestart(opts) {
  *  back to the built-in default. Written directly (no --apply): the file is
  *  repo-local, git-ignored by convention, and trivially reversible. */
 function applyProjectPolicy(value) {
-  const cfg = loadProjectConfig() || {};
   if (value === 'none') {
-    delete cfg.profiles;
-    if (Object.keys(cfg).length) {
-      fs.writeFileSync(configPath(), JSON.stringify(cfg, null, 2) + '\n');
-    } else {
-      try {
-        fs.unlinkSync(configPath());
-      } catch {}
-    }
+    updateProjectConfig(cfg => { delete cfg.profiles; });
     process.stdout.write(`Project policy cleared — all modes use the built-in defaults again.\n\n`);
     return false;
   }
@@ -2048,10 +2109,7 @@ function applyProjectPolicy(value) {
       die(`--restrict: unknown mode "${m}" (configurable: ${CONFIGURABLE_MODES.join(', ')}, or "none" to clear)`);
     }
   }
-  cfg.profiles = {};
-  for (const m of modes) cfg.profiles[m] = 'restricted';
-  ensureStateDir();
-  fs.writeFileSync(configPath(), JSON.stringify(cfg, null, 2) + '\n');
+  updateProjectConfig(cfg => { cfg.profiles = Object.fromEntries(modes.map(m => [m, 'restricted'])); });
 
   process.stdout.write(`Project policy written: ${configPath()}\n`);
   for (const m of modes) process.stdout.write(`  ${m}: restricted (default for this repository)\n`);
@@ -2195,8 +2253,8 @@ function main() {
   const [cmd, ...rest] = process.argv.slice(2);
   if (!cmd) {
     die(
-      'usage: agy-companion.mjs <staffer|research|review|implement|ask|continue|restart|observe|status|wait|result|cancel|setup> [flags]\n' +
-        'flags: --restricted|--unrestricted --model <id> --effort <l|m|h> --timeout <dur> ' +
+      'usage: agy-companion.mjs <staffer|research|review|implement|ask|continue|restart|observe|status|wait|result|cancel|setup|config|models> [flags]\n' +
+        'flags: --restricted|--unrestricted --model <id|default> --effort <level|default> --timeout <dur> ' +
         '--prompt <text> --prompt-file <path> --stdin --conversation <id> --continue --json (review) ' +
         '--apply --restrict <modes|none> (setup)\n' +
         'task text for staffer/research/review/implement/ask/continue comes from exactly one of ' +
@@ -2226,6 +2284,12 @@ function main() {
       return cmdCancel(opts);
     case 'setup':
       return cmdSetup(opts);
+    case 'config':
+      return cmdConfig(opts);
+    case 'models':
+      if (opts._.length || Object.keys(opts).length > 1) die('usage: models');
+      process.stdout.write(JSON.stringify(modelCatalog(BACKEND), null, 2) + '\n');
+      return;
     case '_worker':
       return workerMain(rest[0]);
     default:

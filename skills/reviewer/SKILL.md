@@ -1,11 +1,13 @@
 ---
 name: reviewer
 description: Get a second-opinion review from Google's Antigravity CLI (agy staffer, fast Gemini) - of code (a diff, PR, working tree) or of a decision, plan, or design. Use when the user says /agy:reviewer, "have agy review this", "second opinion on my diff/PR/plan", or after finishing work and wanting an independent verifier that does not share the host model's blind spots.
-argument-hint: '[--restricted|--unrestricted] [--json] [--model <id>|--effort low|medium|high] [--prompt-file <path>|--stdin] "what to review"'
+argument-hint: '[--restricted|--unrestricted] [--json] [--model <id>] [--effort low|medium|high] [--prompt-file <path>|--stdin] "what to review"'
 allowed-tools: Read, Glob, Grep, Bash(node:*), Bash(git:*), Bash(gh:*)
 ---
 
 # agy reviewer
+
+Read `../../templates/model-selection.md` before choosing model/effort for a new task or changing project defaults. Use this backend-bound entry to inspect the saved choice: `node "<skill-dir>/../../companion/agy-entry.mjs" config`; `models` lists choices. Existing conversations keep their settings.
 
 Run a second-opinion review through the agy staffer. You are a thin shell: compose the task, run the companion, return agy's review verbatim. Never fix the issues it finds.
 
@@ -19,7 +21,7 @@ The companion's template contributes only the reviewer stance, evidence discipli
 This skill file lives at `<plugin-root>/skills/reviewer/SKILL.md`; resolve the companion path relative to this skill directory:
 
 ```bash
-node "<skill-dir>/../../companion/agy-companion.mjs" review [flags] --prompt "what to review"
+node "<skill-dir>/../../companion/agy-entry.mjs" review [flags] --prompt "what to review"
 ```
 
 Pass the review subject verbatim via `--prompt`; use `--prompt-file <path>` or `--stdin` for long text, which a composed task usually needs.
@@ -39,7 +41,7 @@ The command returns a job id. Read `../jobs/SKILL.md` for result collection and 
 
 - `--json` — schema-enforced JSON findings (verdict/summary/findings/could_not_verify) instead of markdown. Code-review flavor only, and only when the user asks for machine-readable output.
 - `--restricted` / `--unrestricted` — permission profile. review defaults to unrestricted, so it works out of the box and can run tests or reproduce a bug when the request asks for it. `--restricted` is the opt-in hardening path: agy may then only use allowlisted tools, so it needs the setup flow's evidence-gathering allowlist to be useful — and some native agy tools ignore allow-rules headless, so restricted runs can still come back empty.
-- `--model <id>` / `--effort low|medium|high` (default `gemini-3.8-flash-medium`), `--continue` (or `--conversation <id>`), `--timeout <dur>` (default 60m, maximum 120m hard execution limit).
+- `--model <id>` / `--effort low|medium|high` (built-in before project preferences: `gemini-3.8-flash-medium`), `--continue` (or `--conversation <id>`), `--timeout <dur>` (default 60m, maximum 120m hard execution limit).
 - `--prompt <text>` / `--prompt-file <path>` / `--stdin` — the task, from exactly one of these three sources. Use file/stdin for long prompts (a composed task with the flavor framing usually is one).
 
 ## Reviewing untrusted content

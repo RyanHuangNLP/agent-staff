@@ -22,7 +22,7 @@ node /absolute/path/to/agent-staff/bin/codex-staff.mjs continue --prompt "补充
 | --- | --- |
 | 执行 | `codex exec --json`；任务从 stdin 传入，支持原有 200 KiB 输入预算 |
 | 工作目录 | 保留调用时的子目录；非 Git 工作区使用 `--skip-git-repo-check` |
-| 默认模型 | 不传 `--model`，沿用原生模型配置；显式模型 ID 原样传递 |
+| 默认模型 | 先继承会话或项目偏好；均未配置时不传 `--model`，沿用原生模型配置；显式模型 ID 原样传递 |
 | 推理强度 | `--effort` 对应单次 `-c model_reasoning_effort=...`，可用值由所选原生模型决定 |
 | 默认工具角色 | unrestricted，对应 `--dangerously-bypass-approvals-and-sandbox` |
 | restricted / ask | `--sandbox read-only`、`approval_policy=never`；ask 提示要求不使用工具 |

@@ -1,11 +1,13 @@
 ---
 name: staffer
 description: Delegate a general-purpose task to Google's Antigravity CLI (agy staffer, fast Gemini) with a minimal, unopinionated prompt. Use when the user says /agy:staffer, "have agy do/handle X", "have agy generate an image", or the task fits none of the specialist personas (researcher / reviewer / implementer / ask) — the template adds no role, rules, or output format, so the task text alone shapes the output. Also the route to agy-native tools no specialist covers, notably image generation (generate_image).
-argument-hint: '[--restricted|--unrestricted] [--model <id>|--effort low|medium|high] [--timeout <dur>] [--prompt-file <path>|--stdin] "task"'
+argument-hint: '[--restricted|--unrestricted] [--model <id>] [--effort low|medium|high] [--timeout <dur>] [--prompt-file <path>|--stdin] "task"'
 allowed-tools: Read, Glob, Grep, Bash(node:*), Bash(git:*), Bash(gh:*)
 ---
 
 # agy staffer
+
+Read `../../templates/model-selection.md` before choosing model/effort for a new task or changing project defaults. Use this backend-bound entry to inspect the saved choice: `node "<skill-dir>/../../companion/agy-entry.mjs" config`; `models` lists choices. Existing conversations keep their settings.
 
 The general-purpose persona: a clean entry point for tasks that none of the specialists fit. Its prompt template is deliberately minimal — the task text, the environment (cwd, branch, date), and the safety guardrails, nothing else. No role framing, no rules, no output format: the task defines its own output, and no unrelated template context can pull the run off course.
 
@@ -18,7 +20,7 @@ staffer is also the route to agy-native tools no specialist covers — notably *
 This skill file lives at `<plugin-root>/skills/staffer/SKILL.md`; resolve the companion path relative to this skill directory:
 
 ```bash
-node "<skill-dir>/../../companion/agy-companion.mjs" staffer [flags] --prompt "task"
+node "<skill-dir>/../../companion/agy-entry.mjs" staffer [flags] --prompt "task"
 ```
 
 Pass the user's task text verbatim via `--prompt`; use `--prompt-file <path>` or `--stdin` for long text.
@@ -33,7 +35,7 @@ The command returns a job id. Read `../jobs/SKILL.md` for result collection and 
 ## Flags (all optional)
 
 - `--prompt <text>` / `--prompt-file <path>` / `--stdin` — the task, from exactly one of these three sources. Use file/stdin for long prompts instead of shell quoting.
-- `--model <id>` or `--effort low|medium|high` — default model is `gemini-3.8-flash-medium`.
+- `--model <id>` or `--effort low|medium|high` — built-in model before project preferences is `gemini-3.8-flash-medium`.
 - `--restricted` / `--unrestricted` — permission profile; staffer defaults to unrestricted like the other tool-using personas, `--restricted` is the opt-in hardening path.
 - `--continue` (or `--conversation <id>`), `--timeout <dur>` (default 60m, maximum 120m hard execution limit).
 

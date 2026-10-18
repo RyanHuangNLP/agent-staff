@@ -15,7 +15,7 @@
 | 项目 | AGY | Grok Build | Cursor Agent | Codex CLI |
 | --- | --- | --- | --- | --- |
 | 程序 / 环境覆盖 | agy / AGY_BIN | grok / GROK_BIN | cursor-agent / CURSOR_BIN（兼容 CURSOR_AGENT_BIN） | codex / CODEX_BIN |
-| 模型默认 | 原角色 Gemini 3.8 Flash effort | 原生默认 | 原生默认 | 原生默认 |
+| 未配置时模型默认 | 原角色 Gemini 3.8 Flash effort | 原生默认 | 原生默认 | 原生默认 |
 | 工具角色 | dangerously-skip-permissions | bypassPermissions、workspace sandbox | force、trust | dangerously-bypass-approvals-and-sandbox |
 | restricted | 不加 skip-permissions | dontAsk、workspace sandbox | 不加 force，保留 trust | read-only sandbox、approval_policy=never |
 | ask | restricted，原 JSON 同步协议 | restricted，tools 空集合，禁 web search | restricted，提示要求无工具 | restricted，提示要求无工具 |
@@ -23,6 +23,10 @@
 | 新会话 | 原生 init/result | 宿主预分配 UUID、session-id | 原生 system/result | thread.started.thread_id |
 | 续聊 | conversation | resume | resume | exec resume 加显式会话 ID |
 | effort | 原模型规范化及别名 | reasoning-effort 原样传递 | 不支持独立 effort，使用原生 model | 单次 model_reasoning_effort 配置 |
+
+四个后端均有 `models` 与 `config`：首次技能调用让用户选择模型/effort，保存为该后端当前 worktree 的 `config.json` 中的 `defaults`。`config` 只读，`config --model ID --effort LEVEL` 保存或按字段修改，`default` 表示不覆盖原生/内置默认，`config --reset` 删除模型偏好但保留 `profiles`。保存 `{model:null, effort:null}` 仍是明确完成的选择。配置更新使用独立锁和原子文件替换，权限策略和模型偏好相互保留。
+
+参数优先级：本次显式参数 > 原会话配置（包括 native-default 的 null）> 项目默认 > 原生/内置默认。修改项目偏好不追改已派发的任务或会话；restart 仍复用原任务配置。AGY 的具体模型 ID 编码 effort；仅修改 effort 时保留已选 Gemini 家族。Cursor 的 effort 变体/括号参数作为完整模型字符串保存。Codex 的 `models` 只读取本机原生模型缓存，过滤隐藏模型，仅返回 ID、名称、可选 effort 等字段；缓存缺失时仍可使用原生默认或显式模型 ID。
 
 Grok 禁用 leader、memory、subagents。Cursor trust 表示在用户交办的工作区运行；restricted 不等于不信任工作区。cwd 保留调用时的子目录，仓库根用于状态与模板上下文。
 
